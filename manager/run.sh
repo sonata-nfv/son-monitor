@@ -10,7 +10,3 @@ sed -i.bak 's/.*Listen.*/Listen '8000'/' /etc/apache2/ports.conf && \
 chown -R www-data:www-data /opt/Monitoring && \
 service apache2 restart 
 tail -f /dev/null
-#/opt/Monitoring/manage.py runserver 0.0.0.0:8000
-
-#./opt/Monitoring/prometheus-0.17.0rc2.linux-amd64/prometheus -config.file=/opt/Monitoring/prometheus-0.17.0rc2.linux-amd64/prometheus.yml >/dev/null 2>&1 &
-#service mysql start python && /opt/Monitoring/manager/manage.py runserver 0.0.0.0:8000

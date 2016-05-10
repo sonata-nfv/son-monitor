@@ -7,8 +7,6 @@ RUN mkdir /opt/Monitoring
 COPY ./ /opt/Monitoring
 RUN ls -la /opt/Monitoring/*
 
-#RUN echo $(service mysql status)
-
 RUN pip install -r /opt/Monitoring/requirements.txt
 #service mysql restart && \
 #python /opt/Monitoring/manager/manage.py makemigrations && \
