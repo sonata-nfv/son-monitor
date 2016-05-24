@@ -1,6 +1,5 @@
 FROM ubuntu:14.04
 
-# Install MySQL Server in a Non-Interactive mode. Default root password will be "1234"
 RUN echo "mysql-server-5.5 mysql-server/root_password password 1234" | sudo debconf-set-selections && \
 echo "mysql-server-5.5 mysql-server/root_password_again password 1234" | sudo debconf-set-selections && \
 apt-get update && apt-get -y upgrade && \
