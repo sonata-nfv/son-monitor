@@ -10,7 +10,8 @@
 
 	ServerAdmin pkarkazis@synelixis.com
 	DocumentRoot /opt/Monitoring
-	Alias /static /opt/Monitoring/static
+	Alias /static/ /opt/Monitoring/static/
+        Alias /api/v1/static /opt/Monitoring/static
 	<Directory /opt/Monitoring/static>
         	Require all granted
     	</Directory>

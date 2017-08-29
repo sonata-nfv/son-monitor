@@ -12,7 +12,7 @@ urlpatterns = [
 
 	url(r'^api/v1/services$', views.SntServicesList.as_view()),
 	url(r'^api/v1/services/user/(?P<usrID>[^/]+)/$', views.SntServicesPerUserList.as_view()),
-    url(r'^api/v1/services/(?P<sonata_srv_id>[^/]+)/$', views.SntServicesDetail.as_view()),
+	url(r'^api/v1/services/(?P<sonata_srv_id>[^/]+)/$', views.SntServicesDetail.as_view()),
 	url(r'^api/v1/service/new$', views.SntNewServiceConf.as_view()),
     #url(r'^api/v1/serviceconf$', views.SntServiceConfList.as_view()),
 
