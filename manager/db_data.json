@@ -35,8 +35,8 @@
     "pk": 2,
     "fields": {
       "first_name": "Felipe",
-      "last_name": "Vincens",
-      "email":"felipe.vincens@atos.com",
+      "last_name": "Vicens",
+      "email":"felipe.vicens@atos.com",
       "sonata_userid": "sp_admin"
     }
   },
