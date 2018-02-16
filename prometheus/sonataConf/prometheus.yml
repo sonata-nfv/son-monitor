@@ -1,12 +1,12 @@
 global:
-  evaluation_interval: 15s
+  evaluation_interval: 3s
   external_labels: {monitor: sonata-monitor}
-  scrape_interval: 15s
+  scrape_interval: 3s
 rule_files: [/opt/Monitoring/prometheus/rules/alert.rules]
 scrape_configs:
 - job_name: sonata
-  scrape_interval: 15s
-  scrape_timeout: 5s
+  scrape_interval: 3s
+  scrape_timeout: 3s
   target_groups:
   - labels: {group: development}
     targets: ['pushgateway:9091']
