@@ -79,7 +79,6 @@ class monitoring_smtp(models.Model):
     def __unicode__(self):
         return u'%s %s %s %s %s' % (self.smtp_server, self.port, self.user_name, self.component, self.sec_type)
 
-
 class monitoring_service_platforms(models.Model):
     name = models.CharField(max_length=30, blank=True)
     manager_url = models.CharField(max_length=128, blank=True)

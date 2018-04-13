@@ -103,11 +103,33 @@ class ProData(object):
         d = self.HttpGet(self.srv_addr,self.srv_port,path)
         return d
 
+    def getMetricsResId(self,id):
+        now = int(time.time())
+        path = "".join(("/api/v1/series?match[]={id=\""+id+"\"}&start=", str(now-60), "&end=",str(now)))
+        #print path
+        d = self.HttpGet(self.srv_addr,self.srv_port,path)
+        resp = []
+        for mt in d['data']:
+            if mt['__name__'] == 'ALERTS':
+                continue
+            mt.pop('instance',None)
+            mt.pop('id', None)
+            mt.pop('group',None)
+            mt.pop('job', None)
+            resp.append(mt)
+        #print len(resp)
+        d['data'] = resp
+        return d
+
     def getMetricDetail(self, metric_name):
         path = "".join(("/api/v1/query?query=", str(metric_name)))
         d = self.HttpGet(self.srv_addr,self.srv_port,path)
         return d
 
+    def getMetricDetail(self, vdu, metric_name):
+        path = "".join(("/api/v1/query?query=", str(metric_name), "{id=\""+vdu+"\"}"))
+        d = self.HttpGet(self.srv_addr,self.srv_port,path)
+        return d
 
     def getTimeRangeData(self, req):
         try:
