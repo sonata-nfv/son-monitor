@@ -690,9 +690,92 @@ class SntPromMetricList(generics.RetrieveAPIView):
         data = mt.getMetrics()
         response = {}
         response['metrics'] = data['data']
-        print response
+        #print response
         return Response(response)
 
+class SntPromMetricListVnf(generics.RetrieveAPIView):
+    serializer_class = promMetricsListSerializer
+    def get(self, request, *args, **kwargs):
+        mt = ProData('prometheus',9090)
+        vnfid = self.kwargs['vnf_id']
+        queryset = monitoring_functions.objects.all()
+        vnf=queryset.filter(sonata_func_id=vnfid)
+        response = {}
+        if vnf.count() == 0:
+            response['status'] = "Fail (VNF not found)"
+            return Response(response)
+        vdus = []
+        vdus.append(vnf[0].host_id)
+        #print (vdus)
+        response['status'] = 'Success'
+        response['vdus'] = []
+        for vdu in vdus:
+            dt = {}
+            dt['vdu_id'] = vdu
+            data = mt.getMetricsResId(vdu)
+            if 'data' in data:
+                dt['metrics'] = data['data']
+            else:
+                dt['metrics'] = []
+            response['vdus'].append(dt)
+        return Response(response)
+
+class SntPromMetricListVnfVdu(generics.RetrieveAPIView):
+    serializer_class = promMetricsListSerializer
+    def get(self, request, *args, **kwargs):
+        mt = ProData('prometheus',9090)
+        vnfid = self.kwargs['vnf_id']
+        vduid = self.kwargs['vdu_id']
+        queryset = monitoring_functions.objects.all()
+        vnf=queryset.filter(sonata_func_id=vnfid)
+        response = {}
+        if vnf.count() == 0:
+            response['status'] = "Fail (VNF: "+vnfid+" not found)"
+            return Response(response)
+        vdus = []
+        vdus.append(vnf[0].host_id)
+        if vduid not in vdus:
+            response['status'] = "Fail (VDU: "+vduid+" doesn't belong in VNF:"+vnfid+")"
+            return Response(response)
+        response['status'] = 'Success'
+        response['vdus'] = []
+        for vdu in vdus:
+            dt = {}
+            dt['vdu_id'] = vdu
+            data = mt.getMetricsResId(vdu)
+            if 'data' in data:
+                dt['metrics'] = data['data']
+            else:
+                dt['metrics'] = []
+            response['vdus'].append(dt)
+        return Response(response)
+
+class SntPromVnfMetricDetail(generics.ListAPIView):
+    serializer_class = promMetricsListSerializer
+    def get(self, request, *args, **kwargs):
+        metric_name  = self.kwargs['metricName']
+        vnfid = self.kwargs['vnf_id']
+        mt = ProData('prometheus',9090)
+        queryset = monitoring_functions.objects.all()
+        vnf = queryset.filter(sonata_func_id=vnfid)
+        response = {}
+        if vnf.count() == 0:
+            response['status'] = "Fail (VNF: " + vnfid + " not found)"
+            return Response(response)
+        vdus = []
+        vdus.append(vnf[0].host_id)
+        response['status'] = 'Success'
+        response['vdus'] = []
+        for vdu in vdus:
+            dt={}
+            dt['vdu_id'] = vdu
+            data = mt.getMetricDetail(vdu,metric_name)
+            if 'data' in data:
+                dt['metrics'] = data['data']['result']
+            else:
+                dt['metrics'] = []
+            response['vdus'].append(dt)
+        return Response(response)
 
 class SntWSreq(generics.CreateAPIView):
     serializer_class = SntWSreqSerializer

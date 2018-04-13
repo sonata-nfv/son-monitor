@@ -15,14 +15,11 @@ urlpatterns2 = [
     url(r'^api/v1/services/(?P<sonata_srv_id>[^/]+)/$', views.SntServicesDetail.as_view()),
 	url(r'^api/v1/service/new$', views.SntNewServiceConf.as_view()),
 	url(r'^api/v1/service/(?P<srvID>[^/]+)/$', views.SntServiceList.as_view()),
-    #url(r'^api/v1/serviceconf$', views.SntServiceConfList.as_view()),
 
 	url(r'^api/v1/functions$', views.SntFunctionsList.as_view()),
-	#url(r'^api/v1/functions/(?P<pk>[0-9]+)/$', views.SntFunctionsDetail.as_view()),
 	url(r'^api/v1/functions/service/(?P<srvID>[^/]+)/$', views.SntFunctionsPerServiceList.as_view()),
 
 	url(r'^api/v1/metrics$', views.SntMetricsList.as_view()),
-	#url(r'^api/v1/metrics/(?P<pk>[0-9]+)/$', views.SntMetricsDetail.as_view()),
 	url(r'^api/v1/metrics/function/(?P<funcID>[^/]+)/$', views.SntMetricsPerFunctionList.as_view()),
 
 	url(r'^api/v1/alerts/rules$', views.SntRulesList.as_view()),
@@ -38,13 +35,22 @@ urlpatterns2 = [
 
 	url(r'^api/v1/pop$', views.SntPOPList.as_view()),
 	url(r'^api/v1/pop/splatform/(?P<spID>[^/]+)/$', views.SntPOPperSPList.as_view()),
-	url(r'^api/v1/pop/(?P<sonata_pop_id>[^/]+)/$', views.SntPOPDetail.as_view()),			#karpa
+	url(r'^api/v1/pop/(?P<sonata_pop_id>[^/]+)/$', views.SntPOPDetail.as_view()),			
 
 	url(r'^api/v1/splatform$', views.SntSPList.as_view()),
 	url(r'^api/v1/splatform/(?P<pk>[0-9]+)/$', views.SntSPDetail.as_view()),
 
 	url(r'^api/v1/prometheus/metrics/list$', views.SntPromMetricList.as_view()),
+
+	url(r'^api/v1/prometheus/vnf/(?P<vnf_id>[^/]+)/metrics/list$', views.SntPromMetricListVnf.as_view()), #new
+    url(r'^api/v1/prometheus/vnf/(?P<vnf_id>[^/]+)/vdu/(?P<vdu_id>[^/]+)/metrics/list$', views.SntPromMetricListVnfVdu.as_view()), #new
+	
 	url(r'^api/v1/prometheus/metrics/name/(?P<metricName>[^/]+)/$', views.SntPromMetricDetail.as_view()),
+    
+    url(r'^api/v1/prometheus/vnf/(?P<vnf_id>[^/]+)/metrics/name/(?P<metricName>[^/]+)/$', views.SntPromVnfMetricDetail.as_view()), #new
+    url(r'^api/v1/prometheus/vnf/(?P<vnf_id>[^/]+)/vdu/{vdu_id}/metrics/data$', views.SntPromMetricData.as_view()), #new
+    url(r'^api/v1/prometheus/vnf/(?P<vnf_id>[^/]+)/metrics/data$', views.SntPromMetricData.as_view()), #new
+
 	url(r'^api/v1/prometheus/metrics/data$', views.SntPromMetricData.as_view()),
 	url(r'^api/v1/prometheus/configuration$', views.SntPromSrvConf.as_view()),
 
