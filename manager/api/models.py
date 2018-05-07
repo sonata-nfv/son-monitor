@@ -36,6 +36,7 @@ from pygments.formatters.html import HtmlFormatter
 from pygments import highlight
 from datetime import datetime
 from django.utils import timezone
+from django.contrib.postgres.fields import JSONField
 
 # Create your models here.
 LEXERS = [item for item in get_all_lexers() if item[1]]
@@ -225,6 +226,18 @@ class prom_metric(object):
 
     def __unicode__(self):
         return u'%s' % (self.name)
+
+
+class active_monitoring_res(models.Model):
+    test_id = models.CharField(max_length=300, blank=False, unique=True)
+    service_id = models.CharField(max_length=300, blank=False)
+    timestamp = models.DateTimeField(default=timezone.now)
+    config = JSONField()
+    data = JSONField()
+
+    def __str__(self):
+        return self.test_id
+
 
 #rq = {'metric':'prometheus_data_size','labels':[{'instanseID':'jdhfksdhfk'}],'start':'2016-02-01T20:10:30.786Z', 'end':'2016-02-28T20:11:00.781Z', 'step':'1h'}
 

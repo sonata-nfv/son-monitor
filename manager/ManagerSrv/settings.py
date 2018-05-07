@@ -67,7 +67,7 @@ REST_FRAMEWORK = {
 
 SWAGGER_SETTINGS = {
     "exclude_namespaces": ['internal_apis'], # List URL namespaces to ignore
-    "api_version": '1.0',  # Specify your API's version
+    "api_version": '1.5',  # Specify your API's version
     "api_path": "/",  # Specify the path to your API not a root level
     "enabled_methods": [  # Specify which methods to enable in Swagger UI
         'get',

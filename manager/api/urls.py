@@ -41,16 +41,12 @@ urlpatterns2 = [
 	url(r'^api/v1/splatform/(?P<pk>[0-9]+)/$', views.SntSPDetail.as_view()),
 
 	url(r'^api/v1/prometheus/metrics/list$', views.SntPromMetricList.as_view()),
-
-	url(r'^api/v1/prometheus/vnf/(?P<vnf_id>[^/]+)/metrics/list$', views.SntPromMetricListVnf.as_view()), #new
-    url(r'^api/v1/prometheus/vnf/(?P<vnf_id>[^/]+)/vdu/(?P<vdu_id>[^/]+)/metrics/list$', views.SntPromMetricListVnfVdu.as_view()), #new
-	
+	url(r'^api/v1/prometheus/vnf/(?P<vnf_id>[^/]+)/metrics/list$', views.SntPromMetricListVnf.as_view()), 
+    url(r'^api/v1/prometheus/vnf/(?P<vnf_id>[^/]+)/vdu/(?P<vdu_id>[^/]+)/metrics/list$', views.SntPromMetricListVnfVdu.as_view()), 
 	url(r'^api/v1/prometheus/metrics/name/(?P<metricName>[^/]+)/$', views.SntPromMetricDetail.as_view()),
-    
-    url(r'^api/v1/prometheus/vnf/(?P<vnf_id>[^/]+)/metrics/name/(?P<metricName>[^/]+)/$', views.SntPromVnfMetricDetail.as_view()), #new
-    url(r'^api/v1/prometheus/vnf/(?P<vnf_id>[^/]+)/vdu/{vdu_id}/metrics/data$', views.SntPromMetricData.as_view()), #new
-    url(r'^api/v1/prometheus/vnf/(?P<vnf_id>[^/]+)/metrics/data$', views.SntPromMetricData.as_view()), #new
-
+    url(r'^api/v1/prometheus/vnf/(?P<vnf_id>[^/]+)/metrics/name/(?P<metricName>[^/]+)/$', views.SntPromVnfMetricDetail.as_view()),
+    url(r'^api/v1/prometheus/vnf/(?P<vnf_id>[^/]+)/vdu/{vdu_id}/metrics/data$', views.SntPromMetricData.as_view()),
+    url(r'^api/v1/prometheus/vnf/(?P<vnf_id>[^/]+)/metrics/data$', views.SntPromMetricData.as_view()), 
 	url(r'^api/v1/prometheus/metrics/data$', views.SntPromMetricData.as_view()),
 	url(r'^api/v1/prometheus/configuration$', views.SntPromSrvConf.as_view()),
 
@@ -60,7 +56,12 @@ urlpatterns2 = [
 	url(r'^api/v1/prometheus/pop/(?P<popID>[^/]+)/configuration$', views.SntPromSrvPerPOPConf.as_view()),
 
 	url(r'^api/v1/ws/new$', views.SntWSreq.as_view()),
-	url(r'^api/v1/ws/pop/(?P<popID>[^/]+)/new$', views.SntWSreqPerPOP.as_view()),	#karpa
+	url(r'^api/v1/ws/pop/(?P<popID>[^/]+)/new$', views.SntWSreqPerPOP.as_view()),
+
+	url(r'^api/v1/active/service/(?P<service_id>[^/]+)/test/list$', views.SntActMRList.as_view()),
+    url(r'^api/v1/active/service/(?P<service_id>[^/]+)/test/(?P<test_id>[^/]+)/$', views.SntActMRDetail.as_view()),
+    url(r'^api/v1/active/service/(?P<service_id>[^/]+)/test/(?P<test_id>[^/]+)/data$', views.SntActMRDt.as_view()),
+    url(r'^api/v1/active/service/(?P<service_id>[^/]+)/test$', views.SntActMRDelete.as_view()),
 ]
 
 public_apis = format_suffix_patterns(urlpatterns2)
