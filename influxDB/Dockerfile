@@ -1,4 +1,4 @@
-FROM influxdb:0.12
+FROM influxdb:0.13.0
 
 RUN mkdir /opt/influxDB
 ADD run.sh /opt/influxDB/run.sh
