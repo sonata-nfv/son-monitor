@@ -997,3 +997,7 @@ class SntActMRDt(generics.CreateAPIView):
             return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
 
         return Response({'id': fl_test_id_,'timestamp':tm,'configuration':cnfg_}, status=status.HTTP_200_OK)
+
+class Ping(generics.ListAPIView):
+    def get(self, request, *args, **kwargs):
+        return Response({'MonMan':'OK'}, status=status.HTTP_200_OK)

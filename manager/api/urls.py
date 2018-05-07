@@ -67,7 +67,7 @@ urlpatterns2 = [
 public_apis = format_suffix_patterns(urlpatterns2)
 
 urlpatterns1 = [
-	
+	url(r'^ping$', views.Ping.as_view()),
 	url(r'^api/v1/internal/smtp/creds/(?P<component>[^/]+)$', views.SntCredList.as_view()),
 ]
 
