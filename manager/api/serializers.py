@@ -219,6 +219,22 @@ class SntPOPSerializer(serializers.ModelSerializer):
 
 class SntRulesConfSerializer(serializers.Serializer):
     rules = SntRulesPerSrvSerializer(many=True)
+
+
+class SntActMonResSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = active_monitoring_res
+        fields = ('test_id', 'service_id', 'timestamp', 'config')
+
+class SntActMonResDetailSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = active_monitoring_res
+        fields = ('service_id','timestamp','data')
+
+class SntActMonResDataSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = active_monitoring_res
+        fields = ('id', 'data')
 ######################################################################################
 '''
 class TestTBSerializer(serializers.Serializer):

@@ -50,6 +50,9 @@ import json, socket, os, base64
 from drf_multiple_model.views import MultipleModelAPIView
 from httpClient import Http
 from django.db.models import Q
+import datetime
+from time import timezone
+from django.db import IntegrityError
 
 
 
@@ -939,3 +942,58 @@ class SntPromSrvConf(generics.ListAPIView):
         return Response({'config':rsp}, status=status.HTTP_200_OK)
 
  
+class SntActMRList(generics.ListAPIView):
+    serializer_class = SntActMonResSerializer
+
+    def get_queryset(self):
+        queryset = active_monitoring_res.objects.all()
+        service_id_ = self.kwargs['service_id']
+        return queryset.filter(service_id = service_id_)
+
+class SntActMRDelete(generics.DestroyAPIView):
+    serializer_class = SntActMonResSerializer
+
+    def delete(self, request, *args, **kwargs):
+        self.lookup_field = 'service_id'
+        queryset = active_monitoring_res.objects.all()
+        srvid = self.kwargs['service_id']
+        queryset = queryset.filter(service_id=srvid)
+
+        if queryset.count() > 0:
+            queryset.delete()
+            return Response(status=status.HTTP_204_NO_CONTENT)
+        else:
+            return Response({'status': "Results not found"}, status=status.HTTP_404_NOT_FOUND)
+
+
+
+class SntActMRDetail(generics.ListAPIView):
+    serializer_class = SntActMonResDetailSerializer
+
+    def get_queryset(self):
+        queryset = active_monitoring_res.objects.all()
+        service_id_ = self.kwargs['service_id']
+        test_id_ = self.kwargs['test_id']
+        return queryset.filter(service_id = service_id_,test_id = test_id_)
+
+class SntActMRDt(generics.CreateAPIView):
+    serializer_class = SntActMonResDataSerializer
+
+    def post(self, request, *args, **kwargs):
+        queryset = active_monitoring_res.objects.all()
+        service_id_ = self.kwargs['service_id']
+        test_id_ = self.kwargs['test_id']
+        data_ = request.data
+        fl_test_id_ = data_['TestID']
+        tmstp_ = data_['Timestamp']
+        cnfg_ = data_['TestConfig']
+        print(service_id_)
+        print(test_id_)
+        tm=datetime.datetime.utcfromtimestamp(float(tmstp_)).strftime('%Y-%m-%d %H:%M:%S')
+        try:
+            data = active_monitoring_res(test_id=test_id_,service_id=service_id_, timestamp=tm, config=cnfg_, data=data_)
+            data.save()
+        except IntegrityError as e:
+            return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
+
+        return Response({'id': fl_test_id_,'timestamp':tm,'configuration':cnfg_}, status=status.HTTP_200_OK)
