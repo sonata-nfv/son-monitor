@@ -1,30 +1,34 @@
-'''
-Copyright (c) 2015 SONATA-NFV [, ANY ADDITIONAL AFFILIATION]
-ALL RIGHTS RESERVED.
-
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-    http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
-
-Neither the name of the SONATA-NFV [, ANY ADDITIONAL AFFILIATION]
-nor the names of its contributors may be used to endorse or promote 
-products derived from this software without specific prior written 
-permission.
-
-This work has been performed in the framework of the SONATA project,
-funded by the European Commission under Grant number 671517 through 
-the Horizon 2020 and 5G-PPP programmes. The authors would like to 
-acknowledge the contributions of their colleagues of the SONATA 
-partner consortium (www.sonata-nfv.eu).
-'''
+## ALL RIGHTS RESERVED.
+##
+## Licensed under the Apache License, Version 2.0 (the "License");
+## you may not use this file except in compliance with the License.
+## You may obtain a copy of the License at
+##
+##     http://www.apache.org/licenses/LICENSE-2.0
+##
+## Unless required by applicable law or agreed to in writing, software
+## distributed under the License is distributed on an "AS IS" BASIS,
+## WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+## See the License for the specific language governing permissions and
+## limitations under the License.
+##
+## Neither the name of the SONATA-NFV, 5GTANGO [, ANY ADDITIONAL AFFILIATION]
+## nor the names of its contributors may be used to endorse or promote
+## products derived from this software without specific prior written
+## permission.
+##
+## This work has been performed in the framework of the SONATA project,
+## funded by the European Commission under Grant number 671517 through
+## the Horizon 2020 and 5G-PPP programmes. The authors would like to
+## acknowledge the contributions of their colleagues of the SONATA
+## partner consortium (www.sonata-nfv.eu).
+##
+## This work has been performed in the framework of the 5GTANGO project,
+## funded by the European Commission under Grant number 761493 through
+## the Horizon 2020 and 5G-PPP programmes. The authors would like to
+## acknowledge the contributions of their colleagues of the 5GTANGO
+## partner consortium (www.5gtango.eu).
+# encoding: utf-8
 
 
 
@@ -35,6 +39,43 @@ from django.contrib.auth.models import User
 from django.core import serializers as core_serializers
 
 #######################################################################################################
+
+class SntSNMPOidSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = monitoring_snmp_oids
+        fields = ('oid', 'metric_name', 'metric_type', 'unit', 'mib_name')
+
+class SntSNMPEntSerializer(serializers.ModelSerializer):
+    #user = serializers.PrimaryKeyRelatedField(read_only=False, queryset=monitoring_users.objects.all())
+    #user = SntUserSerializer()
+    oids = SntSNMPOidSerializer(many=True)
+
+    class Meta:
+        model = monitoring_snmp_entities
+        fields = ('id', 'ip', 'port','username', 'interval', 'entity_type','oids' , 'entity_id', 'version', 'auth_protocol', 'security_level', 'status')
+
+
+class SntSNMPEntFullSerializer(serializers.ModelSerializer):
+    oids = SntSNMPOidSerializer(many=True)
+
+    class Meta:
+        model = monitoring_snmp_entities
+        fields = ('id', 'ip', 'port','username', 'password', 'interval', 'entity_type','oids' , 'entity_id', 'version', 'auth_protocol', 'security_level', 'status')
+        lookup_field = {'ip', 'port'}
+
+    def create(self, validated_data):
+        oids_data = validated_data.pop('oids')
+        ent_ip = validated_data['ip']
+        ent_port = validated_data['port']
+        ent = monitoring_snmp_entities.objects.all().filter(ip=ent_ip,port=ent_port)
+        print ent.count()
+        if ent.count() > 0:
+            ent.delete()
+        entity = monitoring_snmp_entities.objects.create(**validated_data)
+        for oid in oids_data:
+            monitoring_snmp_oids.objects.create(snmp_entity=entity, **oid)
+        return entity
+
 
 class SntSmtpSerializerCreate(serializers.ModelSerializer):
     class Meta:

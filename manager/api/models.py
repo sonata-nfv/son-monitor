@@ -1,30 +1,34 @@
-'''
-Copyright (c) 2015 SONATA-NFV [, ANY ADDITIONAL AFFILIATION]
-ALL RIGHTS RESERVED.
-
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-    http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
-
-Neither the name of the SONATA-NFV [, ANY ADDITIONAL AFFILIATION]
-nor the names of its contributors may be used to endorse or promote 
-products derived from this software without specific prior written 
-permission.
-
-This work has been performed in the framework of the SONATA project,
-funded by the European Commission under Grant number 671517 through 
-the Horizon 2020 and 5G-PPP programmes. The authors would like to 
-acknowledge the contributions of their colleagues of the SONATA 
-partner consortium (www.sonata-nfv.eu).
-'''
+## ALL RIGHTS RESERVED.
+##
+## Licensed under the Apache License, Version 2.0 (the "License");
+## you may not use this file except in compliance with the License.
+## You may obtain a copy of the License at
+##
+##     http://www.apache.org/licenses/LICENSE-2.0
+##
+## Unless required by applicable law or agreed to in writing, software
+## distributed under the License is distributed on an "AS IS" BASIS,
+## WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+## See the License for the specific language governing permissions and
+## limitations under the License.
+##
+## Neither the name of the SONATA-NFV, 5GTANGO [, ANY ADDITIONAL AFFILIATION]
+## nor the names of its contributors may be used to endorse or promote
+## products derived from this software without specific prior written
+## permission.
+##
+## This work has been performed in the framework of the SONATA project,
+## funded by the European Commission under Grant number 671517 through
+## the Horizon 2020 and 5G-PPP programmes. The authors would like to
+## acknowledge the contributions of their colleagues of the SONATA
+## partner consortium (www.sonata-nfv.eu).
+##
+## This work has been performed in the framework of the 5GTANGO project,
+## funded by the European Commission under Grant number 761493 through
+## the Horizon 2020 and 5G-PPP programmes. The authors would like to
+## acknowledge the contributions of their colleagues of the 5GTANGO
+## partner consortium (www.5gtango.eu).
+# encoding: utf-8
 
 from __future__ import unicode_literals
 
@@ -42,6 +46,83 @@ from django.contrib.postgres.fields import JSONField
 LEXERS = [item for item in get_all_lexers() if item[1]]
 LANGUAGE_CHOICES = sorted([(item[1][0], item[0]) for item in LEXERS])
 STYLE_CHOICES = sorted((item, item) for item in get_all_styles())
+
+
+class monitoring_snmp_entities(models.Model):
+    VER = (('v3', 'v3'),)
+    AUTH_PROT = (('MD5', 'MD5'),)
+    SEC_LEV = (('authnoPriv', 'authnoPriv'),)
+    STATUS = (('UPDATED', 'UPDATED'), ('DISABLED', 'DISABLED'),)
+    ip = models.GenericIPAddressField(default={})
+    port = models.CharField(max_length=6, blank=False)
+    interval = models.CharField(max_length=5, blank=False)
+    entity_type = models.CharField(max_length=60, blank=False)
+    entity_id = models.CharField(max_length=36, blank=False)
+    version = models.CharField(max_length=5, choices=VER)
+    #oids = models.ManyToManyField(monitoring_snmp_oids)
+    auth_protocol = models.CharField(max_length=5, choices=AUTH_PROT)
+    security_level = models.CharField(max_length=15, choices=SEC_LEV)
+    status = models.CharField(max_length=10, default='UPDATED')
+    username = models.CharField(max_length=60, blank=False)
+    password = models.CharField(max_length=60, blank=False)
+    created = models.DateTimeField(default=timezone.now)
+
+    def as_dict(self):
+        return {
+            'ip': self.ip,
+            'port': self.port,
+            'interval':self.interval,
+            'entity_type':self.component,
+            'entity_id':self.entity_id,
+            'version':self.version,
+            'oids':self.oids,
+            'auth_protocol':self.auth_protocol,
+            'security_level':self.security_level,
+            'status':self.STATUS,
+            'username':self.username,
+            'password':self.password,
+            'created':self.created
+            # other stuff
+        }
+
+    class Meta:
+        db_table = "monitoring_snmp_entities"
+        ordering = ('created',)
+        managed = True
+
+    def __unicode__(self):
+        return u'%s %s %s' % (self.ip, self.port, self.entity_id, self.entity_type)
+
+
+class monitoring_snmp_oids(models.Model):
+    MT_TYPE = (('gauge', 'gauge'),)
+    snmp_entity = models.ForeignKey(monitoring_snmp_entities, related_name='oids', on_delete=models.CASCADE)
+    oid = models.CharField(max_length=512, blank=False)
+    metric_name = models.CharField(max_length=60, blank=False)
+    metric_type = models.CharField(max_length=10, choices=MT_TYPE)
+    unit = models.CharField(max_length=10, blank=False)
+    mib_name = models.CharField(max_length=512, blank=False)
+    created = models.DateTimeField(default=timezone.now)
+
+    def as_dict(self):
+        return {
+            'oid': self.oid,
+            'metric_name':self.metric_name,
+            'metric_type':self.metric_type,
+            'unit':self.unit,
+            'mib_name':self.mib_name,
+            'created':self.created
+            # other stuff
+        }
+
+    class Meta:
+        db_table = "monitoring_snmp_oids"
+        ordering = ('created',)
+        managed = True
+
+    def __unicode__(self):
+        return u'%s %s %s' % (self.metric_name, self.id, self.oid)
+
 
 class monitoring_smtp(models.Model):
     SEC_TYPES = (
