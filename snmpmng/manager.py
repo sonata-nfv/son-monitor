@@ -34,22 +34,26 @@
 
 import logging, os, json,time
 from logging.handlers import RotatingFileHandler
-from exporter import snmpMtrs
 from Configure import Configuration
 from snmp import snmp_entity
 from sqlDB import psHandler
 
 
 def init():
-    global exporter_port
-    global udpSrv_port
     global prometh_server
     global job
     global workers
+    global postgres_port
+    global postgres_host
+    global db_uname
+    global db_upass
 
     workers = {}
-    conf = Configuration("/opt/Monitoring/manager/snmpMng/exporter.conf")
-    exporter_port = os.getenv('SNMP_PORT', conf.ConfigSectionMap("exporter")['port'])
+    conf = Configuration("/opt/Monitoring/exporter.conf")
+    postgres_port = os.getenv('POSTGS_PORT', conf.ConfigSectionMap("sqlDB")['port'])
+    postgres_host = os.getenv('POSTGS_HOST', conf.ConfigSectionMap("sqlDB")['host'])
+    db_uname = os.getenv('DB_USER_NAME', conf.ConfigSectionMap("sqlDB")['user'])
+    db_upass= os.getenv('DB_USER_PASS', conf.ConfigSectionMap("sqlDB")['pass'])
     prometh_server = os.getenv('PROM_SRV', conf.ConfigSectionMap("Prometheus")['server_url'])
     job = 'snmp_vnf'
     if is_json(prometh_server):
@@ -67,7 +71,7 @@ def is_json(myjson):
   return True, json_object
 
 def getEntities():
-    h = psHandler.PShld(usr_='monitoringuser', psw_='sonata', host_='postgsql', port_=5433)
+    h = psHandler.PShld(usr_=db_uname, psw_=db_upass, host_=postgres_host, port_=postgres_port)
     ents = h.getEntities('ACTIVE')
     if not ents:
         logger.info('No ACTIVE SNMP AGENTS FOUND')
@@ -85,7 +89,7 @@ def getEntities():
         workers[str(e.ip + ':' + e.port)] = sh
 
 def updateEntities():
-    h = psHandler.PShld(usr_='monitoringuser', psw_='sonata', host_='postgsql', port_=5433)
+    h = psHandler.PShld(usr_=db_uname, psw_=db_upass, host_=postgres_host, port_=postgres_port)
     ents = h.getEntities('UPDATED')
     dl_ents = h.getEntities('DELETED')
     if not ents:
@@ -129,7 +133,6 @@ if __name__ == '__main__':
 
     logger.info('====================')
     logger.info('SNMP Manager')
-    logger.info('Exporter port: ' + exporter_port)
     logger.info('Promth P/W Server ' + json.dumps(prometh_server))
 
     getEntities()

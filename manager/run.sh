@@ -16,5 +16,4 @@ cp /opt/Monitoring/apache-site /etc/apache2/sites-available/000-default.conf && 
 sed -i.bak 's/.*Listen.*/Listen '8000'/' /etc/apache2/ports.conf && \
 chown -R www-data:www-data /opt/Monitoring && \
 service apache2 restart
-#python3 /opt/Monitoring/manager/snmpMng/manager.py &
 tail -f /dev/null
