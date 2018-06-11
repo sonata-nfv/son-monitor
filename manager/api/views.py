@@ -74,81 +74,27 @@ def api_root(request, format=None):
     })
 ########################################################################################
 
-class monitoring_snmp_entities(models.Model):
-    VER = (('v3', 'v3'),)
-    AUTH_PROT = (('MD5', 'MD5'),)
-    SEC_LEV = (('authnoPriv', 'authnoPriv'),)
-    STATUS = (('UPDATED', 'UPDATED'), ('DISABLED', 'DISABLED'),)
-    ip = models.GenericIPAddressField(default={})
-    port = models.CharField(max_length=6, blank=False)
-    interval = models.CharField(max_length=5, blank=False)
-    entity_type = models.CharField(max_length=60, blank=False)
-    entity_id = models.CharField(max_length=36, blank=False)
-    version = models.CharField(max_length=5, choices=VER)
-    #oids = models.ManyToManyField(monitoring_snmp_oids)
-    auth_protocol = models.CharField(max_length=5, choices=AUTH_PROT)
-    security_level = models.CharField(max_length=15, choices=SEC_LEV)
-    status = models.CharField(max_length=10, default='UPDATED')
-    username = models.CharField(max_length=60, blank=False)
-    password = models.CharField(max_length=60, blank=False)
-    created = models.DateTimeField(default=timezone.now)
+class SntSNMPEntCreate(generics.CreateAPIView):
+    queryset = monitoring_snmp_entities.objects.all()
+    serializer_class = SntSNMPEntFullSerializer
 
-    def as_dict(self):
-        return {
-            'ip': self.ip,
-            'port': self.port,
-            'interval':self.interval,
-            'entity_type':self.component,
-            'entity_id':self.entity_id,
-            'version':self.version,
-            'oids':self.oids,
-            'auth_protocol':self.auth_protocol,
-            'security_level':self.security_level,
-            'status':self.STATUS,
-            'username':self.username,
-            'password':self.password,
-            'created':self.created
-            # other stuff
-        }
+class SntSNMPEntList(generics.ListAPIView):
+    queryset = monitoring_snmp_entities.objects.all()
+    serializer_class = SntSNMPEntSerializer
 
-    class Meta:
-        db_table = "monitoring_snmp_entities"
-        ordering = ('created',)
-        managed = True
+class SntSNMPEntDetail(generics.DestroyAPIView):
+    #queryset = monitoring_snmp_entities.objects.all()
+    #serializer_class = SntSNMPEntSerializer
 
-    def __unicode__(self):
-        return u'%s %s %s' % (self.ip, self.port, self.entity_id, self.entity_type)
+    def delete(self, request, *args, **kwargs):
+        id = self.kwargs['pk']
+        queryset = monitoring_snmp_entities.objects.all().filter(id=id)
 
-
-class monitoring_snmp_oids(models.Model):
-    MT_TYPE = (('gauge', 'gauge'),)
-    snmp_entity = models.ForeignKey(monitoring_snmp_entities, related_name='oids', on_delete=models.CASCADE)
-    oid = models.CharField(max_length=512, blank=False)
-    metric_name = models.CharField(max_length=60, blank=False)
-    metric_type = models.CharField(max_length=10, choices=MT_TYPE)
-    unit = models.CharField(max_length=10, blank=False)
-    mib_name = models.CharField(max_length=512, blank=False)
-    created = models.DateTimeField(default=timezone.now)
-
-    def as_dict(self):
-        return {
-            'oid': self.oid,
-            'metric_name':self.metric_name,
-            'metric_type':self.metric_type,
-            'unit':self.unit,
-            'mib_name':self.mib_name,
-            'created':self.created
-            # other stuff
-        }
-
-    class Meta:
-        db_table = "monitoring_snmp_oids"
-        ordering = ('created',)
-        managed = True
-
-    def __unicode__(self):
-        return u'%s %s %s' % (self.metric_name, self.id, self.oid)
-
+        if queryset.count() > 0:
+            queryset.update(status='DELETED')
+            return Response(status=status.HTTP_204_NO_CONTENT)
+        else:
+            return Response({'status': "SNMP server not found"}, status=status.HTTP_404_NOT_FOUND)
 
 
 class SntSmtpCreate(generics.CreateAPIView):
