@@ -1,0 +1,12 @@
+SQLAlchemy==1.2.8
+pip==9.0.1
+ply==3.11
+prometheus-client==0.2.0
+psycopg2==2.7.4
+psycopg2-binary==2.7.4
+pyasn1==0.4.3
+pycryptodomex==3.6.1
+pysmi==0.3.0
+pysnmp==4.4.4
+pysnmp-mibs==0.1.6
+setuptools==28.8.0

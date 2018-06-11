@@ -67,7 +67,7 @@ def is_json(myjson):
   return True, json_object
 
 def getEntities():
-    h = psHandler.PShld(usr_='monitoringuser', psw_='sonata', host_='localhost', port_=5433)
+    h = psHandler.PShld(usr_='monitoringuser', psw_='sonata', host_='postgsql', port_=5433)
     ents = h.getEntities('ACTIVE')
     if not ents:
         logger.info('No ACTIVE SNMP AGENTS FOUND')
@@ -85,7 +85,7 @@ def getEntities():
         workers[str(e.ip + ':' + e.port)] = sh
 
 def updateEntities():
-    h = psHandler.PShld(usr_='monitoringuser', psw_='sonata', host_='localhost', port_=5433)
+    h = psHandler.PShld(usr_='monitoringuser', psw_='sonata', host_='postgsql', port_=5433)
     ents = h.getEntities('UPDATED')
     dl_ents = h.getEntities('DELETED')
     if not ents:
