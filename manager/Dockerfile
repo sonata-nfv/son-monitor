@@ -8,8 +8,7 @@ COPY ./ /opt/Monitoring
 RUN ls -la /opt/Monitoring/*
 
 RUN pip install -r /opt/Monitoring/requirements.txt
-RUN pip3 install -r /opt/Monotoring/snmpMng/requirements.txt
-
+#RUN pip3 install -r /opt/Monotoring/snmpMng/requirements.txt
 
 ADD ./run.sh /opt/Monitoring/run.sh
 RUN chmod 0755 /opt/Monitoring/run.sh
