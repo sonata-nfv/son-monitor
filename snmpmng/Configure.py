@@ -1,3 +1,4 @@
+## Copyright (c) 2015 SONATA-NFV, 2017 5GTANGO [, ANY ADDITIONAL AFFILIATION]
 ## ALL RIGHTS RESERVED.
 ##
 ## Licensed under the Apache License, Version 2.0 (the "License");
@@ -30,50 +31,23 @@
 ## partner consortium (www.5gtango.eu).
 # encoding: utf-8
 
-import json,urllib2
+import configparser
 
-class Http(object):
-    def __init__(self):
-        self
-        
-    def GET(self,url_,headers_):
-	try: 
-            req = urllib2.Request(url_)
-            req.add_header('Content-Type','application/json')
-            response=urllib2.urlopen(req)
-            code = response.code
-            data = json.loads(response.read())
-            return data
-        
-        except urllib2.HTTPError, e:
-            return e.code
-        except urllib2.URLError, e: 
-            return e
-        except ValueError, e:
-            return e
 
-    def POST(self, url_,headers_,data_):
-        try: 
-            req = urllib2.Request(url_)
-            req.add_header('Content-Type','text/html')
-            req.get_method = lambda: 'POST'
-            response=urllib2.urlopen(req,data_)
-            code = response.code  
-            return code
-        except urllib2.HTTPError, e:
-            return e.code
-        except urllib2.URLError, e:
-            return e
+class Configuration(object):
+    def __init__(self, file):
+        self.Config = configparser.ConfigParser()
+        self.Config.read(file)
 
-    def DELETE(self, url_,headers_):  #karpa
-        try: 
-            req = urllib2.Request(url_)
-            req.add_header('Content-Type','text/html')
-            req.get_method = lambda: 'DELETE'
-            response=urllib2.urlopen(req)
-            code = response.code  
-            return code
-        except urllib2.HTTPError, e:
-            return e.code
-        except urllib2.URLError, e:
-            return e
+    def ConfigSectionMap(self, section):
+        dict1 = {}
+        options = self.Config.options(section)
+        for option in options:
+            try:
+                dict1[option] = self.Config.get(section, option)
+                if dict1[option] == -1:
+                    print("skip: %s" % option)
+            except:
+                print("exception on %s!" % option)
+                dict1[option] = None
+        return dict1
