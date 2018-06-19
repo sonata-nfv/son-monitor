@@ -1,29 +1,35 @@
 '''
-Copyright (c) 2015 SONATA-NFV [, ANY ADDITIONAL AFFILIATION]
-ALL RIGHTS RESERVED.
-
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-    http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
-
-Neither the name of the SONATA-NFV [, ANY ADDITIONAL AFFILIATION]
-nor the names of its contributors may be used to endorse or promote 
-products derived from this software without specific prior written 
-permission.
-
-This work has been performed in the framework of the SONATA project,
-funded by the European Commission under Grant number 671517 through 
-the Horizon 2020 and 5G-PPP programmes. The authors would like to 
-acknowledge the contributions of their colleagues of the SONATA 
-partner consortium (www.sonata-nfv.eu).
+## ALL RIGHTS RESERVED.
+##
+## Licensed under the Apache License, Version 2.0 (the "License");
+## you may not use this file except in compliance with the License.
+## You may obtain a copy of the License at
+##
+##     http://www.apache.org/licenses/LICENSE-2.0
+##
+## Unless required by applicable law or agreed to in writing, software
+## distributed under the License is distributed on an "AS IS" BASIS,
+## WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+## See the License for the specific language governing permissions and
+## limitations under the License.
+##
+## Neither the name of the SONATA-NFV, 5GTANGO [, ANY ADDITIONAL AFFILIATION]
+## nor the names of its contributors may be used to endorse or promote
+## products derived from this software without specific prior written
+## permission.
+##
+## This work has been performed in the framework of the SONATA project,
+## funded by the European Commission under Grant number 671517 through
+## the Horizon 2020 and 5G-PPP programmes. The authors would like to
+## acknowledge the contributions of their colleagues of the SONATA
+## partner consortium (www.sonata-nfv.eu).
+##
+## This work has been performed in the framework of the 5GTANGO project,
+## funded by the European Commission under Grant number 761493 through
+## the Horizon 2020 and 5G-PPP programmes. The authors would like to
+## acknowledge the contributions of their colleagues of the 5GTANGO
+## partner consortium (www.5gtango.eu).
+# encoding: utf-8
 '''
 
 from influxDB import influx
@@ -36,7 +42,6 @@ from emailNotifier import emailNotifier
 
 
 __author__="panos"
-__date__ ="$May 31, 2016 6:46:27 PM$"
 
 def checkServPlatform(time_window):
     global count
@@ -47,11 +52,9 @@ def checkServPlatform(time_window):
     
     resp = cl.query('select * from ALERTS where alertstate=\'firing\' and value=1 and time > now() - '+ time_window)
     if 'series' in resp:
-        print 'Active Alerts'
         for serie in resp['series']:
             for rec in serie['values']:
                 obj = pool.list2obj(rec,serie['columns'])
-                print obj
                 if 'serviceID' in obj:
                     if ns_exists(obj['serviceID']):
                         pool.addQueueMsg(obj)
@@ -120,7 +123,7 @@ def ns_exists(serv_id):
         try:
             url = 'http://manager:8000/api/v1/service/'+serv_id+'/'
             print url
-            req = urllib2.Request(url)
+            #req = urllib2.Request(url)
             req.add_header('Content-Type','application/json')        
             response=urllib2.urlopen(req, timeout = 3)
             code = response.code
@@ -152,12 +155,20 @@ def rabbitConsumer(pool_):
         if len(pool_) > 0:
             if rabbit == '':
                 return
-            rmq=amqp(host,port, 'son.monitoring', 'guest', 'guest')
             msg = pool_[0]
+            type = 'undefined tp'
+            topic = 'son.monitoring'
+            if 'tp' in msg:
+                if msg['tp'] == 'DEV':
+                    type='dev'
+                    topic = 'son.monitoring'
+                else:
+                    type=msg['tp']
+                    topic = 'son.monitoring.'+msg['tp']
+            rmq = amqp(host, port, topic, 'guest', 'guest')
             rmq.send(json.dumps(msg))
             del pool_[0]
-            print 'send rabbitmq : ' + json.dumps(msg) +' remain: '+ "".join(str(len(pool_)))
-        time.sleep(0.2)
+            print 'send rabbitmq : ' + msg['alertname'] + ' '+ msg['exported_instance'] +' '+ type +' remain: '+ "".join(str(len(pool_)))
         
 
 def getRabbitUrl():

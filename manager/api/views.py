@@ -266,7 +266,7 @@ class SntSLARulesDetail(generics.DestroyAPIView):
             fq.delete()
             cl = Http()
             rsp = cl.DELETE('http://prometheus:9089/prometheus/rules/' + str('sla-'+srvid), [])
-            return Response({'staus': "service's rules removed"}, status=status.HTTP_204_NO_CONTENT)
+            return Response({'status': "service's rules removed"}, status=status.HTTP_204_NO_CONTENT)
         else:
             return Response({'status': "rules not found"}, status=status.HTTP_404_NOT_FOUND)
 
@@ -866,7 +866,7 @@ class SntNewServiceConf(generics.CreateAPIView):
                 rl['duration'] = r['duration']
                 rl['notification_type'] = r['notification_type']
                 rl['condition'] = r['condition']
-                rl['labels'] = ["serviceID=\""+rls['service']+"\""]
+                rl['labels'] = ["serviceID=\""+rls['service']+ "\", tp=\"DEV\""]
             rls['rules'].append(rl)
 
         if len(rules) > 0:
@@ -876,7 +876,7 @@ class SntNewServiceConf(generics.CreateAPIView):
                 return Response({'status':"success","vnfs":functions_status,"metrics":metrics_status,"rules":rules_status})
             else:
                 srv.delete()
-                return Response({'error': 'Service update fail '+str(rsp)})
+                return Response({'error': 'Service update fail '+str(rsp)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
         else:
             return Response({'status':"success","vnfs":functions_status,"metrics":metrics_status,"rules":rules_status})
 
