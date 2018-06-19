@@ -283,9 +283,12 @@ class monitoring_notif_types(models.Model):
         return u'%s %s' % (self.id, self.type)
 
 class monitoring_rules(models.Model):
+    VER = (('DEV','DEV'),('SLA', 'SLA'), ('PLC','PLC'),)
     service = models.ForeignKey(monitoring_services)
-    #function = models.ForeignKey(monitoring_functions, blank=True)
+    function = models.CharField(max_length=60, blank=True)
+    vdu = models.CharField(max_length=36, blank=True)
     summary = models.CharField(max_length=1024, blank=True)
+    consumer = models.CharField(max_length=5, choices=VER, default='DEV')
     notification_type = models.ForeignKey(monitoring_notif_types)
     name = models.CharField(max_length=60, blank=True)
     condition = models.CharField(max_length=2048, blank=False)

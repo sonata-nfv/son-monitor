@@ -4,7 +4,7 @@ RUN apt-get update && apt-get -y upgrade && \
 echo postfix postfix/mailname string 'monitoring.com' | debconf-set-selections && \
 echo postfix postfix/main_mailer_type string 'Internet Site' | debconf-set-selections && \
 apt-get install -y apache2 libapache2-mod-wsgi python-dev python-pip python-yaml supervisor nano mailutils && \
-pip install Flask pika influxdb tornado && rm -rf /var/cache/apt /var/lib/apt/lists
+pip install Flask pika influxdb tornado==4.5.2 && rm -rf /var/cache/apt /var/lib/apt/lists
 
 RUN /usr/sbin/postconf -e inet_interfaces=loopback-only && \
     /usr/sbin/postconf -e inet_protocols=ipv4 && \

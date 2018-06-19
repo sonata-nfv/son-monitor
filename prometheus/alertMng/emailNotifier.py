@@ -1,30 +1,34 @@
-'''
-Copyright (c) 2015 SONATA-NFV [, ANY ADDITIONAL AFFILIATION]
-ALL RIGHTS RESERVED.
-
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-    http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
-
-Neither the name of the SONATA-NFV [, ANY ADDITIONAL AFFILIATION]
-nor the names of its contributors may be used to endorse or promote 
-products derived from this software without specific prior written 
-permission.
-
-This work has been performed in the framework of the SONATA project,
-funded by the European Commission under Grant number 671517 through 
-the Horizon 2020 and 5G-PPP programmes. The authors would like to 
-acknowledge the contributions of their colleagues of the SONATA 
-partner consortium (www.sonata-nfv.eu).
-'''
+## ALL RIGHTS RESERVED.
+##
+## Licensed under the Apache License, Version 2.0 (the "License");
+## you may not use this file except in compliance with the License.
+## You may obtain a copy of the License at
+##
+##     http://www.apache.org/licenses/LICENSE-2.0
+##
+## Unless required by applicable law or agreed to in writing, software
+## distributed under the License is distributed on an "AS IS" BASIS,
+## WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+## See the License for the specific language governing permissions and
+## limitations under the License.
+##
+## Neither the name of the SONATA-NFV, 5GTANGO [, ANY ADDITIONAL AFFILIATION]
+## nor the names of its contributors may be used to endorse or promote
+## products derived from this software without specific prior written
+## permission.
+##
+## This work has been performed in the framework of the SONATA project,
+## funded by the European Commission under Grant number 671517 through
+## the Horizon 2020 and 5G-PPP programmes. The authors would like to
+## acknowledge the contributions of their colleagues of the SONATA
+## partner consortium (www.sonata-nfv.eu).
+##
+## This work has been performed in the framework of the 5GTANGO project,
+## funded by the European Commission under Grant number 761493 through
+## the Horizon 2020 and 5G-PPP programmes. The authors would like to
+## acknowledge the contributions of their colleagues of the 5GTANGO
+## partner consortium (www.5gtango.eu).
+# encoding: utf-8
 
 import smtplib, base64, os
 import email.utils, re, json, urllib2
@@ -37,6 +41,9 @@ class emailNotifier():
         self.mon_manager = 'http://manager:8000'
         self.msgs = []
         self.smtp={'server':'localhost','port':None,'user':None,'psw':None, 'sec_type': None, 'postfix':True}
+        self.debug = 0
+        if os.environ.has_key('DEBUG'):
+            self.debug = int(os.environ['DEBUG'])
         self.setSmtpSrv()
 
     def setSmtpSrv(self):
@@ -53,7 +60,8 @@ class emailNotifier():
                         self.smtp['user'] =  srv['results'][0]['user_name']
                         self.smtp['sec_type'] =  srv['results'][0]['sec_type']
                         self.smtp['postfix'] = False
-        print self.smtp
+        if self.debug == 1:
+            print self.smtp
 
     def getEmailPass(selfn):
         if os.environ.has_key('EMAIL_PASS'):
@@ -89,12 +97,14 @@ class emailNotifier():
             myemail['receivers']= receivers
             myemail['obj'] = msg
             self.msgs.append(myemail)
-            print(myemail['receivers'])
+            if self.debug == 1:
+                print(myemail['receivers'])
         self.sendMail()
             
     def getSmtp(self, url):
         try:
-            print url
+            if self.debug == 1:
+                print url
             req = urllib2.Request(url)
             req.add_header('Content-Type','application/json')
         
@@ -114,7 +124,8 @@ class emailNotifier():
         us=[]
         try:
             url = self.mon_manager+'/api/v1/service/'+serviceID+"/"
-            print url
+            if self.debug == 1:
+                print url
             req = urllib2.Request(url)
             req.add_header('Content-Type','application/json')        
             response=urllib2.urlopen(req, timeout = 3)
@@ -125,7 +136,8 @@ class emailNotifier():
                 if 'user' in srv:
                     us = srv['user']
                     
-            print json.dumps(us)
+            if self.debug == 1:
+                print json.dumps(us)
             return us
     
         except urllib2.HTTPError, e:
@@ -139,7 +151,8 @@ class emailNotifier():
         mail=''
         try:
             url = self.mon_manager+'/api/v1/user/'+usrID+"/"
-            print url
+            if self.debug == 1:
+                print url
             req = urllib2.Request(url)
             req.add_header('Content-Type','application/json')        
             response=urllib2.urlopen(req, timeout = 3)
@@ -162,7 +175,8 @@ class emailNotifier():
         mails=[]
         try:
             url = self.mon_manager+'/api/v1/users/type/admin/'
-            print url
+            if self.debug == 1:
+                print url
             req = urllib2.Request(url)
             req.add_header('Content-Type','application/json')        
             response=urllib2.urlopen(req, timeout = 3)
@@ -189,7 +203,8 @@ class emailNotifier():
                 try: 
                     smtp = smtplib.SMTP('localhost')
                     resp=smtp.sendmail('monitoring@sonata-nfv.eu', msg['receivers'], msg['obj'].as_string() )
-                    print 'Successfully sent email via postfix'
+                    if self.debug == 1:
+                        print 'Successfully sent email via postfix'
                     smtp.close()
                 except Exception , exc:
                     print "mail failed; %s" % str(exc)               
@@ -207,8 +222,9 @@ class emailNotifier():
                     server.ehlo()
                 server.login(self.smtp['user'], self.smtp['psw'])
                 for msg in self.msgs:
-                    server.sendmail('monitoring@sonata-nfv.eu', msg['receivers'], msg['obj'].as_string())   
-                    print "Successfully sent email"
+                    server.sendmail('monitoring@sonata-nfv.eu', msg['receivers'], msg['obj'].as_string())
+                    if self.debug == 1:   
+                        print "Successfully sent email"
                 server.quit()
             except Exception , exc:
                 print "mail failed; %s" % str(exc)

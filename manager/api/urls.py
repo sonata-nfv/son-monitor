@@ -59,6 +59,16 @@ urlpatterns2 = [
 	url(r'^api/v1/alerts/rules/service/(?P<srvID>[^/]+)/configuration$', views.SntRuleconf.as_view()),
 	url(r'^api/v1/alerts/rule/(?P<sonata_srv_id>[^/]+)/$', views.SntRulesDetail.as_view()),
 
+	url(r'^api/v1/slamng/rules$', views.SntSLARulesList.as_view()),
+	url(r'^api/v1/slamng/rules/service/(?P<srvID>[^/]+)/$', views.SntSLARulesPerServiceList.as_view()),
+	url(r'^api/v1/slamng/rules/service/(?P<srvID>[^/]+)/configuration$', views.SntSLARuleconf.as_view()),
+	url(r'^api/v1/slamng/rule/(?P<sonata_srv_id>[^/]+)/$', views.SntSLARulesDetail.as_view()),
+
+	url(r'^api/v1/policymng/rules$', views.SntPLCRulesList.as_view()),
+	url(r'^api/v1/policymng/rules/service/(?P<srvID>[^/]+)/$', views.SntPLCRulesPerServiceList.as_view()),
+	url(r'^api/v1/policymng/rules/service/(?P<srvID>[^/]+)/configuration$', views.SntPLCRuleconf.as_view()),
+	url(r'^api/v1/policymng/rule/(?P<sonata_srv_id>[^/]+)/$', views.SntPLCRulesDetail.as_view()),
+
 	url(r'^api/v1/notification/types$', views.SntNotifTypesList.as_view()),
 	url(r'^api/v1/notification/type/(?P<pk>[0-9]+)/$', views.SntNotifTypesDetail.as_view()),
 	url(r'^api/v1/notification/smtp/component/(?P<component>[^/]+)/$', views.SntSmtpList.as_view()),
