@@ -196,7 +196,7 @@ class SntRulesPerSrvSerializer(serializers.ModelSerializer):
     notification_type = SntNotifTypeSerializer()
     class Meta:
         model = monitoring_rules
-        fields = ('id', 'fubction', 'vdu', 'name', 'duration', 'summary', 'description', 'condition', 'notification_type', 'created',)
+        fields = ('id', 'function', 'vdu', 'name', 'duration', 'summary', 'description', 'condition', 'notification_type', 'created',)
 
 class SntNewFunctionsSerializer(serializers.ModelSerializer):
     #service = serializers.PrimaryKeyRelatedField(read_only=False, queryset=monitoring_services.objects.all())
