@@ -184,20 +184,19 @@ class SntServicesLightSerializer(serializers.ModelSerializer):
         lookup_field = 'sonata_srv_id'
 
 class SntRulesSerializer(serializers.ModelSerializer):
-    #service = serializers.PrimaryKeyRelatedField(read_only=False, queryset=monitoring_services.objects.all()) 
-    #notification_type = serializers.PrimaryKeyRelatedField(read_only=False, queryset=monitoring_notif_types.objects.all())
     service = SntServicesLightSerializer()
     notification_type = SntNotifTypeSerializer()
     class Meta:
         model = monitoring_rules
         fields = ('id', 'name', 'duration', 'summary', 'description', 'condition', 'notification_type','service', 'created',)
+        lookup_field = 'consumer'
 
 
 class SntRulesPerSrvSerializer(serializers.ModelSerializer):
     notification_type = SntNotifTypeSerializer()
     class Meta:
         model = monitoring_rules
-        fields = ('id', 'name', 'duration', 'summary', 'description', 'condition', 'notification_type', 'created',)
+        fields = ('id', 'fubction', 'vdu', 'name', 'duration', 'summary', 'description', 'condition', 'notification_type', 'created',)
 
 class SntNewFunctionsSerializer(serializers.ModelSerializer):
     #service = serializers.PrimaryKeyRelatedField(read_only=False, queryset=monitoring_services.objects.all())
@@ -294,6 +293,13 @@ class SntRulesVduSerializer(serializers.Serializer):
 class SntRulesVnfSerializer(serializers.Serializer):
     vnf_id = serializers.CharField()
     vdus = SntRulesVduSerializer(many=True)
+
+class SntPLCRulesConfSerializer(serializers.Serializer):
+    plc_contract = serializers.CharField()
+    vnfs = SntRulesVnfSerializer(many=True)
+
+    class Meta:
+        fields = ('service_id', 'plc_contract','vnfs')
 
 class SntSLARulesConfSerializer(serializers.Serializer):
     sla_contract = serializers.CharField()
