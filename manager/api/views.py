@@ -892,7 +892,7 @@ class SntMetricsDetail(generics.DestroyAPIView):
     serializer_class = SntMetricsSerializer
 
 class SntRulesList(generics.ListAPIView):
-        serializer_class = SntRulesSerializer
+    serializer_class = SntRulesSerializer
 
     def get_queryset(self):
         queryset = monitoring_rules.objects.all()
