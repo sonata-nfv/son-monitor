@@ -54,4 +54,4 @@ class amqp(object):
         channel.queue_declare(queue = self.queue)
         channel.queue_bind(exchange='son-kernel',queue=self.queue)
         channel.basic_publish(exchange='son-kernel',routing_key=self.queue, body=msg)
-        connection.close()
+        #connection.close()
