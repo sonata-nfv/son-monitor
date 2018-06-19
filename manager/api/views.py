@@ -74,6 +74,112 @@ def api_root(request, format=None):
     })
 ########################################################################################
 
+class SntSLARuleconf(generics.CreateAPIView):
+    serializer_class = SntSLARulesConfSerializer
+
+    def post(self, request, *args, **kwargs):
+        srvid = self.kwargs['srvID']
+        dt = request.data
+        print(dt.keys())
+        if 'plc_cnt' in dt.keys():
+            policy_cnt = dt['plc_cnt']
+        if 'vnfs' in dt.keys():
+            vnfs = dt['vnfs']
+        else:
+            return Response({'error': 'Undefined vnfs'}, status=status.HTTP_400_BAD_REQUEST)
+
+        # Check if service exists
+        srv = monitoring_services.objects.all().filter(sonata_srv_id=srvid)
+        if srv.count() == 0:
+            if srvid != 'generic':
+                return Response({'error': 'Requested Service not found'}, status=status.HTTP_404_NOT_FOUND)
+            else:
+                srvid = 'alerts'
+
+
+        # Delete old rule from DB
+        rules_db = monitoring_rules.objects.all().filter(service__sonata_srv_id=srvid, consumer='SLA')
+        rules_db.delete()
+
+        # Create prometheus configuration file
+        rls = {}
+        rls['rules'] = []
+        srvrules = []
+        rules_status = 0
+        rls['service'] = 'sla-'+srvid
+        for vnf in dt['vnfs']:
+            rls['vnf'] = vnf['nvfid']
+            if 'vdus' in vnf.keys():
+                for vdu in vnf['vdus']:
+                    rls['vdu_id'] = vdu['vdu_id']
+                    rules = vdu['rules']
+                    rules_status += len(rules)
+                    for r in rules:
+                        print 'vnf '+ rls['vnf'] + ' vdu: '+ rls['vdu_id'] +json.dumps(r)
+                        nt = monitoring_notif_types.objects.all().filter(id=r['notification_type']['id'])
+                        if nt.count() == 0:
+                            return Response({'error': 'Alert notification type does not supported. Action Aborted'},
+                                status=status.HTTP_400_BAD_REQUEST)
+                        else:
+                            if srvid != "alerts":
+                                print(rls['vnf'], rls['vdu_id'])
+                                rule = monitoring_rules(service=srv[0], summary=r['summary'], notification_type=nt[0],
+                                                    name=r['name'], condition=r['condition'], duration=r['duration'],
+                                                    description=r['description'],consumer='SLA',function=rls['vnf'],vdu=rls['vdu_id'])
+                                rule.save()
+                        rl = {}
+                        rl['name'] = r['name']
+                        rl['description'] = r['description']
+                        rl['summary'] = r['summary']
+                        rl['duration'] = r['duration']
+                        rl['notification_type'] = r['notification_type']
+                        rl['condition'] = r['condition']
+                        rl['labels'] = ["serviceID=\"" + srvid + "\", tp=\"SLA\""]
+                        rls['rules'].append(rl)
+                    srvrules += rules
+
+        if len(srvrules) > 0:
+            cl = Http()
+            rsp = cl.POST('http://prometheus:9089/prometheus/rules', [], json.dumps(rls))
+            if rsp == 200:
+                return Response({'status': "success", "rules": rules_status})
+            else:
+                return Response({'error': 'Rules update fail ' + str(rsp)},
+                                status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        else:
+            return Response({'error': 'No rules defined'})
+
+class SntSLARulesDetail(generics.DestroyAPIView):
+    serializer_class = SntRulesSerializer
+
+    def delete(self, request, *args, **kwargs):
+        queryset = monitoring_rules.objects.all()
+        srvid = self.kwargs['sonata_srv_id']
+        fq = queryset.filter(service__sonata_srv_id=srvid,consumer='SLA')
+
+        if fq.count() > 0:
+            fq.delete()
+            cl = Http()
+            rsp = cl.DELETE('http://prometheus:9089/prometheus/rules/' + str('sla-'+srvid), [])
+            return Response({'staus': "service's rules removed"}, status=status.HTTP_204_NO_CONTENT)
+        else:
+            return Response({'status': "rules not found"}, status=status.HTTP_404_NOT_FOUND)
+
+class SntSLARulesPerServiceList(generics.ListAPIView):
+    serializer_class = SntRulesPerSrvSerializer
+
+    def get_queryset(self):
+        queryset = monitoring_rules.objects.all()
+        srvid = self.kwargs['srvID']
+        return queryset.filter(service__sonata_srv_id=srvid, consumer='SLA')
+
+class SntSLARulesList(generics.ListAPIView):
+    serializer_class = SntRulesSerializer
+    def get_queryset(self):
+        queryset = monitoring_rules.objects.all()
+        return queryset.filter(consumer='SLA')
+
+
 class SntSNMPEntCreate(generics.CreateAPIView):
     queryset = monitoring_snmp_entities.objects.all()
     serializer_class = SntSNMPEntFullSerializer

@@ -276,6 +276,31 @@ class SntActMonResDataSerializer(serializers.ModelSerializer):
     class Meta:
         model = active_monitoring_res
         fields = ('id', 'data')
+
+class SntRulesFSerializer(serializers.ModelSerializer):
+    notification_type = SntNotifTypeSerializer()
+
+    class Meta:
+        model = monitoring_rules
+        fields = (
+        'id', 'name', 'duration', 'summary', 'description', 'condition', 'notification_type', 'service', 'created',)
+
+
+class SntRulesVduSerializer(serializers.Serializer):
+    vdu_id = serializers.CharField()
+    rules = SntRulesFSerializer(many=True)
+
+
+class SntRulesVnfSerializer(serializers.Serializer):
+    vnf_id = serializers.CharField()
+    vdus = SntRulesVduSerializer(many=True)
+
+class SntSLARulesConfSerializer(serializers.Serializer):
+    sla_contract = serializers.CharField()
+    vnfs = SntRulesVnfSerializer(many=True)
+
+    class Meta:
+        fields = ('service_id', 'sla_contract','vnfs')
 ######################################################################################
 '''
 class TestTBSerializer(serializers.Serializer):
