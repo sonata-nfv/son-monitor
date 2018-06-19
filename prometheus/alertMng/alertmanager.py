@@ -64,7 +64,8 @@ def checkServPlatform(time_window):
     
     resp = cl.query('select * from ALERTS where alertstate=\'pending\' and value=0 and time > now() - '+ time_window)
     if 'series' in resp:
-        print 'Event Started'
+        if debug == 1:
+            print 'Event Started'
         for serie in resp['series']:
             for rec in serie['values']:
                 obj = pool.list2obj(rec,serie['columns'])
@@ -78,7 +79,8 @@ def checkServPlatform(time_window):
     
     resp = cl.query('select * from ALERTS where alertstate=\'firing\' and value=0 and time > now() - '+ time_window)
     if 'series' in resp:
-        print 'Event Stoped'
+        if debug == 1:
+            print 'Event Stoped'
         for serie in resp['series']:
             for rec in serie['values']:
                 obj = pool.list2obj(rec,serie['columns'])
@@ -91,7 +93,8 @@ def checkServPlatform(time_window):
                     pool.addSmsMsg(obj)
         
 def checkAlerts():
-    print(time.ctime())
+    if debug == 1:
+        print(time.ctime())
     checkServPlatform('15s')
     threading.Timer(10, checkAlerts).start()
 
@@ -102,7 +105,8 @@ def emailConsumer(pool_):
             
             mailNotf = emailNotifier()
             msgs = pool_
-            print 'send mails : ' + json.dumps(msgs) +' number of mails: '+ "".join(str(len(msgs)))
+            if debug == 1:
+                print 'send mails : ' + json.dumps(msgs) +' number of mails: '+ "".join(str(len(msgs)))
             mailNotf.msgs2send(msgs)
             del pool_[:]
             #msg = pool_[0]
@@ -115,7 +119,8 @@ def smsConsumer(pool_):
         if len(pool_) > 0:
             msg = pool_[0]
             del pool_[0]
-            print 'send sms : ' + json.dumps(msg) +' remain: '+ "".join(str(len(pool_)))
+            if debug == 1:
+                print 'send sms : ' + json.dumps(msg) +' remain: '+ "".join(str(len(pool_)))
         time.sleep(0.2)
 
 def ns_exists(serv_id):
@@ -167,7 +172,8 @@ def rabbitConsumer(pool_):
             rmq = amqp(host, port, topic, 'guest', 'guest')
             rmq.send(json.dumps(msg))
             del pool_[0]
-            print 'send rabbitmq : ' + msg['alertname'] + ' '+ msg['exported_instance'] +' '+ type +' remain: '+ "".join(str(len(pool_)))
+            if debug == 1:
+                print 'send rabbitmq : ' + msg['alertname'] + ' '+ msg['exported_instance'] +' '+ type +' remain: '+ "".join(str(len(pool_)))
         
 
 def getRabbitUrl():
@@ -186,8 +192,11 @@ def getEmailPass():
 
 if __name__ == "__main__":
     global pool
-    
+    global debug
+    debug = 0
     count = 0
+    if os.environ.has_key('DEBUG'):
+        debug = int(os.environ['DEBUG'])
     pool = msgs()
     t1 = Thread(target = emailConsumer, args=(pool.getEmailMsgs(),))
     t2 = Thread(target = smsConsumer, args=(pool.getSmsMsgs(),))
@@ -199,6 +208,8 @@ if __name__ == "__main__":
     t2.start()
     t3.start()
     
-    print(time.ctime() + getEmailPass() + getRabbitUrl())
+    print(time.ctime())
+    print(getEmailPass())
+    print(getRabbitUrl())
     checkServPlatform('15s')    
     threading.Timer(7, checkAlerts).start()

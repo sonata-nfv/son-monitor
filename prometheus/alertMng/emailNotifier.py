@@ -41,6 +41,9 @@ class emailNotifier():
         self.mon_manager = 'http://manager:8000'
         self.msgs = []
         self.smtp={'server':'localhost','port':None,'user':None,'psw':None, 'sec_type': None, 'postfix':True}
+        self.debug = 0
+        if os.environ.has_key('DEBUG'):
+            self.debug = int(os.environ['DEBUG'])
         self.setSmtpSrv()
 
     def setSmtpSrv(self):
@@ -57,7 +60,8 @@ class emailNotifier():
                         self.smtp['user'] =  srv['results'][0]['user_name']
                         self.smtp['sec_type'] =  srv['results'][0]['sec_type']
                         self.smtp['postfix'] = False
-        print self.smtp
+        if self.debug == 1:
+            print self.smtp
 
     def getEmailPass(selfn):
         if os.environ.has_key('EMAIL_PASS'):
@@ -93,12 +97,14 @@ class emailNotifier():
             myemail['receivers']= receivers
             myemail['obj'] = msg
             self.msgs.append(myemail)
-            print(myemail['receivers'])
+            if self.debug == 1:
+                print(myemail['receivers'])
         self.sendMail()
             
     def getSmtp(self, url):
         try:
-            print url
+            if self.debug == 1:
+                print url
             req = urllib2.Request(url)
             req.add_header('Content-Type','application/json')
         
@@ -118,7 +124,8 @@ class emailNotifier():
         us=[]
         try:
             url = self.mon_manager+'/api/v1/service/'+serviceID+"/"
-            print url
+            if self.debug == 1:
+                print url
             req = urllib2.Request(url)
             req.add_header('Content-Type','application/json')        
             response=urllib2.urlopen(req, timeout = 3)
@@ -129,7 +136,8 @@ class emailNotifier():
                 if 'user' in srv:
                     us = srv['user']
                     
-            print json.dumps(us)
+            if self.debug == 1:
+                print json.dumps(us)
             return us
     
         except urllib2.HTTPError, e:
@@ -143,7 +151,8 @@ class emailNotifier():
         mail=''
         try:
             url = self.mon_manager+'/api/v1/user/'+usrID+"/"
-            print url
+            if self.debug == 1:
+                print url
             req = urllib2.Request(url)
             req.add_header('Content-Type','application/json')        
             response=urllib2.urlopen(req, timeout = 3)
@@ -166,7 +175,8 @@ class emailNotifier():
         mails=[]
         try:
             url = self.mon_manager+'/api/v1/users/type/admin/'
-            print url
+            if self.debug == 1:
+                print url
             req = urllib2.Request(url)
             req.add_header('Content-Type','application/json')        
             response=urllib2.urlopen(req, timeout = 3)
@@ -193,7 +203,8 @@ class emailNotifier():
                 try: 
                     smtp = smtplib.SMTP('localhost')
                     resp=smtp.sendmail('monitoring@sonata-nfv.eu', msg['receivers'], msg['obj'].as_string() )
-                    print 'Successfully sent email via postfix'
+                    if self.debug == 1:
+                        print 'Successfully sent email via postfix'
                     smtp.close()
                 except Exception , exc:
                     print "mail failed; %s" % str(exc)               
@@ -211,8 +222,9 @@ class emailNotifier():
                     server.ehlo()
                 server.login(self.smtp['user'], self.smtp['psw'])
                 for msg in self.msgs:
-                    server.sendmail('monitoring@sonata-nfv.eu', msg['receivers'], msg['obj'].as_string())   
-                    print "Successfully sent email"
+                    server.sendmail('monitoring@sonata-nfv.eu', msg['receivers'], msg['obj'].as_string())
+                    if self.debug == 1:   
+                        print "Successfully sent email"
                 server.quit()
             except Exception , exc:
                 print "mail failed; %s" % str(exc)
