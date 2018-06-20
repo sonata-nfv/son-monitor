@@ -138,8 +138,7 @@ pipeline {
         }
       }
     }
-  }
-  stage('Deployment in integration') {
+    stage('Deployment in integration') {
       when {
          branch 'master'
       }
@@ -160,6 +159,7 @@ pipeline {
         }
       }
     }
+  }
   post {
     success {
       emailext(subject: "SUCCESS: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'", body: """<p>SUCCESS: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]':</p>
