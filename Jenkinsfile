@@ -77,11 +77,14 @@ pipeline {
         }
       }
     }
-    stage('Deployment in Integration') {
+    stage('Deployment in pre-integration') {
+      when {
+         branch 'master'
+      }
       parallel {
-        stage('Deployment in Integration') {
+        stage('Deployment in pre-integration') {
           steps {
-            echo 'Deploying in integration...'
+            echo 'Deploying in pre-integration...'
           }
         }
         stage('Deploying') {
@@ -137,6 +140,27 @@ pipeline {
       }
     }
   }
+  stage('Deployment in integration') {
+      when {
+         branch 'master'
+      }
+      parallel {
+        stage('Deployment in integration') {
+          steps {
+            echo 'Deploying in integration...'
+          }
+        }
+        stage('Deploying') {
+          steps {
+            sh 'rm -rf tng-devops || true'
+            sh 'git clone https://github.com/sonata-nfv/tng-devops.git'
+            dir(path: 'tng-devops') {
+              sh 'ansible-playbook roles/sp.yml -i environments -e "target=int-sp"'
+            }
+          }
+        }
+      }
+    }
   post {
     success {
       emailext(subject: "SUCCESS: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'", body: """<p>SUCCESS: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]':</p>
