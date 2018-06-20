@@ -28,11 +28,6 @@ pipeline {
             sh 'docker build -t registry.sonata-nfv.eu:5000/son-monitor-influxdb -f influxDB/Dockerfile influxDB/'
           }
         }
-        stage('son-monitor-snmpmng') {
-          steps {
-            sh 'docker build -t registry.sonata-nfv.eu:5000/son-monitor-snmpmng -f snmpmng/Dockerfile snmpmng/'
-          }
-        }
       }
     }
     stage('Unit Tests') {
@@ -72,18 +67,13 @@ pipeline {
             sh 'docker push registry.sonata-nfv.eu:5000/son-monitor-influxdb'
           }
         }
-        stage('son-monitor-snmpmng') {
-          steps {
-            sh 'docker push registry.sonata-nfv.eu:5000/son-monitor-snmpmng'
-          }
-        }
       }
     }
-    stage('Deployment in pre-integration') {
+    stage('Deployment in Integration') {
       parallel {
-        stage('Deployment in pre-integration') {
+        stage('Deployment in Integration') {
           steps {
-            echo 'Deploying in pre-integration...'
+            echo 'Deploying in integration...'
           }
         }
         stage('Deploying') {
@@ -130,32 +120,6 @@ pipeline {
             sh 'docker tag registry.sonata-nfv.eu:5000/son-monitor-influxdb:latest registry.sonata-nfv.eu:5000/son-monitor-influxdb:int'
             sh 'docker push  registry.sonata-nfv.eu:5000/son-monitor-influxdb:int'
           }
-        stage('son-monitor-snmpmng') {
-          steps {
-            sh 'docker tag registry.sonata-nfv.eu:5000/son-monitor-snmpmng:latest registry.sonata-nfv.eu:5000/son-monitor-snmpmng:int'
-            sh 'docker push  registry.sonata-nfv.eu:5000/son-monitor-snmpmng:int'
-          }
-        }
-      }
-    }
-    stage('Deployment in integration') {
-      when {
-         branch 'master'
-      }
-      parallel {
-        stage('Deployment in integration') {
-          steps {
-            echo 'Deploying in integration...'
-          }
-        }
-        stage('Deploying') {
-          steps {
-            sh 'rm -rf tng-devops || true'
-            sh 'git clone https://github.com/sonata-nfv/tng-devops.git'
-            dir(path: 'tng-devops') {
-              sh 'ansible-playbook roles/sp.yml -i environments -e "target=int-sp"'
-            }
-          }
         }
       }
     }
@@ -163,12 +127,15 @@ pipeline {
   post {
     success {
       emailext(subject: "SUCCESS: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'", body: """<p>SUCCESS: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]':</p>
-                        <p>Check console output at &QUOT;<a href='${env.BUILD_URL}'>${env.JOB_NAME} [${env.BUILD_NUMBER}]</a>&QUOT;</p>""", recipientProviders: [[$class: 'DevelopersRecipientProvider']])   
+                        <p>Check console output at &QUOT;<a href='${env.BUILD_URL}'>${env.JOB_NAME} [${env.BUILD_NUMBER}]</a>&QUOT;</p>""", recipientProviders: [[$class: 'DevelopersRecipientProvider']])
+      
     }
+    
     failure {
       emailext(subject: "FAILED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'", body: """<p>FAILED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]':</p>
-                      <p>Check console output at &QUOT;<a href='${env.BUILD_URL}'>${env.JOB_NAME} [${env.BUILD_NUMBER}]</a>&QUOT;</p>""", recipientProviders: [[$class: 'DevelopersRecipientProvider']]) 
+                        <p>Check console output at &QUOT;<a href='${env.BUILD_URL}'>${env.JOB_NAME} [${env.BUILD_NUMBER}]</a>&QUOT;</p>""", recipientProviders: [[$class: 'DevelopersRecipientProvider']])
+      
     }
+    
   }
-}  
- 
+}
