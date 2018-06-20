@@ -78,6 +78,9 @@ pipeline {
       }
     }
     stage('Deployment in pre-integration') {
+      when {
+         branch 'master'
+      }
       parallel {
         stage('Deployment in pre-integration') {
           steps {
@@ -138,6 +141,9 @@ pipeline {
     }
   }
   stage('Deployment in integration') {
+      when {
+         branch 'master'
+      }
       parallel {
         stage('Deployment in integration') {
           steps {
