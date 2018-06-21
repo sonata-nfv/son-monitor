@@ -1,9 +1,0 @@
-=============== Jun 21, 2018 (EEST) ===============
-18:14:41.993754 log@legend F·NumFile S·FileSize N·Entry C·BadEntry B·BadBlock Ke·KeyError D·DroppedEntry L·Level Q·SeqNum T·TimeElapsed
-18:14:41.993831 db@open opening
-18:14:41.993863 journal@recovery F·1
-18:14:41.993975 journal@recovery recovering @4
-18:14:41.995608 db@janitor F·2 G·0
-18:14:41.995636 db@open done T·1.797456ms
-18:15:21.311381 db@close closing
-18:15:21.311430 db@close done T·47.954µs
