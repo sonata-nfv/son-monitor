@@ -1,0 +1,10 @@
+=============== Jun 21, 2018 (EEST) ===============
+18:14:42.008979 log@legend F·NumFile S·FileSize N·Entry C·BadEntry B·BadBlock Ke·KeyError D·DroppedEntry L·Level Q·SeqNum T·TimeElapsed
+18:14:42.009201 db@open opening
+18:14:42.009275 journal@recovery F·1
+18:14:42.009560 journal@recovery recovering @6
+18:14:42.018327 memdb@flush created L0@8 N·9 S·521B "\x06POP,v21":"\x1cim..ion,v22"
+18:14:42.019228 db@janitor F·5 G·0
+18:14:42.019268 db@open done T·10.058033ms
+18:15:21.311505 db@close closing
+18:15:21.311552 db@close done T·45.593µs

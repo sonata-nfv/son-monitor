@@ -10,3 +10,10 @@ scrape_configs:
   target_groups:
   - labels: {group: development}
     targets: ['pushgateway:9091']
+  - labels: {pop: athens1}
+    targets: ['10.100.32.200:9091']
+  - labels: {pop: athens2}
+    targets: ['10.100.33.2:9091']
+  - labels: {pop: athens3}
+    targets: ['10.100.16.20:9091']
+  
