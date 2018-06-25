@@ -35,9 +35,22 @@ pipeline {
         }
       }
     }
-    stage('Unit Tests') {
+    stage('Unit Tests: Preparation') {
       steps {
-        echo 'Unit Testing..'
+        echo 'Prepear for Unit Tests'
+        sh './test/unittests_preparation.sh'
+      }
+    }
+    stage('Unit Tests: Execution') {
+      steps {
+        echo 'Excute Tests'
+        sh './test/unittests_run_tests.sh'
+      }
+    }
+    stage('Unit Tests: Clean') {
+      steps {
+        echo 'Remove test containers'
+        sh './test/unittests_clean.sh'
       }
     }
     stage('Code Style check') {
