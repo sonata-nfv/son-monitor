@@ -1,6 +1,5 @@
 #!/bin/bash
 
-echo "Deleting unittests containers"
+echo "Run Unit tests"
 
-docker exec -ti test-son-monitor-manager sh -c "cd /opt/Monitoring && python manage.py test"
-
+docker exec -i test-son-monitor-manager sh -c "cd /opt/Monitoring && python manage.py test"
