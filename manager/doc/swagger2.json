@@ -1,0 +1,3790 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "Monitoring API",
+    "version": "1.5"
+  },
+  "host": "pre-int-sp-ath.5gtango.eu:8000",
+  "basePath": "/api/v1",
+  "schemes": [
+    "http"
+  ],
+  "paths": {
+    "/active/service/{service_id}/test": {
+      "delete": {
+        "parameters": [
+          {
+            "in": "path",
+            "name": "service_id",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "No response was specified",
+            "schema": {
+              "$ref": "#/definitions/SntActMonResSerializer"
+            }
+          }
+        },
+        "operationId": "Snt_Act_Mr_Delete_DELETE"
+      }
+    },
+    "/active/service/{service_id}/test/list": {
+      "get": {
+        "parameters": [
+          {
+            "in": "path",
+            "name": "service_id",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "No response was specified",
+            "schema": {
+              "$ref": "#/definitions/SntActMonResSerializer"
+            }
+          }
+        },
+        "operationId": "Snt_Act_Mr_List_GET"
+      }
+    },
+    "/active/service/{service_id}/test/{test_id}/": {
+      "get": {
+        "parameters": [
+          {
+            "in": "path",
+            "name": "service_id",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "path",
+            "name": "test_id",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "No response was specified",
+            "schema": {
+              "$ref": "#/definitions/SntActMonResDetailSerializer"
+            }
+          }
+        },
+        "operationId": "Snt_Act_Mr_Detail_GET"
+      }
+    },
+    "/active/service/{service_id}/test/{test_id}/data": {
+      "post": {
+        "parameters": [
+          {
+            "in": "path",
+            "name": "service_id",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "path",
+            "name": "test_id",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "formData",
+            "name": "data",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "No response was specified",
+            "schema": {
+              "$ref": "#/definitions/SntActMonResDataSerializer"
+            }
+          }
+        },
+        "operationId": "Snt_Act_Mr_Dt_POST"
+      }
+    },
+    "/alerts/rule/{sonata_srv_id}/": {
+      "delete": {
+        "parameters": [
+          {
+            "in": "path",
+            "name": "sonata_srv_id",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "No response was specified",
+            "schema": {
+              "$ref": "#/definitions/SntRulesSerializer"
+            }
+          }
+        },
+        "operationId": "Snt_Rules_Detail_DELETE"
+      }
+    },
+    "/alerts/rules": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "No response was specified",
+            "schema": {
+              "$ref": "#/definitions/SntRulesSerializer"
+            }
+          }
+        },
+        "operationId": "Snt_Rules_List_GET"
+      }
+    },
+    "/alerts/rules/service/{srvID}/": {
+      "get": {
+        "parameters": [
+          {
+            "in": "path",
+            "name": "srvID",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "No response was specified",
+            "schema": {
+              "$ref": "#/definitions/SntRulesPerSrvSerializer"
+            }
+          }
+        },
+        "operationId": "Snt_Rules_Per_Service_List_GET"
+      }
+    },
+    "/alerts/rules/service/{srvID}/configuration": {
+      "post": {
+        "parameters": [
+          {
+            "in": "path",
+            "name": "srvID",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "formData",
+            "name": "rules",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "No response was specified",
+            "schema": {
+              "$ref": "#/definitions/SntRulesConfSerializer"
+            }
+          }
+        },
+        "operationId": "Snt_Ruleconf_POST"
+      }
+    },
+    "/functions": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "No response was specified",
+            "schema": {
+              "$ref": "#/definitions/SntFunctionsSerializer"
+            }
+          }
+        },
+        "operationId": "Snt_Functions_List_GET"
+      }
+    },
+    "/functions/service/{srvID}/": {
+      "get": {
+        "parameters": [
+          {
+            "in": "path",
+            "name": "srvID",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "No response was specified",
+            "schema": {
+              "$ref": "#/definitions/SntFunctionsFullSerializer"
+            }
+          }
+        },
+        "operationId": "Snt_Functions_Per_Service_List_GET"
+      }
+    },
+    "/internal/smtp/creds/{component}": {
+      "get": {
+        "parameters": [
+          {
+            "in": "path",
+            "name": "component",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "No response was specified",
+            "schema": {
+              "$ref": "#/definitions/SntSmtpSerializerCred"
+            }
+          }
+        },
+        "operationId": "Snt_Cred_List_GET"
+      }
+    },
+    "/metrics": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "No response was specified",
+            "schema": {
+              "$ref": "#/definitions/SntMetricsSerializer"
+            }
+          }
+        },
+        "operationId": "Snt_Metrics_List_GET"
+      }
+    },
+    "/metrics/function/{funcID}/": {
+      "get": {
+        "parameters": [
+          {
+            "in": "path",
+            "name": "funcID",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "No response was specified",
+            "schema": {
+              "$ref": "#/definitions/SntMetricsFullSerializer"
+            }
+          }
+        },
+        "operationId": "Snt_Metrics_Per_Function_List_GET"
+      }
+    },
+    "/notification/smtp": {
+      "post": {
+        "parameters": [
+          {
+            "in": "formData",
+            "name": "smtp_server",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "in": "formData",
+            "name": "port",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "in": "formData",
+            "name": "user_name",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "in": "formData",
+            "name": "password",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "formData",
+            "name": "component",
+            "required": true,
+            "type": "string",
+            "enum": [
+              "Alert_Manager"
+            ]
+          },
+          {
+            "in": "formData",
+            "name": "sec_type",
+            "required": true,
+            "type": "string",
+            "enum": [
+              "SSL",
+              "TLS",
+              "SSL_ALL",
+              "TLS_ALL"
+            ]
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "No response was specified",
+            "schema": {
+              "$ref": "#/definitions/SntSmtpSerializerCreate"
+            }
+          }
+        },
+        "operationId": "Snt_Smtp_Create_POST"
+      }
+    },
+    "/notification/smtp/component/{component}/": {
+      "get": {
+        "parameters": [
+          {
+            "in": "path",
+            "name": "component",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "No response was specified",
+            "schema": {
+              "$ref": "#/definitions/SntSmtpSerializerList"
+            }
+          }
+        },
+        "operationId": "Snt_Smtp_List_GET"
+      }
+    },
+    "/notification/smtp/{pk}/": {
+      "delete": {
+        "parameters": [
+          {
+            "in": "path",
+            "name": "pk",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "No response was specified",
+            "schema": {
+              "$ref": "#/definitions/SntSmtpSerializerList"
+            }
+          }
+        },
+        "operationId": "Snt_Smtp_Detail_DELETE"
+      }
+    },
+    "/notification/type/{pk}/": {
+      "delete": {
+        "parameters": [
+          {
+            "in": "path",
+            "name": "pk",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "No response was specified",
+            "schema": {
+              "$ref": "#/definitions/SntNotifTypeSerializer"
+            }
+          }
+        },
+        "operationId": "Snt_Notif_Types_Detail_DELETE"
+      }
+    },
+    "/notification/types": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "No response was specified",
+            "schema": {
+              "$ref": "#/definitions/SntNotifTypeSerializer"
+            }
+          }
+        },
+        "operationId": "Snt_Notif_Types_List_GET"
+      },
+      "post": {
+        "parameters": [
+          {
+            "in": "formData",
+            "name": "type",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "No response was specified",
+            "schema": {
+              "$ref": "#/definitions/SntNotifTypeSerializer"
+            }
+          }
+        },
+        "operationId": "Snt_Notif_Types_List_POST"
+      }
+    },
+    "/policymng/rule/{sonata_srv_id}/": {
+      "delete": {
+        "parameters": [
+          {
+            "in": "path",
+            "name": "sonata_srv_id",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "No response was specified",
+            "schema": {
+              "$ref": "#/definitions/SntRulesSerializer"
+            }
+          }
+        },
+        "operationId": "Snt_Plc_Rules_Detail_DELETE"
+      }
+    },
+    "/policymng/rules": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "No response was specified",
+            "schema": {
+              "$ref": "#/definitions/SntRulesSerializer"
+            }
+          }
+        },
+        "operationId": "Snt_Plc_Rules_List_GET"
+      }
+    },
+    "/policymng/rules/service/{srvID}/": {
+      "get": {
+        "parameters": [
+          {
+            "in": "path",
+            "name": "srvID",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "No response was specified",
+            "schema": {
+              "$ref": "#/definitions/SntRulesPerSrvSerializer"
+            }
+          }
+        },
+        "operationId": "Snt_Plc_Rules_Per_Service_List_GET"
+      }
+    },
+    "/policymng/rules/service/{srvID}/configuration": {
+      "post": {
+        "parameters": [
+          {
+            "in": "path",
+            "name": "srvID",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "formData",
+            "name": "plc_contract",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "formData",
+            "name": "vnfs",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "No response was specified",
+            "schema": {
+              "$ref": "#/definitions/SntPLCRulesConfSerializer"
+            }
+          }
+        },
+        "operationId": "Snt_Plc_Ruleconf_POST"
+      }
+    },
+    "/pop": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "No response was specified",
+            "schema": {
+              "$ref": "#/definitions/SntPOPSerializer"
+            }
+          }
+        },
+        "operationId": "Snt_Pop_List_GET"
+      },
+      "post": {
+        "parameters": [
+          {
+            "in": "formData",
+            "name": "sonata_pop_id",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "formData",
+            "name": "sonata_sp_id",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "formData",
+            "name": "name",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "in": "formData",
+            "name": "prom_url",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "format": "date-time",
+            "in": "formData",
+            "name": "created",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "No response was specified",
+            "schema": {
+              "$ref": "#/definitions/SntPOPSerializer"
+            }
+          }
+        },
+        "operationId": "Snt_Pop_List_POST"
+      }
+    },
+    "/pop/splatform/{spID}/": {
+      "get": {
+        "parameters": [
+          {
+            "in": "path",
+            "name": "spID",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "No response was specified",
+            "schema": {
+              "$ref": "#/definitions/SntPOPSerializer"
+            }
+          }
+        },
+        "operationId": "Snt_Po_Pper_Sp_List_GET"
+      }
+    },
+    "/pop/{sonata_pop_id}/": {
+      "delete": {
+        "parameters": [
+          {
+            "in": "path",
+            "name": "sonata_pop_id",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "No response was specified",
+            "schema": {
+              "$ref": "#/definitions/SntPOPSerializer"
+            }
+          }
+        },
+        "operationId": "Snt_Pop_Detail_DELETE"
+      }
+    },
+    "/prometheus/configuration": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "No response was specified",
+            "schema": {
+              "type": "object"
+            }
+          }
+        },
+        "operationId": "Snt_Prom_Srv_Conf_GET"
+      }
+    },
+    "/prometheus/metrics/data": {
+      "post": {
+        "parameters": [
+          {
+            "in": "formData",
+            "name": "name",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "format": "date-time",
+            "in": "formData",
+            "name": "start",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "format": "date-time",
+            "in": "formData",
+            "name": "end",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "formData",
+            "name": "labels",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "formData",
+            "name": "step",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "No response was specified",
+            "schema": {
+              "$ref": "#/definitions/SntPromMetricSerializer"
+            }
+          }
+        },
+        "operationId": "Snt_Prom_Metric_Data_POST"
+      }
+    },
+    "/prometheus/metrics/list": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "No response was specified",
+            "schema": {
+              "$ref": "#/definitions/promMetricsListSerializer"
+            }
+          }
+        },
+        "operationId": "Snt_Prom_Metric_List_GET"
+      }
+    },
+    "/prometheus/metrics/name/{metricName}/": {
+      "get": {
+        "parameters": [
+          {
+            "in": "path",
+            "name": "metricName",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "No response was specified",
+            "schema": {
+              "$ref": "#/definitions/promMetricsListSerializer"
+            }
+          }
+        },
+        "operationId": "Snt_Prom_Metric_Detail_GET"
+      }
+    },
+    "/prometheus/pop/{popID}/configuration": {
+      "get": {
+        "parameters": [
+          {
+            "in": "path",
+            "name": "popID",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "No response was specified",
+            "schema": {
+              "$ref": "#/definitions/promMetricsListSerializer"
+            }
+          }
+        },
+        "operationId": "Snt_Prom_Srv_Per_Pop_Conf_GET"
+      }
+    },
+    "/prometheus/pop/{popID}/metrics/data": {
+      "post": {
+        "parameters": [
+          {
+            "in": "path",
+            "name": "popID",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "formData",
+            "name": "name",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "format": "date-time",
+            "in": "formData",
+            "name": "start",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "format": "date-time",
+            "in": "formData",
+            "name": "end",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "formData",
+            "name": "labels",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "formData",
+            "name": "step",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "No response was specified",
+            "schema": {
+              "$ref": "#/definitions/SntPromMetricSerializer"
+            }
+          }
+        },
+        "operationId": "Snt_Prom_Metric_Per_Pop_Data_POST"
+      }
+    },
+    "/prometheus/pop/{popID}/metrics/list": {
+      "get": {
+        "parameters": [
+          {
+            "in": "path",
+            "name": "popID",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "No response was specified",
+            "schema": {
+              "$ref": "#/definitions/promMetricsListSerializer"
+            }
+          }
+        },
+        "operationId": "Snt_Prom_Metric_Per_Pop_List_GET"
+      }
+    },
+    "/prometheus/pop/{popID}/metrics/name/{metricName}/": {
+      "get": {
+        "parameters": [
+          {
+            "in": "path",
+            "name": "popID",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "path",
+            "name": "metricName",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "No response was specified",
+            "schema": {
+              "$ref": "#/definitions/promMetricsListSerializer"
+            }
+          }
+        },
+        "operationId": "Snt_Prom_Metric_Per_Pop_Detail_GET"
+      }
+    },
+    "/prometheus/vnf/{vnf_id}/metrics/data": {
+      "post": {
+        "parameters": [
+          {
+            "in": "path",
+            "name": "vnf_id",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "formData",
+            "name": "name",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "format": "date-time",
+            "in": "formData",
+            "name": "start",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "format": "date-time",
+            "in": "formData",
+            "name": "end",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "formData",
+            "name": "labels",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "formData",
+            "name": "step",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "No response was specified",
+            "schema": {
+              "$ref": "#/definitions/SntPromMetricSerializer"
+            }
+          }
+        },
+        "operationId": "Snt_Prom_Metric_Data_POST"
+      }
+    },
+    "/prometheus/vnf/{vnf_id}/metrics/list": {
+      "get": {
+        "parameters": [
+          {
+            "in": "path",
+            "name": "vnf_id",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "No response was specified",
+            "schema": {
+              "$ref": "#/definitions/promMetricsListSerializer"
+            }
+          }
+        },
+        "operationId": "Snt_Prom_Metric_List_Vnf_GET"
+      }
+    },
+    "/prometheus/vnf/{vnf_id}/metrics/name/{metricName}/": {
+      "get": {
+        "parameters": [
+          {
+            "in": "path",
+            "name": "vnf_id",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "path",
+            "name": "metricName",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "No response was specified",
+            "schema": {
+              "$ref": "#/definitions/promMetricsListSerializer"
+            }
+          }
+        },
+        "operationId": "Snt_Prom_Vnf_Metric_Detail_GET"
+      }
+    },
+    "/prometheus/vnf/{vnf_id}/vdu/{vdu_id}/metrics/data": {
+      "post": {
+        "parameters": [
+          {
+            "in": "path",
+            "name": "vnf_id",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "path",
+            "name": "vdu_id",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "formData",
+            "name": "name",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "format": "date-time",
+            "in": "formData",
+            "name": "start",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "format": "date-time",
+            "in": "formData",
+            "name": "end",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "formData",
+            "name": "labels",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "formData",
+            "name": "step",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "No response was specified",
+            "schema": {
+              "$ref": "#/definitions/SntPromMetricSerializer"
+            }
+          }
+        },
+        "operationId": "Snt_Prom_Metric_Data_POST"
+      }
+    },
+    "/prometheus/vnf/{vnf_id}/vdu/{vdu_id}/metrics/list": {
+      "get": {
+        "parameters": [
+          {
+            "in": "path",
+            "name": "vnf_id",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "path",
+            "name": "vdu_id",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "No response was specified",
+            "schema": {
+              "$ref": "#/definitions/promMetricsListSerializer"
+            }
+          }
+        },
+        "operationId": "Snt_Prom_Metric_List_Vnf_Vdu_GET"
+      }
+    },
+    "/service/new": {
+      "post": {
+        "parameters": [
+          {
+            "in": "formData",
+            "name": "service",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "formData",
+            "name": "functions",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "formData",
+            "name": "rules",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "No response was specified",
+            "schema": {
+              "$ref": "#/definitions/NewServiceSerializer"
+            }
+          }
+        },
+        "operationId": "Snt_New_Service_Conf_POST"
+      }
+    },
+    "/service/{srvID}/": {
+      "get": {
+        "parameters": [
+          {
+            "in": "path",
+            "name": "srvID",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "No response was specified",
+            "schema": {
+              "$ref": "#/definitions/SntServicesSerializer"
+            }
+          }
+        },
+        "operationId": "Snt_Service_List_GET"
+      }
+    },
+    "/services": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "No response was specified",
+            "schema": {
+              "$ref": "#/definitions/SntServicesSerializer"
+            }
+          }
+        },
+        "operationId": "Snt_Services_List_GET"
+      },
+      "post": {
+        "parameters": [
+          {
+            "in": "formData",
+            "name": "sonata_srv_id",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "in": "formData",
+            "name": "name",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "in": "formData",
+            "name": "description",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "format": "date-time",
+            "in": "formData",
+            "name": "created",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "in": "formData",
+            "name": "user",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "formData",
+            "name": "host_id",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "in": "formData",
+            "name": "pop_id",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "No response was specified",
+            "schema": {
+              "$ref": "#/definitions/SntServicesSerializer"
+            }
+          }
+        },
+        "operationId": "Snt_Services_List_POST"
+      }
+    },
+    "/services/user/{usrID}/": {
+      "get": {
+        "parameters": [
+          {
+            "in": "path",
+            "name": "usrID",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "No response was specified",
+            "schema": {
+              "$ref": "#/definitions/SntServicesFullSerializer"
+            }
+          }
+        },
+        "operationId": "Snt_Services_Per_User_List_GET"
+      }
+    },
+    "/services/{sonata_srv_id}/": {
+      "delete": {
+        "parameters": [
+          {
+            "in": "path",
+            "name": "sonata_srv_id",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "No response was specified",
+            "schema": {
+              "$ref": "#/definitions/SntServicesDelSerializer"
+            }
+          }
+        },
+        "operationId": "Snt_Services_Detail_DELETE"
+      }
+    },
+    "/slamng/rule/{sonata_srv_id}/": {
+      "delete": {
+        "parameters": [
+          {
+            "in": "path",
+            "name": "sonata_srv_id",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "No response was specified",
+            "schema": {
+              "$ref": "#/definitions/SntRulesSerializer"
+            }
+          }
+        },
+        "operationId": "Snt_Sla_Rules_Detail_DELETE"
+      }
+    },
+    "/slamng/rules": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "No response was specified",
+            "schema": {
+              "$ref": "#/definitions/SntRulesSerializer"
+            }
+          }
+        },
+        "operationId": "Snt_Sla_Rules_List_GET"
+      }
+    },
+    "/slamng/rules/service/{srvID}/": {
+      "get": {
+        "parameters": [
+          {
+            "in": "path",
+            "name": "srvID",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "No response was specified",
+            "schema": {
+              "$ref": "#/definitions/SntRulesPerSrvSerializer"
+            }
+          }
+        },
+        "operationId": "Snt_Sla_Rules_Per_Service_List_GET"
+      }
+    },
+    "/slamng/rules/service/{srvID}/configuration": {
+      "post": {
+        "parameters": [
+          {
+            "in": "path",
+            "name": "srvID",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "formData",
+            "name": "sla_contract",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "formData",
+            "name": "vnfs",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "No response was specified",
+            "schema": {
+              "$ref": "#/definitions/SntSLARulesConfSerializer"
+            }
+          }
+        },
+        "operationId": "Snt_Sla_Ruleconf_POST"
+      }
+    },
+    "/snmp/entities": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "No response was specified",
+            "schema": {
+              "$ref": "#/definitions/SntSNMPEntSerializer"
+            }
+          }
+        },
+        "operationId": "Snt_Snmp_Ent_List_GET"
+      }
+    },
+    "/snmp/entity": {
+      "post": {
+        "parameters": [
+          {
+            "in": "formData",
+            "name": "ip",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "in": "formData",
+            "name": "port",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "formData",
+            "name": "username",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "formData",
+            "name": "password",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "formData",
+            "name": "interval",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "formData",
+            "name": "entity_type",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "formData",
+            "name": "oids",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "formData",
+            "name": "entity_id",
+            "required": true,
+            "type": "string",
+            "enum": [
+              "v3"
+            ]
+          },
+          {
+            "in": "formData",
+            "name": "version",
+            "required": true,
+            "type": "string",
+            "enum": [
+              "MD5"
+            ]
+          },
+          {
+            "in": "formData",
+            "name": "auth_protocol",
+            "required": true,
+            "type": "string",
+            "enum": [
+              "authnoPriv"
+            ]
+          },
+          {
+            "in": "formData",
+            "name": "security_level",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "formData",
+            "name": "status",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "No response was specified",
+            "schema": {
+              "$ref": "#/definitions/SntSNMPEntFullSerializer"
+            }
+          }
+        },
+        "operationId": "Snt_Snmp_Ent_Create_POST"
+      }
+    },
+    "/snmp/entity/{pk}/": {
+      "delete": {
+        "parameters": [
+          {
+            "in": "path",
+            "name": "pk",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "No response was specified",
+            "schema": {
+              "type": "object"
+            }
+          }
+        },
+        "operationId": "Snt_Snmp_Ent_Detail_DELETE"
+      }
+    },
+    "/splatform": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "No response was specified",
+            "schema": {
+              "$ref": "#/definitions/SntSPSerializer"
+            }
+          }
+        },
+        "operationId": "Snt_Sp_List_GET"
+      },
+      "post": {
+        "parameters": [
+          {
+            "in": "formData",
+            "name": "sonata_sp_id",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "formData",
+            "name": "name",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "in": "formData",
+            "name": "manager_url",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "format": "date-time",
+            "in": "formData",
+            "name": "created",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "No response was specified",
+            "schema": {
+              "$ref": "#/definitions/SntSPSerializer"
+            }
+          }
+        },
+        "operationId": "Snt_Sp_List_POST"
+      }
+    },
+    "/splatform/{pk}/": {
+      "delete": {
+        "parameters": [
+          {
+            "in": "path",
+            "name": "pk",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "No response was specified",
+            "schema": {
+              "$ref": "#/definitions/SntSPSerializer"
+            }
+          }
+        },
+        "operationId": "Snt_Sp_Detail_DELETE"
+      }
+    },
+    "/user/{pk}/": {
+      "get": {
+        "parameters": [
+          {
+            "in": "path",
+            "name": "pk",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "No response was specified",
+            "schema": {
+              "$ref": "#/definitions/SntUserSerializer"
+            }
+          }
+        },
+        "operationId": "Snt_User_List_GET"
+      }
+    },
+    "/users": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "No response was specified",
+            "schema": {
+              "$ref": "#/definitions/SntUserSerializer"
+            }
+          }
+        },
+        "operationId": "Snt_Users_List_GET"
+      },
+      "post": {
+        "parameters": [
+          {
+            "in": "formData",
+            "name": "first_name",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "in": "formData",
+            "name": "last_name",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "in": "formData",
+            "name": "email",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "in": "formData",
+            "name": "sonata_userid",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "format": "date-time",
+            "in": "formData",
+            "name": "created",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "in": "formData",
+            "name": "type",
+            "required": false,
+            "type": "string",
+            "enum": [
+              "cst",
+              "dev",
+              "admin"
+            ]
+          },
+          {
+            "in": "formData",
+            "name": "mobile",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "No response was specified",
+            "schema": {
+              "$ref": "#/definitions/SntUserSerializer"
+            }
+          }
+        },
+        "operationId": "Snt_Users_List_POST"
+      }
+    },
+    "/users/type/{type}/": {
+      "get": {
+        "parameters": [
+          {
+            "in": "path",
+            "name": "type",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "No response was specified",
+            "schema": {
+              "$ref": "#/definitions/SntUserSerializer"
+            }
+          }
+        },
+        "operationId": "Snt_User_Per_Type_List_GET"
+      }
+    },
+    "/users/{pk}/": {
+      "delete": {
+        "parameters": [
+          {
+            "in": "path",
+            "name": "pk",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "No response was specified",
+            "schema": {
+              "$ref": "#/definitions/SntUserSerializer"
+            }
+          }
+        },
+        "operationId": "Snt_Users_Detail_DELETE"
+      }
+    },
+    "/ws/new": {
+      "post": {
+        "parameters": [
+          {
+            "in": "formData",
+            "name": "metric",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "formData",
+            "name": "filters",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "No response was specified",
+            "schema": {
+              "$ref": "#/definitions/SntWSreqSerializer"
+            }
+          }
+        },
+        "operationId": "Snt_W_Sreq_POST"
+      }
+    },
+    "/ws/pop/{popID}/new": {
+      "post": {
+        "parameters": [
+          {
+            "in": "path",
+            "name": "popID",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "formData",
+            "name": "metric",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "formData",
+            "name": "filters",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "No response was specified",
+            "schema": {
+              "$ref": "#/definitions/SntWSreqSerializer"
+            }
+          }
+        },
+        "operationId": "Snt_W_Sreq_Per_Pop_POST"
+      }
+    }
+  },
+  "definitions": {
+    "NewServiceSerializer": {
+      "properties": {
+        "functions": {
+          "items": {
+            "$ref": "#/definitions/SntNewFunctionsSerializer"
+          },
+          "type": "array"
+        },
+        "rules": {
+          "items": {
+            "$ref": "#/definitions/SntNewRulesSerializer"
+          },
+          "type": "array"
+        },
+        "service": {
+          "$ref": "#/definitions/SntServicesSerializer"
+        }
+      },
+      "required": [
+        "service",
+        "functions",
+        "rules"
+      ]
+    },
+    "SntActMonResDataSerializer": {
+      "properties": {
+        "data": {
+          "type": "string"
+        },
+        "id": {
+          "format": "int64",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "id",
+        "data"
+      ]
+    },
+    "SntActMonResDetailSerializer": {
+      "properties": {
+        "data": {
+          "type": "string"
+        },
+        "service_id": {
+          "type": "string"
+        },
+        "timestamp": {
+          "format": "date-time",
+          "type": "string"
+        }
+      },
+      "required": [
+        "service_id",
+        "timestamp",
+        "data"
+      ]
+    },
+    "SntActMonResSerializer": {
+      "properties": {
+        "config": {
+          "type": "string"
+        },
+        "service_id": {
+          "type": "string"
+        },
+        "test_id": {
+          "type": "string"
+        },
+        "timestamp": {
+          "format": "date-time",
+          "type": "string"
+        }
+      },
+      "required": [
+        "test_id",
+        "service_id",
+        "timestamp",
+        "config"
+      ]
+    },
+    "SntFunctionsFullSerializer": {
+      "properties": {
+        "created": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "host_id": {
+          "type": "string"
+        },
+        "id": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "name": {
+          "type": "string"
+        },
+        "pop_id": {
+          "type": "string"
+        },
+        "service": {
+          "$ref": "#/definitions/SntServicesSerializer"
+        },
+        "sonata_func_id": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "sonata_func_id",
+        "name",
+        "description",
+        "created",
+        "service",
+        "host_id",
+        "pop_id"
+      ]
+    },
+    "SntFunctionsSerializer": {
+      "properties": {
+        "created": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "host_id": {
+          "type": "string"
+        },
+        "id": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "name": {
+          "type": "string"
+        },
+        "pop_id": {
+          "type": "string"
+        },
+        "service": {
+          "type": "string"
+        },
+        "sonata_func_id": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "sonata_func_id",
+        "name",
+        "description",
+        "created",
+        "service",
+        "host_id",
+        "pop_id"
+      ]
+    },
+    "SntMetricsFullSerializer": {
+      "properties": {
+        "cmd": {
+          "type": "string"
+        },
+        "created": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "function": {
+          "$ref": "#/definitions/SntFunctionsSerializer"
+        },
+        "id": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "interval": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "threshold": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "description",
+        "threshold",
+        "interval",
+        "cmd",
+        "function",
+        "created"
+      ]
+    },
+    "SntMetricsSerializer": {
+      "properties": {
+        "cmd": {
+          "type": "string"
+        },
+        "created": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "function": {
+          "type": "string"
+        },
+        "id": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "interval": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "threshold": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "description",
+        "threshold",
+        "interval",
+        "cmd",
+        "function",
+        "created"
+      ]
+    },
+    "SntNewFunctionsSerializer": {
+      "properties": {
+        "created": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "host_id": {
+          "type": "string"
+        },
+        "metrics": {
+          "items": {
+            "$ref": "#/definitions/SntNewMetricsSerializer"
+          },
+          "type": "array"
+        },
+        "name": {
+          "type": "string"
+        },
+        "pop_id": {
+          "type": "string"
+        },
+        "sonata_func_id": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "sonata_func_id",
+        "name",
+        "description",
+        "created",
+        "host_id",
+        "pop_id",
+        "metrics"
+      ]
+    },
+    "SntNewMetricsSerializer": {
+      "properties": {
+        "cmd": {
+          "type": "string"
+        },
+        "created": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "function": {
+          "type": "string"
+        },
+        "interval": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "threshold": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "name",
+        "description",
+        "threshold",
+        "interval",
+        "cmd",
+        "function",
+        "created"
+      ]
+    },
+    "SntNewRulesSerializer": {
+      "properties": {
+        "condition": {
+          "type": "string"
+        },
+        "created": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "duration": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "notification_type": {
+          "type": "string"
+        },
+        "summary": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "name",
+        "duration",
+        "summary",
+        "description",
+        "condition",
+        "notification_type",
+        "created"
+      ]
+    },
+    "SntNotifTypeSerializer": {
+      "properties": {
+        "id": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "type": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "type"
+      ]
+    },
+    "SntPLCRulesConfSerializer": {
+      "properties": {
+        "plc_contract": {
+          "type": "string"
+        },
+        "vnfs": {
+          "items": {
+            "$ref": "#/definitions/SntRulesVnfSerializer"
+          },
+          "type": "array"
+        }
+      },
+      "required": [
+        "plc_contract",
+        "vnfs"
+      ]
+    },
+    "SntPOPSerializer": {
+      "properties": {
+        "created": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "id": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "name": {
+          "type": "string"
+        },
+        "prom_url": {
+          "type": "string"
+        },
+        "sonata_pop_id": {
+          "type": "string"
+        },
+        "sonata_sp_id": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "sonata_pop_id",
+        "sonata_sp_id",
+        "name",
+        "prom_url",
+        "created"
+      ]
+    },
+    "SntPromMetricSerializer": {
+      "properties": {
+        "end": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "labels": {
+          "items": {
+            "$ref": "#/definitions/promLabelsSerializer"
+          },
+          "type": "array"
+        },
+        "name": {
+          "type": "string"
+        },
+        "start": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "step": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "name",
+        "start",
+        "end",
+        "labels",
+        "step"
+      ]
+    },
+    "SntRulesConfSerializer": {
+      "properties": {
+        "rules": {
+          "items": {
+            "$ref": "#/definitions/SntRulesPerSrvSerializer"
+          },
+          "type": "array"
+        }
+      },
+      "required": [
+        "rules"
+      ]
+    },
+    "SntRulesFSerializer": {
+      "properties": {
+        "condition": {
+          "type": "string"
+        },
+        "created": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "duration": {
+          "type": "string"
+        },
+        "id": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "name": {
+          "type": "string"
+        },
+        "notification_type": {
+          "$ref": "#/definitions/SntNotifTypeSerializer"
+        },
+        "service": {
+          "type": "string"
+        },
+        "summary": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "duration",
+        "summary",
+        "description",
+        "condition",
+        "notification_type",
+        "service",
+        "created"
+      ]
+    },
+    "SntRulesPerSrvSerializer": {
+      "properties": {
+        "condition": {
+          "type": "string"
+        },
+        "created": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "duration": {
+          "type": "string"
+        },
+        "function": {
+          "type": "string"
+        },
+        "id": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "name": {
+          "type": "string"
+        },
+        "notification_type": {
+          "$ref": "#/definitions/SntNotifTypeSerializer"
+        },
+        "summary": {
+          "type": "string"
+        },
+        "vdu": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "function",
+        "vdu",
+        "name",
+        "duration",
+        "summary",
+        "description",
+        "condition",
+        "notification_type",
+        "created"
+      ]
+    },
+    "SntRulesSerializer": {
+      "properties": {
+        "condition": {
+          "type": "string"
+        },
+        "created": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "duration": {
+          "type": "string"
+        },
+        "id": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "name": {
+          "type": "string"
+        },
+        "notification_type": {
+          "$ref": "#/definitions/SntNotifTypeSerializer"
+        },
+        "service": {
+          "$ref": "#/definitions/SntServicesLightSerializer"
+        },
+        "summary": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "duration",
+        "summary",
+        "description",
+        "condition",
+        "notification_type",
+        "service",
+        "created"
+      ]
+    },
+    "SntRulesVduSerializer": {
+      "properties": {
+        "rules": {
+          "items": {
+            "$ref": "#/definitions/SntRulesFSerializer"
+          },
+          "type": "array"
+        },
+        "vdu_id": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "vdu_id",
+        "rules"
+      ]
+    },
+    "SntRulesVnfSerializer": {
+      "properties": {
+        "vdus": {
+          "items": {
+            "$ref": "#/definitions/SntRulesVduSerializer"
+          },
+          "type": "array"
+        },
+        "vnf_id": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "vnf_id",
+        "vdus"
+      ]
+    },
+    "SntSLARulesConfSerializer": {
+      "properties": {
+        "sla_contract": {
+          "type": "string"
+        },
+        "vnfs": {
+          "items": {
+            "$ref": "#/definitions/SntRulesVnfSerializer"
+          },
+          "type": "array"
+        }
+      },
+      "required": [
+        "sla_contract",
+        "vnfs"
+      ]
+    },
+    "SntSNMPEntFullSerializer": {
+      "properties": {
+        "auth_protocol": {
+          "enum": [
+            "MD5"
+          ]
+        },
+        "entity_id": {
+          "type": "string"
+        },
+        "entity_type": {
+          "type": "string"
+        },
+        "id": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "interval": {
+          "type": "string"
+        },
+        "ip": {
+          "type": "string"
+        },
+        "oids": {
+          "items": {
+            "$ref": "#/definitions/SntSNMPOidSerializer"
+          },
+          "type": "array"
+        },
+        "password": {
+          "type": "string"
+        },
+        "port": {
+          "type": "string"
+        },
+        "security_level": {
+          "enum": [
+            "authnoPriv"
+          ]
+        },
+        "status": {
+          "type": "string"
+        },
+        "username": {
+          "type": "string"
+        },
+        "version": {
+          "enum": [
+            "v3"
+          ]
+        }
+      },
+      "required": [
+        "id",
+        "ip",
+        "port",
+        "username",
+        "password",
+        "interval",
+        "entity_type",
+        "oids",
+        "entity_id",
+        "version",
+        "auth_protocol",
+        "security_level",
+        "status"
+      ]
+    },
+    "SntSNMPEntSerializer": {
+      "properties": {
+        "auth_protocol": {
+          "enum": [
+            "MD5"
+          ]
+        },
+        "entity_id": {
+          "type": "string"
+        },
+        "entity_type": {
+          "type": "string"
+        },
+        "id": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "interval": {
+          "type": "string"
+        },
+        "ip": {
+          "type": "string"
+        },
+        "oids": {
+          "items": {
+            "$ref": "#/definitions/SntSNMPOidSerializer"
+          },
+          "type": "array"
+        },
+        "port": {
+          "type": "string"
+        },
+        "security_level": {
+          "enum": [
+            "authnoPriv"
+          ]
+        },
+        "status": {
+          "type": "string"
+        },
+        "username": {
+          "type": "string"
+        },
+        "version": {
+          "enum": [
+            "v3"
+          ]
+        }
+      },
+      "required": [
+        "id",
+        "ip",
+        "port",
+        "username",
+        "interval",
+        "entity_type",
+        "oids",
+        "entity_id",
+        "version",
+        "auth_protocol",
+        "security_level",
+        "status"
+      ]
+    },
+    "SntSNMPOidSerializer": {
+      "properties": {
+        "metric_name": {
+          "type": "string"
+        },
+        "metric_type": {
+          "enum": [
+            "gauge"
+          ]
+        },
+        "mib_name": {
+          "type": "string"
+        },
+        "oid": {
+          "type": "string"
+        },
+        "unit": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "oid",
+        "metric_name",
+        "metric_type",
+        "unit",
+        "mib_name"
+      ]
+    },
+    "SntSPSerializer": {
+      "properties": {
+        "created": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "id": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "manager_url": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "sonata_sp_id": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "sonata_sp_id",
+        "name",
+        "manager_url",
+        "created"
+      ]
+    },
+    "SntServicesDelSerializer": {
+      "properties": {
+        "created": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "host_id": {
+          "type": "string"
+        },
+        "id": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "name": {
+          "type": "string"
+        },
+        "pop_id": {
+          "type": "string"
+        },
+        "sonata_srv_id": {
+          "type": "string"
+        },
+        "user": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        }
+      },
+      "required": [
+        "id",
+        "sonata_srv_id",
+        "name",
+        "description",
+        "created",
+        "user",
+        "host_id",
+        "pop_id"
+      ]
+    },
+    "SntServicesFullSerializer": {
+      "properties": {
+        "created": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "host_id": {
+          "type": "string"
+        },
+        "id": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "name": {
+          "type": "string"
+        },
+        "pop_id": {
+          "type": "string"
+        },
+        "sonata_srv_id": {
+          "type": "string"
+        },
+        "user": {
+          "$ref": "#/definitions/SntUserSerializer"
+        }
+      },
+      "required": [
+        "id",
+        "sonata_srv_id",
+        "name",
+        "description",
+        "created",
+        "user",
+        "host_id",
+        "pop_id"
+      ]
+    },
+    "SntServicesLightSerializer": {
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "sonata_srv_id": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "sonata_srv_id",
+        "name"
+      ]
+    },
+    "SntServicesSerializer": {
+      "properties": {
+        "created": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "host_id": {
+          "type": "string"
+        },
+        "id": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "name": {
+          "type": "string"
+        },
+        "pop_id": {
+          "type": "string"
+        },
+        "sonata_srv_id": {
+          "type": "string"
+        },
+        "user": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        }
+      },
+      "required": [
+        "id",
+        "sonata_srv_id",
+        "name",
+        "description",
+        "created",
+        "user",
+        "host_id",
+        "pop_id"
+      ]
+    },
+    "SntSmtpSerializerCreate": {
+      "properties": {
+        "component": {
+          "enum": [
+            "Alert_Manager"
+          ]
+        },
+        "id": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "password": {
+          "type": "string"
+        },
+        "port": {
+          "type": "string"
+        },
+        "sec_type": {
+          "enum": [
+            "SSL",
+            "TLS",
+            "SSL_ALL",
+            "TLS_ALL"
+          ]
+        },
+        "smtp_server": {
+          "type": "string"
+        },
+        "user_name": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "smtp_server",
+        "port",
+        "user_name",
+        "password",
+        "component",
+        "sec_type"
+      ]
+    },
+    "SntSmtpSerializerCred": {
+      "properties": {
+        "id": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "password": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "password"
+      ]
+    },
+    "SntSmtpSerializerList": {
+      "properties": {
+        "component": {
+          "enum": [
+            "Alert_Manager"
+          ]
+        },
+        "created": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "id": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "port": {
+          "type": "string"
+        },
+        "sec_type": {
+          "enum": [
+            "SSL",
+            "TLS",
+            "SSL_ALL",
+            "TLS_ALL"
+          ]
+        },
+        "smtp_server": {
+          "type": "string"
+        },
+        "user_name": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "smtp_server",
+        "port",
+        "user_name",
+        "component",
+        "sec_type",
+        "created"
+      ]
+    },
+    "SntUserSerializer": {
+      "properties": {
+        "created": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        },
+        "first_name": {
+          "type": "string"
+        },
+        "id": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "last_name": {
+          "type": "string"
+        },
+        "mobile": {
+          "type": "string"
+        },
+        "sonata_userid": {
+          "type": "string"
+        },
+        "type": {
+          "enum": [
+            "cst",
+            "dev",
+            "admin"
+          ]
+        }
+      },
+      "required": [
+        "id",
+        "first_name",
+        "last_name",
+        "email",
+        "sonata_userid",
+        "created",
+        "type",
+        "mobile"
+      ]
+    },
+    "SntWSreqSerializer": {
+      "properties": {
+        "filters": {
+          "items": {
+            "$ref": "#/definitions/wsLabelSerializer"
+          },
+          "type": "array"
+        },
+        "metric": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "metric",
+        "filters"
+      ]
+    },
+    "WriteNewServiceSerializer": {
+      "properties": {
+        "functions": {
+          "items": {
+            "$ref": "#/definitions/SntNewFunctionsSerializer"
+          },
+          "type": "array"
+        },
+        "rules": {
+          "items": {
+            "$ref": "#/definitions/SntNewRulesSerializer"
+          },
+          "type": "array"
+        },
+        "service": {
+          "$ref": "#/definitions/SntServicesSerializer"
+        }
+      },
+      "required": [
+        "service",
+        "functions",
+        "rules"
+      ]
+    },
+    "WriteSntActMonResDataSerializer": {
+      "properties": {
+        "data": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "data"
+      ]
+    },
+    "WriteSntActMonResDetailSerializer": {
+      "properties": {
+        "data": {
+          "type": "string"
+        },
+        "service_id": {
+          "type": "string"
+        },
+        "timestamp": {
+          "format": "date-time",
+          "type": "string"
+        }
+      },
+      "required": [
+        "service_id",
+        "data"
+      ]
+    },
+    "WriteSntActMonResSerializer": {
+      "properties": {
+        "config": {
+          "type": "string"
+        },
+        "service_id": {
+          "type": "string"
+        },
+        "test_id": {
+          "type": "string"
+        },
+        "timestamp": {
+          "format": "date-time",
+          "type": "string"
+        }
+      },
+      "required": [
+        "test_id",
+        "service_id",
+        "config"
+      ]
+    },
+    "WriteSntFunctionsFullSerializer": {
+      "properties": {
+        "created": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "host_id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "pop_id": {
+          "type": "string"
+        },
+        "service": {
+          "$ref": "#/definitions/SntServicesSerializer"
+        },
+        "sonata_func_id": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "description",
+        "service"
+      ]
+    },
+    "WriteSntFunctionsSerializer": {
+      "properties": {
+        "created": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "host_id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "pop_id": {
+          "type": "string"
+        },
+        "service": {
+          "type": "string"
+        },
+        "sonata_func_id": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "description",
+        "service"
+      ]
+    },
+    "WriteSntMetricsFullSerializer": {
+      "properties": {
+        "cmd": {
+          "type": "string"
+        },
+        "created": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "function": {
+          "$ref": "#/definitions/SntFunctionsSerializer"
+        },
+        "interval": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "threshold": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "function"
+      ]
+    },
+    "WriteSntMetricsSerializer": {
+      "properties": {
+        "cmd": {
+          "type": "string"
+        },
+        "created": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "function": {
+          "type": "string"
+        },
+        "interval": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "threshold": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "function"
+      ]
+    },
+    "WriteSntNewFunctionsSerializer": {
+      "properties": {
+        "created": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "host_id": {
+          "type": "string"
+        },
+        "metrics": {
+          "items": {
+            "$ref": "#/definitions/SntNewMetricsSerializer"
+          },
+          "type": "array"
+        },
+        "name": {
+          "type": "string"
+        },
+        "pop_id": {
+          "type": "string"
+        },
+        "sonata_func_id": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "description",
+        "metrics"
+      ]
+    },
+    "WriteSntNewMetricsSerializer": {
+      "properties": {
+        "cmd": {
+          "type": "string"
+        },
+        "created": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "function": {
+          "type": "string"
+        },
+        "interval": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "threshold": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "function"
+      ]
+    },
+    "WriteSntNewRulesSerializer": {
+      "properties": {
+        "condition": {
+          "type": "string"
+        },
+        "created": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "duration": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "notification_type": {
+          "type": "string"
+        },
+        "summary": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "duration",
+        "description",
+        "condition",
+        "notification_type"
+      ]
+    },
+    "WriteSntNotifTypeSerializer": {
+      "properties": {
+        "type": {
+          "type": "string"
+        }
+      }
+    },
+    "WriteSntPLCRulesConfSerializer": {
+      "properties": {
+        "plc_contract": {
+          "type": "string"
+        },
+        "vnfs": {
+          "items": {
+            "$ref": "#/definitions/SntRulesVnfSerializer"
+          },
+          "type": "array"
+        }
+      },
+      "required": [
+        "plc_contract",
+        "vnfs"
+      ]
+    },
+    "WriteSntPOPSerializer": {
+      "properties": {
+        "created": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "prom_url": {
+          "type": "string"
+        },
+        "sonata_pop_id": {
+          "type": "string"
+        },
+        "sonata_sp_id": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "sonata_pop_id",
+        "sonata_sp_id"
+      ]
+    },
+    "WriteSntPromMetricSerializer": {
+      "properties": {
+        "end": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "labels": {
+          "items": {
+            "$ref": "#/definitions/promLabelsSerializer"
+          },
+          "type": "array"
+        },
+        "name": {
+          "type": "string"
+        },
+        "start": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "step": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "name",
+        "start",
+        "end",
+        "labels",
+        "step"
+      ]
+    },
+    "WriteSntRulesConfSerializer": {
+      "properties": {
+        "rules": {
+          "items": {
+            "$ref": "#/definitions/SntRulesPerSrvSerializer"
+          },
+          "type": "array"
+        }
+      },
+      "required": [
+        "rules"
+      ]
+    },
+    "WriteSntRulesFSerializer": {
+      "properties": {
+        "condition": {
+          "type": "string"
+        },
+        "created": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "duration": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "notification_type": {
+          "$ref": "#/definitions/SntNotifTypeSerializer"
+        },
+        "service": {
+          "type": "string"
+        },
+        "summary": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "duration",
+        "description",
+        "condition",
+        "notification_type",
+        "service"
+      ]
+    },
+    "WriteSntRulesPerSrvSerializer": {
+      "properties": {
+        "condition": {
+          "type": "string"
+        },
+        "created": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "duration": {
+          "type": "string"
+        },
+        "function": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "notification_type": {
+          "$ref": "#/definitions/SntNotifTypeSerializer"
+        },
+        "summary": {
+          "type": "string"
+        },
+        "vdu": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "duration",
+        "description",
+        "condition",
+        "notification_type"
+      ]
+    },
+    "WriteSntRulesSerializer": {
+      "properties": {
+        "condition": {
+          "type": "string"
+        },
+        "created": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "duration": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "notification_type": {
+          "$ref": "#/definitions/SntNotifTypeSerializer"
+        },
+        "service": {
+          "$ref": "#/definitions/SntServicesLightSerializer"
+        },
+        "summary": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "duration",
+        "description",
+        "condition",
+        "notification_type",
+        "service"
+      ]
+    },
+    "WriteSntRulesVduSerializer": {
+      "properties": {
+        "rules": {
+          "items": {
+            "$ref": "#/definitions/SntRulesFSerializer"
+          },
+          "type": "array"
+        },
+        "vdu_id": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "vdu_id",
+        "rules"
+      ]
+    },
+    "WriteSntRulesVnfSerializer": {
+      "properties": {
+        "vdus": {
+          "items": {
+            "$ref": "#/definitions/SntRulesVduSerializer"
+          },
+          "type": "array"
+        },
+        "vnf_id": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "vnf_id",
+        "vdus"
+      ]
+    },
+    "WriteSntSLARulesConfSerializer": {
+      "properties": {
+        "sla_contract": {
+          "type": "string"
+        },
+        "vnfs": {
+          "items": {
+            "$ref": "#/definitions/SntRulesVnfSerializer"
+          },
+          "type": "array"
+        }
+      },
+      "required": [
+        "sla_contract",
+        "vnfs"
+      ]
+    },
+    "WriteSntSNMPEntFullSerializer": {
+      "properties": {
+        "auth_protocol": {
+          "enum": [
+            "MD5"
+          ]
+        },
+        "entity_id": {
+          "type": "string"
+        },
+        "entity_type": {
+          "type": "string"
+        },
+        "interval": {
+          "type": "string"
+        },
+        "ip": {
+          "type": "string"
+        },
+        "oids": {
+          "items": {
+            "$ref": "#/definitions/SntSNMPOidSerializer"
+          },
+          "type": "array"
+        },
+        "password": {
+          "type": "string"
+        },
+        "port": {
+          "type": "string"
+        },
+        "security_level": {
+          "enum": [
+            "authnoPriv"
+          ]
+        },
+        "status": {
+          "type": "string"
+        },
+        "username": {
+          "type": "string"
+        },
+        "version": {
+          "enum": [
+            "v3"
+          ]
+        }
+      },
+      "required": [
+        "port",
+        "username",
+        "password",
+        "interval",
+        "entity_type",
+        "oids",
+        "entity_id",
+        "version",
+        "auth_protocol",
+        "security_level"
+      ]
+    },
+    "WriteSntSNMPEntSerializer": {
+      "properties": {
+        "auth_protocol": {
+          "enum": [
+            "MD5"
+          ]
+        },
+        "entity_id": {
+          "type": "string"
+        },
+        "entity_type": {
+          "type": "string"
+        },
+        "interval": {
+          "type": "string"
+        },
+        "ip": {
+          "type": "string"
+        },
+        "oids": {
+          "items": {
+            "$ref": "#/definitions/SntSNMPOidSerializer"
+          },
+          "type": "array"
+        },
+        "port": {
+          "type": "string"
+        },
+        "security_level": {
+          "enum": [
+            "authnoPriv"
+          ]
+        },
+        "status": {
+          "type": "string"
+        },
+        "username": {
+          "type": "string"
+        },
+        "version": {
+          "enum": [
+            "v3"
+          ]
+        }
+      },
+      "required": [
+        "port",
+        "username",
+        "interval",
+        "entity_type",
+        "oids",
+        "entity_id",
+        "version",
+        "auth_protocol",
+        "security_level"
+      ]
+    },
+    "WriteSntSNMPOidSerializer": {
+      "properties": {
+        "metric_name": {
+          "type": "string"
+        },
+        "metric_type": {
+          "enum": [
+            "gauge"
+          ]
+        },
+        "mib_name": {
+          "type": "string"
+        },
+        "oid": {
+          "type": "string"
+        },
+        "unit": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "oid",
+        "metric_name",
+        "metric_type",
+        "unit",
+        "mib_name"
+      ]
+    },
+    "WriteSntSPSerializer": {
+      "properties": {
+        "created": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "manager_url": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "sonata_sp_id": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "sonata_sp_id"
+      ]
+    },
+    "WriteSntServicesDelSerializer": {
+      "properties": {
+        "created": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "host_id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "pop_id": {
+          "type": "string"
+        },
+        "sonata_srv_id": {
+          "type": "string"
+        },
+        "user": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        }
+      },
+      "required": [
+        "description",
+        "user"
+      ]
+    },
+    "WriteSntServicesFullSerializer": {
+      "properties": {
+        "created": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "host_id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "pop_id": {
+          "type": "string"
+        },
+        "sonata_srv_id": {
+          "type": "string"
+        },
+        "user": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        }
+      },
+      "required": [
+        "description",
+        "user"
+      ]
+    },
+    "WriteSntServicesLightSerializer": {
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "sonata_srv_id": {
+          "type": "string"
+        }
+      }
+    },
+    "WriteSntServicesSerializer": {
+      "properties": {
+        "created": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "host_id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "pop_id": {
+          "type": "string"
+        },
+        "sonata_srv_id": {
+          "type": "string"
+        },
+        "user": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        }
+      },
+      "required": [
+        "description",
+        "user"
+      ]
+    },
+    "WriteSntSmtpSerializerCreate": {
+      "properties": {
+        "component": {
+          "enum": [
+            "Alert_Manager"
+          ]
+        },
+        "password": {
+          "type": "string"
+        },
+        "port": {
+          "type": "string"
+        },
+        "sec_type": {
+          "enum": [
+            "SSL",
+            "TLS",
+            "SSL_ALL",
+            "TLS_ALL"
+          ]
+        },
+        "smtp_server": {
+          "type": "string"
+        },
+        "user_name": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "password",
+        "component",
+        "sec_type"
+      ]
+    },
+    "WriteSntSmtpSerializerCred": {
+      "properties": {
+        "password": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "password"
+      ]
+    },
+    "WriteSntSmtpSerializerList": {
+      "properties": {
+        "component": {
+          "enum": [
+            "Alert_Manager"
+          ]
+        },
+        "created": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "port": {
+          "type": "string"
+        },
+        "sec_type": {
+          "enum": [
+            "SSL",
+            "TLS",
+            "SSL_ALL",
+            "TLS_ALL"
+          ]
+        },
+        "smtp_server": {
+          "type": "string"
+        },
+        "user_name": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "component",
+        "sec_type"
+      ]
+    },
+    "WriteSntUserSerializer": {
+      "properties": {
+        "created": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        },
+        "first_name": {
+          "type": "string"
+        },
+        "last_name": {
+          "type": "string"
+        },
+        "mobile": {
+          "type": "string"
+        },
+        "sonata_userid": {
+          "type": "string"
+        },
+        "type": {
+          "enum": [
+            "cst",
+            "dev",
+            "admin"
+          ]
+        }
+      }
+    },
+    "WriteSntWSreqSerializer": {
+      "properties": {
+        "filters": {
+          "items": {
+            "$ref": "#/definitions/wsLabelSerializer"
+          },
+          "type": "array"
+        },
+        "metric": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "metric",
+        "filters"
+      ]
+    },
+    "WritepromLabelsSerializer": {},
+    "WritepromMetricLabelSerializer": {},
+    "WritepromMetricsListSerializer": {
+      "properties": {
+        "metrics": {
+          "items": {
+            "$ref": "#/definitions/promMetricLabelSerializer"
+          },
+          "type": "array"
+        }
+      },
+      "required": [
+        "metrics"
+      ]
+    },
+    "WritewsLabelSerializer": {},
+    "promLabelsSerializer": {},
+    "promMetricLabelSerializer": {},
+    "promMetricsListSerializer": {
+      "properties": {
+        "metrics": {
+          "items": {
+            "$ref": "#/definitions/promMetricLabelSerializer"
+          },
+          "type": "array"
+        }
+      },
+      "required": [
+        "metrics"
+      ]
+    },
+    "wsLabelSerializer": {}
+  }
+}
