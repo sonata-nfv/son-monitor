@@ -20,5 +20,5 @@ docker run -d --name test-son-monitor-pushgateway --net son-mon-unittests --netw
 docker run -d --name test-son-monitor-prometheus --net son-mon-unittests --network-alias prometheus -p 9090:9090 -p 9089:9089 -p 8002:8001 -p 8888:8888 -e RABBIT_URL=broker:5672 --add-host ceilometer:192.168.1.127 --add-host manager:192.168.1.127 --add-host pushgateway:192.168.1.127 --add-host influx:192.168.1.127 registry.sonata-nfv.eu:5000/son-monitor-prometheus
 docker run -d --name test-son-monitor-manager --net son-mon-unittests --network-alias manager -p 8000:8000 -v /tmp/monitoring/mgr:/var/log/apache2 registry.sonata-nfv.eu:5000/son-monitor-manager
 
-
+sleep 10
 
