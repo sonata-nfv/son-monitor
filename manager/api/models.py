@@ -100,7 +100,7 @@ class monitoring_snmp_oids(models.Model):
     oid = models.CharField(max_length=512, blank=False)
     metric_name = models.CharField(max_length=60, blank=False)
     metric_type = models.CharField(max_length=10, choices=MT_TYPE)
-    unit = models.CharField(max_length=10, blank=False)
+    unit = models.CharField(max_length=30, blank=False)
     mib_name = models.CharField(max_length=512, blank=False)
     created = models.DateTimeField(default=timezone.now)
 

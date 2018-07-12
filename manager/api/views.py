@@ -682,7 +682,15 @@ class SntServicesDetail(generics.DestroyAPIView):
         print queryset.count()
 
         if queryset.count() > 0:
-            print 'has to be deleted'
+            # DELETE also the SNMP entities (if any)
+            fcts = monitoring_functions.objects.all().filter(service__sonata_srv_id=srvid)
+            if fcts.count() > 0:
+                for f in fcts:
+                    print f.host_id
+                    snmp_entities = monitoring_snmp_entities.objects.all().filter(Q(entity_id=f.host_id) & Q(entity_type='vnf'))
+                    if snmp_entities.count() > 0:
+                        snmp_entities.update(status='DELETED')
+            print 'Network Service deleted ...'
             queryset.delete()
             cl = Http()
             rsp = cl.DELETE('http://prometheus:9089/prometheus/rules/'+str(srvid),[])            
@@ -739,16 +747,16 @@ class SntNewServiceConf(generics.CreateAPIView):
     def post(self, request, *args, **kwargs):
 
         if not 'service' in request.data:
-            print 'Received new Service notigication: Undefined Service'
+            print 'Received new Service notification: Undefined Service'
             return Response({'error':'Undefined Service'}, status=status.HTTP_400_BAD_REQUEST)
         if not 'functions' in request.data:
-            print 'Received new Service notigication: Undefined Functions'
+            print 'Received new Service notification: Undefined Functions'
             return Response({'error':'Undefined Functions'}, status=status.HTTP_400_BAD_REQUEST)
         if not 'rules' in request.data:
-            print 'Received new Service notigication: Undefined Rules'
+            print 'Received new Service notification: Undefined Rules'
             return Response({'error':'Undefined Rules'}, status=status.HTTP_400_BAD_REQUEST)
 
-        print 'Received new Service notigication: '+ json.dumps(request.data)
+        print 'Received new Service notification: '+ json.dumps(request.data)
 
         service = request.data['service']
         functions = request.data['functions']
@@ -845,6 +853,21 @@ class SntNewServiceConf(generics.CreateAPIView):
                 metric = monitoring_metrics(function=func ,name=m['name'] ,cmd=m['cmd'] ,threshold=m['threshold'] ,interval=m['interval'] ,description=m['description'])
                 metric.save()
         
+            old_snmps = monitoring_snmp_entities.objects.all().filter(entity_id=f['host_id'])
+            if old_snmps.count() > 0:
+                old_snmps.update(status='DELETED')
+
+            oids_status = 0
+            if 'snmp' in f:
+                snmp = f['snmp']
+                ent = monitoring_snmp_entities(entity_id=f['host_id'],version=snmp['version'],auth_protocol=snmp['auth_protocol'],security_level=snmp['security_level'],
+                                               ip=snmp['ip'],port=161,username=snmp['username'],password='supercalifrajilistico',interval=snmp['interval'],entity_type='vnf')
+                ent.save()
+                oids_status = len(snmp['oids'])
+                for o in snmp['oids']:
+                    oid=monitoring_snmp_oids(snmp_entity=ent, oid=o['oid'],metric_name=o['metric_name'],metric_type=o['metric_type'],unit=o['unit'],mib_name=o['mib_name'])
+                    oid.save()
+
         rls = {}
         rls['service'] = service['sonata_srv_id']
         rls['vnf'] = "To be found..."
@@ -873,12 +896,12 @@ class SntNewServiceConf(generics.CreateAPIView):
             cl = Http()
             rsp = cl.POST('http://prometheus:9089/prometheus/rules',[],json.dumps(rls))            
             if rsp == 200:
-                return Response({'status':"success","vnfs":functions_status,"metrics":metrics_status,"rules":rules_status})
+                return Response({'status':"success","vnfs":functions_status,"metrics":metrics_status,"rules":rules_status,"snmp_oids": oids_status})
             else:
                 srv.delete()
                 return Response({'error': 'Service update fail '+str(rsp)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
         else:
-            return Response({'status':"success","vnfs":functions_status,"metrics":metrics_status,"rules":rules_status})
+            return Response({'status':"success","vnfs":functions_status,"metrics":metrics_status,"rules":rules_status,"snmp_oids": oids_status})
 
     def getVnfId(funct_,host_):
         for fn in funct_:
