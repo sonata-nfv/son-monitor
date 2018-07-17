@@ -45,12 +45,12 @@ class Pusher(object):
 
         for g in self.metrics:
             if g._name == metric and g._type == 'gauge':
-                g.labels(id=self.id,snmp_ip=labels['ip'],snmp_port=labels['port']).set(value)
+                g.labels(resource_id=self.id,snmp_ip=labels['ip'],snmp_port=labels['port']).set(value)
                 self.push(job=job)
                 return
 
-        g = Gauge(metric, description , ["id","snmp_ip","snmp_port"], registry=self.registry)
-        g.labels(id=self.id,snmp_ip=labels['ip'],snmp_port=labels['port']).set(value)
+        g = Gauge(metric, description , ["resource_id","snmp_ip","snmp_port"], registry=self.registry)
+        g.labels(resource_id=self.id,snmp_ip=labels['ip'],snmp_port=labels['port']).set(value)
         self.metrics.append(g)
         self.push(job=job)
 
@@ -72,4 +72,4 @@ class Pusher(object):
 
 if __name__ == "__main__":
     p = Pusher('192.168.1.127:9091','node_name',1234562)
-    p.sendGauge(metric='metric_name',description='Say what this metric does',value=127,job='vnf',labels={'id':str(p.id),'instance':'myinstance'})
+    p.sendGauge(metric='metric_name',description='Say what this metric does',value=127,job='vnf',labels={'resource_id':str(p.id),'instance':'myinstance'})
