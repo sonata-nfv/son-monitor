@@ -55,7 +55,7 @@ import json, socket, os, base64
 from drf_multiple_model.views import MultipleModelAPIView
 from httpClient import Http
 from django.db.models import Q
-import datetime
+import datetime, psutil
 from time import timezone
 from django.db import IntegrityError
 
@@ -134,7 +134,7 @@ class SntPLCRuleconf(generics.CreateAPIView):
                         rl['duration'] = r['duration']
                         rl['notification_type'] = r['notification_type']
                         rl['condition'] = r['condition']
-                        rl['labels'] = ["serviceID=\"" + srvid + "\", tp=\"PLC\""]
+                        rl['labels'] = ["serviceID=\"" + srvid + "\", functionID=\""+rls['vnf']+"\", tp=\"PLC\""]
                         rls['rules'].append(rl)
                     srvrules += rules
 
@@ -239,7 +239,7 @@ class SntSLARuleconf(generics.CreateAPIView):
                         rl['duration'] = r['duration']
                         rl['notification_type'] = r['notification_type']
                         rl['condition'] = r['condition']
-                        rl['labels'] = ["serviceID=\"" + srvid + "\", tp=\"SLA\""]
+                        rl['labels'] = ["serviceID=\"" + srvid + "\", functionID=\""+rls['vnf']+"\", tp=\"SLA\""]
                         rls['rules'].append(rl)
                     srvrules += rules
 
@@ -1264,4 +1264,6 @@ class SntActMRDt(generics.CreateAPIView):
 
 class Ping(generics.ListAPIView):
     def get(self, request, *args, **kwargs):
-        return Response({'MonMan':'OK'}, status=status.HTTP_200_OK)
+        p = psutil.Process(os.getpid())
+        uptime = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(p.create_time())) + ' UTC'
+        return Response({'alive_since':uptime}, status=status.HTTP_200_OK)
