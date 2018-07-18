@@ -134,7 +134,7 @@ class SntPLCRuleconf(generics.CreateAPIView):
                         rl['duration'] = r['duration']
                         rl['notification_type'] = r['notification_type']
                         rl['condition'] = r['condition']
-                        rl['labels'] = ["serviceID=\"" + srvid + "\", tp=\"PLC\""]
+                        rl['labels'] = ["serviceID=\"" + srvid + "\", functionID=\""+rls['vnf']+"\", tp=\"PLC\""]
                         rls['rules'].append(rl)
                     srvrules += rules
 
@@ -239,7 +239,7 @@ class SntSLARuleconf(generics.CreateAPIView):
                         rl['duration'] = r['duration']
                         rl['notification_type'] = r['notification_type']
                         rl['condition'] = r['condition']
-                        rl['labels'] = ["serviceID=\"" + srvid + "\", tp=\"SLA\""]
+                        rl['labels'] = ["serviceID=\"" + srvid + "\", functionID=\""+rls['vnf']+"\", tp=\"SLA\""]
                         rls['rules'].append(rl)
                     srvrules += rules
 
