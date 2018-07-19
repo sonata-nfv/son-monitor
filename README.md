@@ -52,7 +52,7 @@ docker run -d --name son-monitor-manager --add-host postgsql:127.0.0.1 --add-hos
 Documentation of the RESTful API of Monitoring Manager is provided by a Swagger UI in url: http://127.0.0.1:8000/docs.
 
 ## License
-SONATA gui is published under Apache 2.0 license. Please see the LICENSE file for more details.
+Monitoring framework is published under Apache 2.0 license. Please see the LICENSE file for more details.
 
 #### Lead Developers
 

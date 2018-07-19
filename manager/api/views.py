@@ -859,14 +859,15 @@ class SntNewServiceConf(generics.CreateAPIView):
 
             oids_status = 0
             if 'snmp' in f:
-                snmp = f['snmp']
-                ent = monitoring_snmp_entities(entity_id=f['host_id'],version=snmp['version'],auth_protocol=snmp['auth_protocol'],security_level=snmp['security_level'],
+                if len(f['snmp']) > 0:
+                    snmp = f['snmp']
+                    ent = monitoring_snmp_entities(entity_id=f['host_id'],version=snmp['version'],auth_protocol=snmp['auth_protocol'],security_level=snmp['security_level'],
                                                ip=snmp['ip'],port=161,username=snmp['username'],password='supercalifrajilistico',interval=snmp['interval'],entity_type='vnf')
-                ent.save()
-                oids_status = len(snmp['oids'])
-                for o in snmp['oids']:
-                    oid=monitoring_snmp_oids(snmp_entity=ent, oid=o['oid'],metric_name=o['metric_name'],metric_type=o['metric_type'],unit=o['unit'],mib_name=o['mib_name'])
-                    oid.save()
+                    ent.save()
+                    oids_status = len(snmp['oids'])
+                    for o in snmp['oids']:
+                        oid=monitoring_snmp_oids(snmp_entity=ent, oid=o['oid'],metric_name=o['metric_name'],metric_type=o['metric_type'],unit=o['unit'],mib_name=o['mib_name'])
+                        oid.save()
 
         rls = {}
         rls['service'] = service['sonata_srv_id']
