@@ -79,8 +79,8 @@ class PShld():
         entities = self.session.query(snmp_entities).filter_by(status=status_)
         for ent in entities:
             oids = self.session.query(snmp_oids).filter_by(snmp_entity_id=ent.id)
-            if oids.count() == 0:
-                continue
+            #if oids.count() == 0:
+                #continue
             e = ent
             e.oids = oids
             l.append(e)
