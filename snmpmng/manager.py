@@ -86,7 +86,8 @@ def getEntities():
         w = {}
         sh = snmp_entity.Scheduler(e,logger)
         sh.timer.start()
-        workers[str(e.ip + ':' + e.port)] = sh
+        workers[str(str(ent.id) + ":" + e.ip + ':' + e.port)] = sh
+    h.session.close()
 
 def updateEntities():
     h = psHandler.PShld(usr_=db_uname, psw_=db_upass, host_=postgres_host, port_=postgres_port)
@@ -96,10 +97,10 @@ def updateEntities():
         logger.info('No UPDATED SNMP AGENTS FOUND')
 
     for ent in ents:
-        lb = str(ent.ip + ':' + ent.port)
+        lb = str(str(ent.id) + ":"+ ent.ip + ':' + ent.port)
         if lb in workers:
-            workers[str(ent.ip + ':' + ent.port)].stopThread()
-            del workers[str(ent.ip + ':' + ent.port)]
+            workers[str(str(ent.id) + ":"+ ent.ip + ':' + ent.port)].stopThread()
+            del workers[str(str(ent.id) + ":"+ ent.ip + ':' + ent.port)]
         e = snmp_entity.Server(ip_=ent.ip, port_=ent.port, tm_int_=ent.interval, ent_type_=ent.entity_type,
                                ent_id_=ent.entity_id, logger_=logger, pw_srv_=prometh_server)
         e.credentials(ent.username, ent.password, ent.auth_protocol, ent.security_level)
@@ -109,16 +110,17 @@ def updateEntities():
 
         sh = snmp_entity.Scheduler(e,logger)
         sh.timer.start()
-        workers[str(e.ip + ':' + e.port)] = sh
+        workers[str(str(ent.id) + ':' + e.ip + ':' + e.port)] = sh
         h.updateEntStatus(host_=e.ip,port_=e.port,status_='ACTIVE')
         logger.info('SNMP ENTITY UPDATED '+ str(e.ip + ':' + e.port))
 
     for ent in dl_ents:
-        lb = str(ent.ip + ':' + ent.port)
-        h.deleteEntity(host_=ent.ip, port_=ent.port)
+        lb = str(str(ent.id) + ":"+ ent.ip + ':' + ent.port)
+        h.deleteEntity(id_=ent.id, host_=ent.ip, port_=ent.port)
         if lb in workers:
             workers[lb].stopThread()
             del workers[lb]
+    h.session.close()
 
 
 if __name__ == '__main__':
