@@ -98,7 +98,7 @@ class PShld():
         for ent in entities:
             oid = self.session.query(snmp_oids).filter_by(snmp_entity_id=ent.id)
             oid.delete(synchronize_session=False)
-        entity.delete(synchronize_session=False)
+        entities.delete(synchronize_session=False)
         self.session.commit()
 
 if __name__ == '__main__':
