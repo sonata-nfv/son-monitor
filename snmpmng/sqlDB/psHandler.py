@@ -79,12 +79,11 @@ class PShld():
         entities = self.session.query(snmp_entities).filter_by(status=status_)
         for ent in entities:
             oids = self.session.query(snmp_oids).filter_by(snmp_entity_id=ent.id)
-            if oids.count() == 0:
-                continue
+            #if oids.count() == 0:
+                #continue
             e = ent
             e.oids = oids
             l.append(e)
-        self.session.close()
         return l
 
     def updateEntStatus(self,host_,port_,status_):
@@ -93,14 +92,14 @@ class PShld():
             ent.status = status_
             print (ent.ip, ent.port, ent.status)
         self.session.commit()
-        self.session.close()
 
-    def deleteEntity(self,host_,port_):
-        entity = self.session.query(snmp_entities).filter_by(ip=host_, port=port_)
-        oid = self.session.query(snmp_oids).filter_by(snmp_entity_id=entity[0].id).delete(synchronize_session=False)
-        entity.delete(synchronize_session=False)
+    def deleteEntity(self,id_,host_,port_):
+        entities = self.session.query(snmp_entities).filter_by(id=id_, ip=host_, port=port_)
+        for ent in entities:
+            oid = self.session.query(snmp_oids).filter_by(snmp_entity_id=ent.id)
+            oid.delete(synchronize_session=False)
+        entities.delete(synchronize_session=False)
         self.session.commit()
-        self.session.close()
 
 if __name__ == '__main__':
     h = PShld(usr_='monitoringuser',psw_='sonata',host_='localhost',port_=5433)
