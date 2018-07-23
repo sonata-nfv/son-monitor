@@ -49,9 +49,9 @@ STYLE_CHOICES = sorted((item, item) for item in get_all_styles())
 
 
 class monitoring_snmp_entities(models.Model):
-    VER = (('v3', 'v3'),)
-    AUTH_PROT = (('MD5', 'MD5'),)
-    SEC_LEV = (('authnoPriv', 'authnoPriv'),)
+    VER = (('v3', 'v3'),('v2', 'v2'),('v1', 'v1'),)
+    AUTH_PROT = (('MD5', 'MD5'),('None', 'None'),)
+    SEC_LEV = (('authnoPriv', 'authnoPriv'),('None', 'None'),)
     STATUS = (('UPDATED', 'UPDATED'), ('DISABLED', 'DISABLED'),)
     ip = models.GenericIPAddressField(default={})
     port = models.CharField(max_length=6, blank=False)

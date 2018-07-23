@@ -36,8 +36,13 @@ from snmp.prompw import Pusher
 
 class Server(object):
 
-    def __init__(self, ip_, port_, tm_int_, ent_type_, ent_id_,logger_, pw_srv_):
-        self.version = 3
+    def __init__(self, ip_, port_, tm_int_, ent_type_, ent_id_,logger_, pw_srv_, version_):
+        if version_ == 'v1':
+            self.version = 1
+        elif version_ == 'v2':
+            self.version = 2
+        elif version_ == 'v3':
+            self.version = 3
         self.auth_protocol = 'MD5'
         self.secutity_level = 'authnoPriv'
         self.creds = {}

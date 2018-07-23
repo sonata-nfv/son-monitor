@@ -52,9 +52,14 @@ class Scheduler(object):
         for id in self.snmp_server.oids.keys():
             oids.append(ObjectType(ObjectIdentity(id)))
 
+        if self.snmp_server.creds['user'] == 'public':
+            ct = CommunityData('public')
+        else:
+            ct = UsmUserData(self.snmp_server.creds['user'], self.snmp_server.creds['pass'])
+
         errorIndication, errorStatus, errorIndex, varBinds = next(
             getCmd(SnmpEngine(),
-                   UsmUserData(self.snmp_server.creds['user'], self.snmp_server.creds['pass']),
+                   ct,
                    UdpTransportTarget((self.snmp_server.ip, self.snmp_server.port)),
                    ContextData(),
                    *oids
