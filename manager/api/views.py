@@ -1188,6 +1188,25 @@ class SntPromMetricData(generics.CreateAPIView):
             response = data
         return Response(response)
 
+class SntPromMetricDataPerVnf(generics.CreateAPIView):
+    serializer_class = SntPromMetricSerializer
+    
+
+    def post(self, request, *args, **kwargs):
+        mt = ProData('prometheus', 9090)
+        vnfid = self.kwargs['vnf_id']
+        queryset = monitoring_functions.objects.all()
+        vnf = queryset.filter(sonata_func_id=vnfid)
+        request.data["labels"] = [{"labeltag":"resource_id", "labelid":vnf[0].host_id}]
+        data = mt.getTimeRangeDataVnf(request.data)
+        response = {}
+        # print data
+        try:
+            response['metrics'] = data['data']
+        except KeyError:
+            response = data
+        return Response(response)
+
 class SntPromMetricDetail(generics.ListAPIView):
     serializer_class = promMetricsListSerializer
     def get(self, request, *args, **kwargs):

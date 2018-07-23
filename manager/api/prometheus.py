@@ -108,7 +108,7 @@ class ProData(object):
 
     def getMetricsResId(self,id):
         now = int(time.time())
-        path = "".join(("/api/v1/series?match[]={id=\""+id+"\"}&start=", str(now-60), "&end=",str(now)))
+        path = "".join(("/api/v1/series?match[]={resource_id=\""+id+"\"}&start=", str(now-60), "&end=",str(now)))
         #print path
         d = self.HttpGet(self.srv_addr,self.srv_port,path)
         resp = []
@@ -130,11 +130,31 @@ class ProData(object):
         return d
 
     def getMetricDetail(self, vdu, metric_name):
-        path = "".join(("/api/v1/query?query=", str(metric_name), "{id=\""+vdu+"\"}"))
+        path = "".join(("/api/v1/query?query=", str(metric_name), "{resource_id=\""+vdu+"\"}"))
         d = self.HttpGet(self.srv_addr,self.srv_port,path)
         return d
 
     def getTimeRangeData(self, req):
+        try:
+            if len(req['labels']) == 0:
+                path = "".join(("/api/v1/query_range?query=",req['name'],"&start=",req['start'],"&end=",req['end'],"&step=",req['step'] ))
+            elif len(req['labels']) == 1:
+                l='{'+req['labels'][0]['labeltag']+'="'+req['labels'][0]['labelid']+'"}'
+                path = "".join(("/api/v1/query_range?query=",req['name'],l,"&start=",req['start'],"&end=",req['end'],"&step=",req['step'] ))
+            else:
+                ls = "{"
+                for lb in req['labels']:
+                    ls+=lb['labeltag']+'="'+lb['labelid']+'",'
+                ls = ls[:-1]
+                ls+='}'
+                path = "".join(("/api/v1/query_range?query=",req['name'],ls,"&start=",req['start'],"&end=",req['end'],"&step=",req['step'] ))
+        except KeyError:
+            path = "".join(("/api/v1/query_range?query=",req['name'],"&start=",req['start'],"&end=",req['end'],"&step=",req['step'] ))
+        print path
+        d = self.HttpGet(self.srv_addr,self.srv_port,path)
+        return d
+
+    def getTimeRangeDataVnf(self, req):
         try:
             if len(req['labels']) == 0:
                 path = "".join(("/api/v1/query_range?query=",req['name'],"&start=",req['start'],"&end=",req['end'],"&step=",req['step'] ))
