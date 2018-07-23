@@ -87,8 +87,8 @@ urlpatterns2 = [
     url(r'^api/v1/prometheus/vnf/(?P<vnf_id>[^/]+)/vdu/(?P<vdu_id>[^/]+)/metrics/list$', views.SntPromMetricListVnfVdu.as_view()), 
 	url(r'^api/v1/prometheus/metrics/name/(?P<metricName>[^/]+)/$', views.SntPromMetricDetail.as_view()),
     url(r'^api/v1/prometheus/vnf/(?P<vnf_id>[^/]+)/metrics/name/(?P<metricName>[^/]+)/$', views.SntPromVnfMetricDetail.as_view()),
-    url(r'^api/v1/prometheus/vnf/(?P<vnf_id>[^/]+)/vdu/{vdu_id}/metrics/data$', views.SntPromMetricData.as_view()),
-    url(r'^api/v1/prometheus/vnf/(?P<vnf_id>[^/]+)/metrics/data$', views.SntPromMetricData.as_view()), 
+    url(r'^api/v1/prometheus/vnf/(?P<vnf_id>[^/]+)/vdu/{vdu_id}/metrics/data$', views.SntPromMetricDataPerVnf.as_view()),
+    url(r'^api/v1/prometheus/vnf/(?P<vnf_id>[^/]+)/metrics/data$', views.SntPromMetricDataPerVnf.as_view()), 
 	url(r'^api/v1/prometheus/metrics/data$', views.SntPromMetricData.as_view()),
 	url(r'^api/v1/prometheus/configuration$', views.SntPromSrvConf.as_view()),
 
