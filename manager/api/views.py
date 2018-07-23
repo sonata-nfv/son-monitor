@@ -764,6 +764,7 @@ class SntNewServiceConf(generics.CreateAPIView):
         functions_status='NULL'
         metrics_status= 'NULL'
         rules_status='NULL'
+        oids_status='NULL'
 
         usr = None
         if 'sonata_usr' in service:
