@@ -107,7 +107,7 @@ def emailConsumer(pool_):
             msgs = pool_
             if debug == 1:
                 print 'send mails : ' + json.dumps(msgs) +' number of mails: '+ "".join(str(len(msgs)))
-            mailNotf.msgs2send(msgs)
+            #mailNotf.msgs2send(msgs)
             del pool_[:]
             #msg = pool_[0]
             #del pool_[0]
