@@ -66,11 +66,11 @@ class Scheduler(object):
                    ))
 
         if errorIndication:
-            self.logger.error(errorIndication.prettyPrint())
+            self.logger.error(errorIndication)
             print(errorIndication)
         elif errorStatus:
-            self.logger.error(errorStatus.prettyPrint())
-            print('%s at %s' % (errorStatus.prettyPrint(),
+            self.logger.error(errorStatus)
+            print('%s at %s' % (errorStatus,
                                 errorIndex and varBinds[int(errorIndex) - 1][0] or '?'))
         else:
             return varBinds
@@ -95,7 +95,7 @@ class Scheduler(object):
                     self.logger.info('%s get values for entity %s %s metric: %s' % (self.uuid, self.snmp_server.ip, self.snmp_server.port, varBind[0]) )
                     oid = self.snmp_server.updateVal(varBind)
             except Exception as e:
-                self.logger.exception(e)
+                self.logger.exception(str(e)
                 print(str(e))
             except:
                 self.logger.error("General error on retrieving snmp oid: {0} ".format(sys.exc_info()[0]))
