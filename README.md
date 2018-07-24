@@ -40,7 +40,7 @@ docker build -f snmpmng/Dockerfile -t registry.sonata-nfv.eu:5000/son-monitor-sn
  * Pushgateway==0.2.0 (Apache 2.0)
 
 ### Contributing
-To contribute to the development of the SONATA gui you have to fork the repository, commit new code and create pull requests.
+To contribute to the development of the 5GTango/SONATA monitoring framwork you have to fork the repository, commit new code and create pull requests.
 
 ## Installation
 ```
