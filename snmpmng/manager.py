@@ -78,7 +78,7 @@ def getEntities():
 
     for ent in ents:
         e = snmp_entity.Server(ip_=ent.ip, port_=ent.port, tm_int_=ent.interval, ent_type_=ent.entity_type,
-                               ent_id_=ent.entity_id, logger_=logger, pw_srv_=prometh_server)
+                               ent_id_=ent.entity_id, logger_=logger, pw_srv_=prometh_server, version_=ent.version)
         e.credentials(ent.username, ent.password, ent.auth_protocol, ent.security_level)
         for oid in ent.oids:
             o = snmp_entity.oid(oid.oid, oid.metric_name, oid.unit, oid.mib_name)
@@ -102,7 +102,7 @@ def updateEntities():
             workers[str(str(ent.id) + ":"+ ent.ip + ':' + ent.port)].stopThread()
             del workers[str(str(ent.id) + ":"+ ent.ip + ':' + ent.port)]
         e = snmp_entity.Server(ip_=ent.ip, port_=ent.port, tm_int_=ent.interval, ent_type_=ent.entity_type,
-                               ent_id_=ent.entity_id, logger_=logger, pw_srv_=prometh_server)
+                               ent_id_=ent.entity_id, logger_=logger, pw_srv_=prometh_server,version_=ent.version)
         e.credentials(ent.username, ent.password, ent.auth_protocol, ent.security_level)
         for oid in ent.oids:
             o = snmp_entity.oid(oid.oid, oid.metric_name, oid.unit, oid.mib_name)
