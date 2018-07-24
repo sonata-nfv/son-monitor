@@ -95,7 +95,7 @@ class Scheduler(object):
                     self.logger.info('%s get values for entity %s %s metric: %s' % (self.uuid, self.snmp_server.ip, self.snmp_server.port, varBind[0]) )
                     oid = self.snmp_server.updateVal(varBind)
             except Exception as e:
-                self.logger.exception(str(e)
+                self.logger.exception(str(e))
                 print(str(e))
             except:
                 self.logger.error("General error on retrieving snmp oid: {0} ".format(sys.exc_info()[0]))
