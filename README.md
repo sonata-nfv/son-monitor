@@ -14,7 +14,7 @@ SONATA's monitoring system based on following services:
 
 3. [Prometheus pushgateway](https://github.com/sonata-nfv/son-monitor/tree/master/pushgateway): Despite the fact that the default approach from prometheus is to retrieve the metrics data by performing http get requests to exporters (containers, vms etc). The usage of http post methods from exporters to Prometheus has many advantages like no need for exporters to implement a web socket in order to be reached from prometheus. So, there is no need to reconfigure prometheus each time a VNF is created or changes ip address etc.
 
-4. [SNMP server](https://github.com/sonata-nfv/son-monitor/tree/master/snmpmng): Monitoring framwork provides a mechanism (based on SNMP protocol) in order to collect metrics from vnfs which supports this fuctionatily. The needed snmp information (ex. port, oids, metric names etc) are defined from the inside the vnf descriptor.  
+4. [SNMP manager](https://github.com/sonata-nfv/son-monitor/tree/master/snmpmng): Monitoring framwork provides a mechanism (based on SNMP protocol) in order to collect metrics from vnfs which supports this fuctionatily. The needed snmp information (ex. port, oids, metric names etc) are defined from the inside the vnf descriptor.  
 
 ### Building
 Each micro service of the framework is executed in its own Docker container. Building steps are defined in a Dockerfile of each service
