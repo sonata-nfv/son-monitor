@@ -53,7 +53,7 @@ docker run -d --name son-monitor-snmpmng -e POSTGS_PORT=<postgres_port> -e POSTG
 ```
 
 ## Usage
-Documentation of the RESTful API of Monitoring Manager is provided by a Swagger UI in url: http://<monitoring_manager>:8000/docs and also in [5GTango documantation page](https://sonata-nfv.github.io/tng-doc/).
+Documentation of the RESTful API of Monitoring Manager is provided by a Swagger UI from each instance of the [Monitoring Manager] (http://127.0.0.1:8000/docs) and also in [5GTango documantation page](https://sonata-nfv.github.io/tng-doc/).
 
 ## License
 Monitoring framework is published under Apache 2.0 license. Please see the LICENSE file for more details.
