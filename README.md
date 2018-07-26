@@ -8,13 +8,13 @@
 ## Development
 SONATA's monitoring system is based on following services:
 
-1. [Monitoring manager](https://github.com/sonata-nfv/son-monitor/tree/master/manager): Is a Django/rest-framework server combined with a relational database (mysql,postgres ect). Monitoring manager relates each metric in Prometheus DB with Sonata's monitored entities like NS/VNFs, VMs and VIMs.
+1. [Monitoring manager](https://github.com/sonata-nfv/son-monitor/tree/master/manager): is a Django/rest-framework server including a relational database (mysql,postgres ect) that relates each monitoring metric in Prometheus DB (timeseries) with Sonata's monitored entities like NS/VNFs, VMs and VIMs.
 
-2. [Prometheus server](https://github.com/sonata-nfv/son-monitor/tree/master/prometheus): Prometheus is an open-source systems monitoring and alerting toolkit, its a standalone server not depending on network storage or other remote services. 
+2. [Prometheus server](https://github.com/sonata-nfv/son-monitor/tree/master/prometheus): Prometheus is an open-source monitoring and alerting toolkit, which is bundled in a standalone server, independent of any strict requirements, like network storage or dependency on remote services. 
 
-3. [Prometheus pushgateway](https://github.com/sonata-nfv/son-monitor/tree/master/pushgateway): Despite the fact that the default approach from prometheus is to retrieve the metrics data by performing http get requests to exporters (containers, vms etc). The usage of http post methods from exporters to Prometheus has many advantages like no need for exporters to implement a web socket in order to be reached from prometheus. So, there is no need to reconfigure prometheus each time a VNF is created or changes ip address etc.
+3. [Prometheus pushgateway](https://github.com/sonata-nfv/son-monitor/tree/master/pushgateway): Despite the fact that the default approach proposed by Prometheus is to retrieve the metrics data by performing http get requests to exporters (containers, vms etc), the utilization of Pushgateway might provide several advantages in Sonata implementation, like no need for exporters to implement a web socket in order to be reached from Prometheus, no need to reconfigure Prometheus each time a VNF is created or changes IP address etc. In that sense, Pushgateway functoinality is supported by the current implementation of Sonata monitoring framework.
 
-4. [SNMP manager](https://github.com/sonata-nfv/son-monitor/tree/master/snmpmng): Monitoring framwork provides a mechanism (based on SNMP protocol) in order to collect metrics from vnfs which supports this fuctionatily. The needed snmp information (ex. port, oids, metric names etc) are defined from the inside the vnf descriptor.  
+4. [SNMP manager](https://github.com/sonata-nfv/son-monitor/tree/master/snmpmng): Monitoring framework provides a mechanism (based on SNMP protocol) to collect metrics from VNFs which supports this fuctionality. The needed SNMP information (i.e. port, OIDs, metric names etc.) are defined within the VNF descriptor.  
 
 ### Building
 Each micro service of the framework is executed in its own Docker container. Building steps are defined in a Dockerfile of each service
