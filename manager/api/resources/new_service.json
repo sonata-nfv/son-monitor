@@ -1,0 +1,54 @@
+{
+	"service": {
+		"sonata_srv_id": "005606ed-be7d-4ce3-983c-847039e3a5a3",
+		"name": "sonata-mon-test",
+		"description": "Test NS",
+		"pop_id": null,
+		"sonata_usr": {
+			"phone": null,
+			"email": "user@email.com"
+		},
+		"host_id": null
+	},
+	"functions": [{
+		"sonata_func_id": "24f89c1a-1259-4a1f-b0fd-c3ae99a4b626",
+		"name": "test-vnf",
+		"description": "Test VNF.",
+		"pop_id": "123",
+		"host_id": "0123456789",
+		"metrics": [{
+			"name": "vm_cpu_perc_test",
+			"interval": null,
+			"units": "Percentage",
+			"cmd": null,
+			"description": null,
+			"threshold": null
+		}],
+		"snmp": {
+			"ip": "127.0.0.1",
+			"username": "authOnlyUser",
+			"password": "supercalifrajilistico",
+			"interval": 5,
+            "port":161,
+			"entity_id": "0123456789",
+			"version": "v3",
+			"auth_protocol": "MD5",
+			"security_level": "authnoPriv",
+			"oids": [{
+				"oid": "1.3.6.1.4.1.8072.1.3.2.3.1.2.18.104.97.112.114.111.120.121.45.85.112.116.105.109.101.95.115.101.99",
+				"metric_name": "haproxy-Uptime_sec",
+				"metric_type": "gauge",
+				"unit": "secs",
+				"mib_name": "NET-SNMP-EXTEND-MIB::nsExtendOutputFull"
+			}]
+		}
+	}],
+	"rules": [{
+		"name": "mon:rule:vm_cpu_perc_test",
+		"duration": "2s",
+		"notification_type": 1,
+		"condition": "0123456789:vm_cpu_perc_test > 90",
+		"summary": "cpu-perc-test",
+		"description": "if cpu exceeds 90%"
+	}]
+}
