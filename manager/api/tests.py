@@ -34,7 +34,7 @@ from django.test import TestCase
 
 from api.models import monitoring_users
 from api.views import SntServiceList
-import requests,os
+import json, requests,os
 
 # Create your tests here.
 
