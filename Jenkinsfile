@@ -10,27 +10,27 @@ pipeline {
         }
         stage('son-monitor-manager') {
           steps {
-            sh 'docker build -t registry.sonata-nfv.eu:5000/son-monitor-manager -f manager/Dockerfile manager/'
+            sh 'docker build -t registry.sonata-nfv.eu:5000/son-monitor-manager:v4.0 -f manager/Dockerfile manager/'
           }
         }
         stage('son-monitor-prometheus') {
           steps {
-            sh 'docker build -t registry.sonata-nfv.eu:5000/son-monitor-prometheus -f prometheus/Dockerfile prometheus/'
+            sh 'docker build -t registry.sonata-nfv.eu:5000/son-monitor-prometheus:v4.0 -f prometheus/Dockerfile prometheus/'
           }
         }
         stage('son-monitor-pushgateway') {
           steps {
-            sh 'docker build -t registry.sonata-nfv.eu:5000/son-monitor-pushgateway -f pushgateway/Dockerfile pushgateway/'
+            sh 'docker build -t registry.sonata-nfv.eu:5000/son-monitor-pushgateway:v4.0 -f pushgateway/Dockerfile pushgateway/'
           }
         }
         stage('son-monitor-influxdb') {
           steps {
-            sh 'docker build -t registry.sonata-nfv.eu:5000/son-monitor-influxdb -f influxDB/Dockerfile influxDB/'
+            sh 'docker build -t registry.sonata-nfv.eu:5000/son-monitor-influxdb:v4.0 -f influxDB/Dockerfile influxDB/'
           }
         }
         stage('son-monitor-snmpmng') {
           steps {
-            sh 'docker build -t registry.sonata-nfv.eu:5000/son-monitor-snmpmng -f snmpmng/Dockerfile snmpmng/'
+            sh 'docker build -t registry.sonata-nfv.eu:5000/son-monitor-snmpmng:v4.0 -f snmpmng/Dockerfile snmpmng/'
           }
         }
       }
@@ -70,36 +70,36 @@ pipeline {
         }
         stage('son-monitor-manager') {
           steps {
-            sh 'docker push registry.sonata-nfv.eu:5000/son-monitor-manager'
+            sh 'docker push registry.sonata-nfv.eu:5000/son-monitor-manager:v4.0'
           }
         }
         stage('son-monitor-prometheus') {
           steps {
-            sh 'docker push registry.sonata-nfv.eu:5000/son-monitor-prometheus'
+            sh 'docker push registry.sonata-nfv.eu:5000/son-monitor-prometheus:v4.0'
           }
         }
         stage('son-monitor-pushgateway') {
           steps {
-            sh 'docker push registry.sonata-nfv.eu:5000/son-monitor-pushgateway'
+            sh 'docker push registry.sonata-nfv.eu:5000/son-monitor-pushgateway:v4.0'
           }
         }
         stage('son-monitor-influxdb') {
           steps {
-            sh 'docker push registry.sonata-nfv.eu:5000/son-monitor-influxdb'
+            sh 'docker push registry.sonata-nfv.eu:5000/son-monitor-influxdb:v4.0'
           }
         }
         stage('son-monitor-snmpmng') {
           steps {
-            sh 'docker push registry.sonata-nfv.eu:5000/son-monitor-snmpmng'
+            sh 'docker push registry.sonata-nfv.eu:5000/son-monitor-snmpmng:v4.0'
           }
         }
       }
     }
-    stage('Deployment in pre integration') {
+    stage('Deployment in sta-sp-v4.0') {
       parallel {
-        stage('Deployment in pre integration') {
+        stage('Deployment in sta-sp-v4.0') {
           steps {
-            echo 'Deploying in pre integration...'
+            echo 'Deploying in sta-sp-v4.0...'
           }
         }
         stage('Deploying') {
@@ -107,16 +107,13 @@ pipeline {
             sh 'rm -rf tng-devops || true'
             sh 'git clone https://github.com/sonata-nfv/tng-devops.git'
             dir(path: 'tng-devops') {
-              sh 'ansible-playbook roles/sp.yml -i environments -e "target=pre-int-sp component=monitoring"'
+              sh 'ansible-playbook roles/sp.yml -i environments -e "target=sta-sp-v4.0 component=monitoring"'
             }
           }
         }
       }
     }
     stage('Promoting containers to integration env') {
-      when {
-         branch 'master'
-      }
       parallel {
         stage('Publishing containers to int') {
           steps {
@@ -125,40 +122,37 @@ pipeline {
         }
         stage('son-monitor-manager') {
           steps {
-            sh 'docker tag registry.sonata-nfv.eu:5000/son-monitor-manager:latest registry.sonata-nfv.eu:5000/son-monitor-manager:int'
-            sh 'docker push  registry.sonata-nfv.eu:5000/son-monitor-manager:int'
+            sh 'docker tag registry.sonata-nfv.eu:5000/son-monitor-manager:v4.0 registry.sonata-nfv.eu:5000/son-monitor-manager:v4.0'
+            sh 'docker push  registry.sonata-nfv.eu:5000/son-monitor-manager:v4.0'
           }
         }
         stage('son-monitor-prometheus') {
           steps {
-            sh 'docker tag registry.sonata-nfv.eu:5000/son-monitor-prometheus:latest registry.sonata-nfv.eu:5000/son-monitor-prometheus:int'
-            sh 'docker push  registry.sonata-nfv.eu:5000/son-monitor-prometheus:int'
+            sh 'docker tag registry.sonata-nfv.eu:5000/son-monitor-prometheus:v4.0 registry.sonata-nfv.eu:5000/son-monitor-prometheus:v4.0'
+            sh 'docker push  registry.sonata-nfv.eu:5000/son-monitor-prometheus:v4.0'
           }
         }
         stage('son-monitor-pushgateway') {
           steps {
-            sh 'docker tag registry.sonata-nfv.eu:5000/son-monitor-pushgateway:latest registry.sonata-nfv.eu:5000/son-monitor-pushgateway:int'
-            sh 'docker push  registry.sonata-nfv.eu:5000/son-monitor-pushgateway:int'
+            sh 'docker tag registry.sonata-nfv.eu:5000/son-monitor-pushgateway:v4.0 registry.sonata-nfv.eu:5000/son-monitor-pushgateway:v4.0'
+            sh 'docker push  registry.sonata-nfv.eu:5000/son-monitor-pushgateway:v4.0'
           }
         }
         stage('son-monitor-influxdb') {
           steps {
-            sh 'docker tag registry.sonata-nfv.eu:5000/son-monitor-influxdb:latest registry.sonata-nfv.eu:5000/son-monitor-influxdb:int'
-            sh 'docker push  registry.sonata-nfv.eu:5000/son-monitor-influxdb:int'
+            sh 'docker tag registry.sonata-nfv.eu:5000/son-monitor-influxdb:v4.0 registry.sonata-nfv.eu:5000/son-monitor-influxdb:v4.0'
+            sh 'docker push  registry.sonata-nfv.eu:5000/son-monitor-influxdb:v4.0'
           }
         }
         stage('son-monitor-snmpmng') {
           steps {
-            sh 'docker tag registry.sonata-nfv.eu:5000/son-monitor-snmpmng:latest registry.sonata-nfv.eu:5000/son-monitor-snmpmng:int'
-            sh 'docker push  registry.sonata-nfv.eu:5000/son-monitor-snmpmng:int'
+            sh 'docker tag registry.sonata-nfv.eu:5000/son-monitor-snmpmng:v4.0 registry.sonata-nfv.eu:5000/son-monitor-snmpmng:v4.0'
+            sh 'docker push  registry.sonata-nfv.eu:5000/son-monitor-snmpmng:v4.0'
           }
         }
       }
     }
     stage('Deployment in integration') {
-      when {
-         branch 'master'
-      }
       parallel {
         stage('Deployment in integration') {
           steps {
@@ -180,10 +174,8 @@ pipeline {
   post {
     success {
       emailext(subject: "SUCCESS: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'", body: """<p>SUCCESS: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]':</p>
-                        <p>Check console output at &QUOT;<a href='${env.BUILD_URL}'>${env.JOB_NAME} [${env.BUILD_NUMBER}]</a>&QUOT;</p>""", recipientProviders: [[$class: 'DevelopersRecipientProvider']])
-      
+                        <p>Check console output at &QUOT;<a href='${env.BUILD_URL}'>${env.JOB_NAME} [${env.BUILD_NUMBER}]</a>&QUOT;</p>""", recipientProviders: [[$class: 'DevelopersRecipientProvider']]) 
     }
-    
     failure {
       emailext(subject: "FAILED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'", body: """<p>FAILED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]':</p>
                         <p>Check console output at &QUOT;<a href='${env.BUILD_URL}'>${env.JOB_NAME} [${env.BUILD_NUMBER}]</a>&QUOT;</p>""", recipientProviders: [[$class: 'DevelopersRecipientProvider']])
