@@ -153,9 +153,6 @@ pipeline {
       }
     }
     stage('Deployment in integration') {
-      when {
-         branch 'master'
-      }
       parallel {
         stage('Deployment in integration') {
           steps {
