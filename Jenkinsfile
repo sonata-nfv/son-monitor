@@ -35,19 +35,22 @@ pipeline {
         }
       }
     }
-    stage('Unit Tests: Preparation') {
+    stage('Tests: Preparation') {
       steps {
-        echo 'Prepear for Unit Tests'
+        echo 'Prepear for Tests'
         sh './test/unittests_preparation.sh'
       }
     }
-    stage('Unit Tests: Execution') {
+    stage('Tests: Execution') {
       steps {
-        echo 'Excute Tests'
+        echo 'Excute Unit Tests'
         sh './test/unittests_run_tests.sh'
+
+        echo 'Excute Component Integration Tests'
+        sh './test/inttests_run_tests.sh'
       }
     }
-    stage('Unit Tests: Clean') {
+    stage('Tests: Clean') {
       steps {
         echo 'Remove test containers'
         sh './test/unittests_clean.sh'
