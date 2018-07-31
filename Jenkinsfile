@@ -114,9 +114,6 @@ pipeline {
       }
     }
     stage('Promoting containers to integration env') {
-      when {
-         branch 'master'
-      }
       parallel {
         stage('Publishing containers to int') {
           steps {
@@ -156,9 +153,6 @@ pipeline {
       }
     }
     stage('Deployment in integration') {
-      when {
-         branch 'master'
-      }
       parallel {
         stage('Deployment in integration') {
           steps {
@@ -181,14 +175,10 @@ pipeline {
     success {
       emailext(subject: "SUCCESS: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'", body: """<p>SUCCESS: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]':</p>
                         <p>Check console output at &QUOT;<a href='${env.BUILD_URL}'>${env.JOB_NAME} [${env.BUILD_NUMBER}]</a>&QUOT;</p>""", recipientProviders: [[$class: 'DevelopersRecipientProvider']])
-      
     }
-    
     failure {
       emailext(subject: "FAILED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'", body: """<p>FAILED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]':</p>
-                        <p>Check console output at &QUOT;<a href='${env.BUILD_URL}'>${env.JOB_NAME} [${env.BUILD_NUMBER}]</a>&QUOT;</p>""", recipientProviders: [[$class: 'DevelopersRecipientProvider']])
-      
+                        <p>Check console output at &QUOT;<a href='${env.BUILD_URL}'>${env.JOB_NAME} [${env.BUILD_NUMBER}]</a>&QUOT;</p>""", recipientProviders: [[$class: 'DevelopersRecipientProvider']]) 
     }
-    
   }
 }
