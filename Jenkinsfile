@@ -134,7 +134,7 @@ pipeline {
         }
         stage('son-monitor-pushgateway') {
           steps {
-            sh 'docker tag registry.sonata-nfv.eu:5000/son-monitor-pushgateway:v4.0registry.sonata-nfv.eu:5000/son-monitor-pushgateway:v4.0'
+            sh 'docker tag registry.sonata-nfv.eu:5000/son-monitor-pushgateway:v4.0 registry.sonata-nfv.eu:5000/son-monitor-pushgateway:v4.0'
             sh 'docker push  registry.sonata-nfv.eu:5000/son-monitor-pushgateway:v4.0'
           }
         }
