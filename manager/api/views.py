@@ -694,7 +694,10 @@ class SntServicesDetail(generics.DestroyAPIView):
             queryset.delete()
             cl = Http()
             rsp = cl.DELETE('http://prometheus:9089/prometheus/rules/'+str(srvid),[])            
-            print rsp
+            time.sleep(1)
+            rsp = cl.DELETE('http://prometheus:9089/prometheus/rules/sla-' + str(srvid), [])
+            time.sleep(1)
+            rsp = cl.DELETE('http://prometheus:9089/prometheus/rules/plc-' + str(srvid), [])
             print 'Service ' +srvid +' removed'
             return  Response({'staus':"service removed"}, status=status.HTTP_204_NO_CONTENT)
         else:
