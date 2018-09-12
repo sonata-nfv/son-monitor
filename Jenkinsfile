@@ -113,63 +113,6 @@ pipeline {
         }
       }
     }
-    stage('Promoting containers to integration env') {
-      parallel {
-        stage('Publishing containers to int') {
-          steps {
-            echo 'Promoting containers to integration'
-          }
-        }
-        stage('son-monitor-manager') {
-          steps {
-            sh 'docker tag registry.sonata-nfv.eu:5000/son-monitor-manager:v4.0 registry.sonata-nfv.eu:5000/son-monitor-manager:v4.0'
-            sh 'docker push  registry.sonata-nfv.eu:5000/son-monitor-manager:v4.0'
-          }
-        }
-        stage('son-monitor-prometheus') {
-          steps {
-            sh 'docker tag registry.sonata-nfv.eu:5000/son-monitor-prometheus:v4.0 registry.sonata-nfv.eu:5000/son-monitor-prometheus:v4.0'
-            sh 'docker push  registry.sonata-nfv.eu:5000/son-monitor-prometheus:v4.0'
-          }
-        }
-        stage('son-monitor-pushgateway') {
-          steps {
-            sh 'docker tag registry.sonata-nfv.eu:5000/son-monitor-pushgateway:v4.0 registry.sonata-nfv.eu:5000/son-monitor-pushgateway:v4.0'
-            sh 'docker push  registry.sonata-nfv.eu:5000/son-monitor-pushgateway:v4.0'
-          }
-        }
-        stage('son-monitor-influxdb') {
-          steps {
-            sh 'docker tag registry.sonata-nfv.eu:5000/son-monitor-influxdb:v4.0 registry.sonata-nfv.eu:5000/son-monitor-influxdb:v4.0'
-            sh 'docker push  registry.sonata-nfv.eu:5000/son-monitor-influxdb:v4.0'
-          }
-        }
-        stage('son-monitor-snmpmng') {
-          steps {
-            sh 'docker tag registry.sonata-nfv.eu:5000/son-monitor-snmpmng:v4.0 registry.sonata-nfv.eu:5000/son-monitor-snmpmng:v4.0'
-            sh 'docker push  registry.sonata-nfv.eu:5000/son-monitor-snmpmng:v4.0'
-          }
-        }
-      }
-    }
-    stage('Deployment in integration') {
-      parallel {
-        stage('Deployment in integration') {
-          steps {
-            echo 'Deploying in integration...'
-          }
-        }
-        stage('Deploying') {
-          steps {
-            sh 'rm -rf tng-devops || true'
-            sh 'git clone https://github.com/sonata-nfv/tng-devops.git'
-            dir(path: 'tng-devops') {
-              sh 'ansible-playbook roles/sp.yml -i environments -e "target=int-sp component=monitoring"'
-            }
-          }
-        }
-      }
-    }
   }
   post {
     success {
