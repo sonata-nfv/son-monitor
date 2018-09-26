@@ -174,7 +174,7 @@ def rabbitConsumer(pool_):
             del pool_[0]
             if debug == 1:
                 print 'send rabbitmq : ' + msg['alertname'] + ' '+ msg['exported_instance'] +' '+ type +' remain: '+ "".join(str(len(pool_)))
-        
+        time.sleep(0.2)
 
 def getRabbitUrl():
     if os.environ.has_key('RABBIT_URL'):
