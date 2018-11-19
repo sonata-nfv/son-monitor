@@ -1,0 +1,32 @@
+alerting:
+  alertmanagers:
+  - static_configs:
+    - targets: ['alertmanager:9093']
+remote_write:
+  - url: "http://influx:8086/api/v1/prom/write?db=prometheus"
+global: {evaluation_interval: 5s, scrape_interval: 5s}
+rule_files: [/opt/Monitoring/prometheus/rules/test.yaml]
+scrape_configs:
+- job_name: pushgateway
+  static_configs:
+  - targets: ['pushgateway:9091']
+- job_name: prometheus
+  static_configs:
+  - targets: ['localhost:9090']
+- job_name: pop_athens1
+  static_configs:
+  - targets: ['10.100.32.200:9091']
+- job_name: pop_athens2
+  static_configs:
+  - targets: ['10.100.33.2:9091']
+- job_name: pop_athens3
+  static_configs:
+  - targets: ['10.100.16.20:9091']
+- honor_labels: true
+  job_name: netdata_pop_athens1
+  metrics_path: /api/v1/allmetrics
+  params:
+    format: [prometheus]
+    source: [as-collected]
+  static_configs:
+  - targets: ['10.100.32.200:19999']

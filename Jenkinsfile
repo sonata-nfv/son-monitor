@@ -28,6 +28,11 @@ pipeline {
             sh 'docker build -t registry.sonata-nfv.eu:5000/son-monitor-influxdb -f influxDB/Dockerfile influxDB/'
           }
         }
+        stage('son-monitor-alertmanager') {
+          steps {
+            sh 'docker build -t registry.sonata-nfv.eu:5000/son-monitor-alertmanager -f alertmanager/Dockerfile alertmanager/'
+          }
+        }
         stage('son-monitor-snmpmng') {
           steps {
             sh 'docker build -t registry.sonata-nfv.eu:5000/son-monitor-snmpmng -f snmpmng/Dockerfile snmpmng/'
@@ -88,6 +93,11 @@ pipeline {
             sh 'docker push registry.sonata-nfv.eu:5000/son-monitor-influxdb'
           }
         }
+        stage('son-monitor-alertmanager') {
+          steps {
+            sh 'docker push registry.sonata-nfv.eu:5000/son-monitor-alertmanager'
+          }
+        }
         stage('son-monitor-snmpmng') {
           steps {
             sh 'docker push registry.sonata-nfv.eu:5000/son-monitor-snmpmng'
@@ -142,6 +152,12 @@ pipeline {
           steps {
             sh 'docker tag registry.sonata-nfv.eu:5000/son-monitor-influxdb:latest registry.sonata-nfv.eu:5000/son-monitor-influxdb:int'
             sh 'docker push  registry.sonata-nfv.eu:5000/son-monitor-influxdb:int'
+          }
+        }
+        stage('son-monitor-alertmanager') {
+          steps {
+            sh 'docker tag registry.sonata-nfv.eu:5000/son-monitor-alertmanager:latest registry.sonata-nfv.eu:5000/son-monitor-alertmanager:int'
+            sh 'docker push  registry.sonata-nfv.eu:5000/son-monitor-alertmanager:int'
           }
         }
         stage('son-monitor-snmpmng') {

@@ -1,0 +1,323 @@
+groups:
+- name: 5baca658-3b70-488c-931b-4001a7ce8123
+  rules:
+  - alert: mon_rule_vm_mem_perc_00
+    annotations: {summary: Trigger events if memory is greater than 2.}
+    expr: ' vm_mem_perc{id="0035703e-afc5-46fc-acbf-0b57df8019c1"} >2'
+    for: 10s
+    labels: {serviceID: 5baca658-3b70-488c-931b-4001a7ce8123, tp: DEV}
+  - alert: mon_rule_vm_mem_perc_01
+    annotations: {summary: Trigger events if memory is greater than 2.}
+    expr: ' vm_mem_perc{id="0035703e-afc5-46fc-acbf-0b57df8019c1"} >2'
+    for: 10s
+    labels: {serviceID: 5baca658-3b70-488c-931b-4001a7ce8123, tp: DEV}
+  - alert: mon_rule_vm_mem_perc_02
+    annotations: {summary: Trigger events if memory is greater than 2.}
+    expr: ' vm_mem_perc{id="0035703e-afc5-46fc-acbf-0b57df8019c1"} >2'
+    for: 10s
+    labels: {serviceID: 5baca658-3b70-488c-931b-4001a7ce8123, tp: DEV}
+  - alert: mon_rule_vm_mem_perc_03
+    annotations: {summary: Trigger events if memory is greater than 2.}
+    expr: ' vm_mem_perc{id="0035703e-afc5-46fc-acbf-0b57df8019c1"} >2'
+    for: 10s
+    labels: {serviceID: 5baca658-3b70-488c-931b-4001a7ce8123, tp: DEV}
+  - alert: mon_rule_vm_mem_perc_04
+    annotations: {summary: Trigger events if memory is greater than 2.}
+    expr: ' vm_mem_perc{id="0035703e-afc5-46fc-acbf-0b57df8019c1"} >2'
+    for: 10s
+    labels: {serviceID: 5baca658-3b70-488c-931b-4001a7ce8123, tp: DEV}
+  - alert: mon_rule_vm_mem_perc_05
+    annotations: {summary: Trigger events if memory is greater than 2.}
+    expr: ' vm_mem_perc{id="0035703e-afc5-46fc-acbf-0b57df8019c1"} >2'
+    for: 10s
+    labels: {serviceID: 5baca658-3b70-488c-931b-4001a7ce8123, tp: DEV}
+  - alert: mon_rule_vm_mem_perc_06
+    annotations: {summary: Trigger events if memory is greater than 2.}
+    expr: ' vm_mem_perc{id="0035703e-afc5-46fc-acbf-0b57df8019c1"} >2'
+    for: 10s
+    labels: {serviceID: 5baca658-3b70-488c-931b-4001a7ce8123, tp: DEV}
+  - alert: mon_rule_vm_mem_perc_07
+    annotations: {summary: Trigger events if memory is greater than 2.}
+    expr: ' vm_mem_perc{id="0035703e-afc5-46fc-acbf-0b57df8019c1"} >2'
+    for: 10s
+    labels: {serviceID: 5baca658-3b70-488c-931b-4001a7ce8123, tp: DEV}
+  - alert: mon_rule_vm_mem_perc_08
+    annotations: {summary: Trigger events if memory is greater than 2.}
+    expr: ' vm_mem_perc{id="0035703e-afc5-46fc-acbf-0b57df8019c1"} >2'
+    for: 10s
+    labels: {serviceID: 5baca658-3b70-488c-931b-4001a7ce8123, tp: DEV}
+  - alert: mon_rule_vm_mem_perc_09
+    annotations: {summary: Trigger events if memory is greater than 2.}
+    expr: ' vm_mem_perc{id="0035703e-afc5-46fc-acbf-0b57df8019c1"} >2'
+    for: 10s
+    labels: {serviceID: 5baca658-3b70-488c-931b-4001a7ce8123, tp: DEV}
+  - alert: mon_rule_vm_mem_perc_10
+    annotations: {summary: Trigger events if memory is greater than 2.}
+    expr: ' vm_mem_perc{id="0035703e-afc5-46fc-acbf-0b57df8019c1"} >2'
+    for: 10s
+    labels: {serviceID: 5baca658-3b70-488c-931b-4001a7ce8123, tp: DEV}
+  - alert: mon_rule_vm_mem_perc_11
+    annotations: {summary: Trigger events if memory is greater than 2.}
+    expr: ' vm_mem_perc{id="0035703e-afc5-46fc-acbf-0b57df8019c1"} >2'
+    for: 10s
+    labels: {serviceID: 5baca658-3b70-488c-931b-4001a7ce8123, tp: DEV}
+  - alert: mon_rule_vm_mem_perc_12
+    annotations: {summary: Trigger events if memory is greater than 2.}
+    expr: ' vm_mem_perc{id="0035703e-afc5-46fc-acbf-0b57df8019c1"} >2'
+    for: 10s
+    labels: {serviceID: 5baca658-3b70-488c-931b-4001a7ce8123, tp: DEV}
+  - alert: mon_rule_vm_mem_perc_13
+    annotations: {summary: Trigger events if memory is greater than 2.}
+    expr: ' vm_mem_perc{id="0035703e-afc5-46fc-acbf-0b57df8019c1"} >2'
+    for: 10s
+    labels: {serviceID: 5baca658-3b70-488c-931b-4001a7ce8123, tp: DEV}
+  - alert: mon_rule_vm_mem_perc_14
+    annotations: {summary: Trigger events if memory is greater than 2.}
+    expr: ' vm_mem_perc{id="0035703e-afc5-46fc-acbf-0b57df8019c1"} >2'
+    for: 10s
+    labels: {serviceID: 5baca658-3b70-488c-931b-4001a7ce8123, tp: DEV}
+  - alert: mon_rule_vm_mem_perc_15
+    annotations: {summary: Trigger events if memory is greater than 2.}
+    expr: ' vm_mem_perc{id="0035703e-afc5-46fc-acbf-0b57df8019c1"} >2'
+    for: 10s
+    labels: {serviceID: 5baca658-3b70-488c-931b-4001a7ce8123, tp: DEV}
+  - alert: mon_rule_vm_mem_perc_16
+    annotations: {summary: Trigger events if memory is greater than 2.}
+    expr: ' vm_mem_perc{id="0035703e-afc5-46fc-acbf-0b57df8019c1"} >2'
+    for: 10s
+    labels: {serviceID: 5baca658-3b70-488c-931b-4001a7ce8123, tp: DEV}
+  - alert: mon_rule_vm_mem_perc_17
+    annotations: {summary: Trigger events if memory is greater than 2.}
+    expr: ' vm_mem_perc{id="0035703e-afc5-46fc-acbf-0b57df8019c1"} >2'
+    for: 10s
+    labels: {serviceID: 5baca658-3b70-488c-931b-4001a7ce8123, tp: DEV}
+  - alert: mon_rule_vm_mem_perc_18
+    annotations: {summary: Trigger events if memory is greater than 2.}
+    expr: ' vm_mem_perc{id="0035703e-afc5-46fc-acbf-0b57df8019c1"} >2'
+    for: 10s
+    labels: {serviceID: 5baca658-3b70-488c-931b-4001a7ce8123, tp: DEV}
+  - alert: mon_rule_vm_mem_perc_19
+    annotations: {summary: Trigger events if memory is greater than 2.}
+    expr: ' vm_mem_perc{id="0035703e-afc5-46fc-acbf-0b57df8019c1"} >2'
+    for: 10s
+    labels: {serviceID: 5baca658-3b70-488c-931b-4001a7ce8123, tp: DEV}
+  - alert: mon_rule_vm_mem_perc_20
+    annotations: {summary: Trigger events if memory is greater than 2.}
+    expr: ' vm_mem_perc{id="0035703e-afc5-46fc-acbf-0b57df8019c1"} >2'
+    for: 10s
+    labels: {serviceID: 5baca658-3b70-488c-931b-4001a7ce8123, tp: DEV}
+  - alert: mon_rule_vm_mem_perc_21
+    annotations: {summary: Trigger events if memory is greater than 2.}
+    expr: ' vm_mem_perc{id="0035703e-afc5-46fc-acbf-0b57df8019c1"} >2'
+    for: 10s
+    labels: {serviceID: 5baca658-3b70-488c-931b-4001a7ce8123, tp: DEV}
+  - alert: mon_rule_vm_mem_perc_22
+    annotations: {summary: Trigger events if memory is greater than 2.}
+    expr: ' vm_mem_perc{id="0035703e-afc5-46fc-acbf-0b57df8019c1"} >2'
+    for: 10s
+    labels: {serviceID: 5baca658-3b70-488c-931b-4001a7ce8123, tp: DEV}
+  - alert: mon_rule_vm_mem_perc_22
+    annotations: {summary: Trigger events if memory is greater than 2.}
+    expr: ' vm_mem_perc{id="0035703e-afc5-46fc-acbf-0b57df8019c1"} >2'
+    for: 10s
+    labels: {serviceID: 5baca658-3b70-488c-931b-4001a7ce8123, tp: DEV}
+  - alert: mon_rule_vm_mem_perc_23
+    annotations: {summary: Trigger events if memory is greater than 2.}
+    expr: ' vm_mem_perc{id="0035703e-afc5-46fc-acbf-0b57df8019c1"} >2'
+    for: 10s
+    labels: {serviceID: 5baca658-3b70-488c-931b-4001a7ce8123, tp: DEV}
+  - alert: mon_rule_vm_mem_perc_24
+    annotations: {summary: Trigger events if memory is greater than 2.}
+    expr: ' vm_mem_perc{id="0035703e-afc5-46fc-acbf-0b57df8019c1"} >2'
+    for: 10s
+    labels: {serviceID: 5baca658-3b70-488c-931b-4001a7ce8123, tp: DEV}
+  - alert: mon_rule_vm_mem_perc_25
+    annotations: {summary: Trigger events if memory is greater than 2.}
+    expr: ' vm_mem_perc{id="0035703e-afc5-46fc-acbf-0b57df8019c1"} >2'
+    for: 10s
+    labels: {serviceID: 5baca658-3b70-488c-931b-4001a7ce8123, tp: DEV}
+  - alert: mon_rule_vm_mem_perc_26
+    annotations: {summary: Trigger events if memory is greater than 2.}
+    expr: ' vm_mem_perc{id="0035703e-afc5-46fc-acbf-0b57df8019c1"} >2'
+    for: 10s
+    labels: {serviceID: 5baca658-3b70-488c-931b-4001a7ce8123, tp: DEV}
+  - alert: mon_rule_vm_mem_perc_27
+    annotations: {summary: Trigger events if memory is greater than 2.}
+    expr: ' vm_mem_perc{id="0035703e-afc5-46fc-acbf-0b57df8019c1"} >2'
+    for: 10s
+    labels: {serviceID: 5baca658-3b70-488c-931b-4001a7ce8123, tp: DEV}
+  - alert: mon_rule_vm_mem_perc_28
+    annotations: {summary: Trigger events if memory is greater than 2.}
+    expr: ' vm_mem_perc{id="0035703e-afc5-46fc-acbf-0b57df8019c1"} >2'
+    for: 10s
+    labels: {serviceID: 5baca658-3b70-488c-931b-4001a7ce8123, tp: DEV}
+  - alert: mon_rule_vm_mem_perc_29
+    annotations: {summary: Trigger events if memory is greater than 2.}
+    expr: ' vm_mem_perc{id="0035703e-afc5-46fc-acbf-0b57df8019c1"} >2'
+    for: 10s
+    labels: {serviceID: 5baca658-3b70-488c-931b-4001a7ce8123, tp: DEV}
+  - alert: mon_rule_vm_mem_perc_30
+    annotations: {summary: Trigger events if memory is greater than 2.}
+    expr: ' vm_mem_perc{id="0035703e-afc5-46fc-acbf-0b57df8019c1"} >2'
+    for: 10s
+    labels: {serviceID: 5baca658-3b70-488c-931b-4001a7ce8123, tp: DEV}
+  - alert: mon_rule_vm_mem_perc_31
+    annotations: {summary: Trigger events if memory is greater than 2.}
+    expr: ' vm_mem_perc{id="0035703e-afc5-46fc-acbf-0b57df8019c1"} >2'
+    for: 10s
+    labels: {serviceID: 5baca658-3b70-488c-931b-4001a7ce8123, tp: DEV}
+  - alert: mon_rule_vm_mem_perc_31
+    annotations: {summary: Trigger events if memory is greater than 2.}
+    expr: ' vm_mem_perc{id="0035703e-afc5-46fc-acbf-0b57df8019c1"} >2'
+    for: 10s
+    labels: {serviceID: 5baca658-3b70-488c-931b-4001a7ce8123, tp: DEV}
+  - alert: mon_rule_vm_mem_perc_32
+    annotations: {summary: Trigger events if memory is greater than 2.}
+    expr: ' vm_mem_perc{id="0035703e-afc5-46fc-acbf-0b57df8019c1"} >2'
+    for: 10s
+    labels: {serviceID: 5baca658-3b70-488c-931b-4001a7ce8123, tp: DEV}
+  - alert: mon_rule_vm_mem_perc_33
+    annotations: {summary: Trigger events if memory is greater than 2.}
+    expr: ' vm_mem_perc{id="0035703e-afc5-46fc-acbf-0b57df8019c1"} >2'
+    for: 10s
+    labels: {serviceID: 5baca658-3b70-488c-931b-4001a7ce8123, tp: DEV}
+  - alert: mon_rule_vm_mem_perc_34
+    annotations: {summary: Trigger events if memory is greater than 2.}
+    expr: ' vm_mem_perc{id="0035703e-afc5-46fc-acbf-0b57df8019c1"} >2'
+    for: 10s
+    labels: {serviceID: 5baca658-3b70-488c-931b-4001a7ce8123, tp: DEV}
+  - alert: mon_rule_vm_mem_perc_35
+    annotations: {summary: Trigger events if memory is greater than 2.}
+    expr: ' vm_mem_perc{id="0035703e-afc5-46fc-acbf-0b57df8019c1"} >2'
+    for: 10s
+    labels: {serviceID: 5baca658-3b70-488c-931b-4001a7ce8123, tp: DEV}
+  - alert: mon_rule_vm_mem_perc_36
+    annotations: {summary: Trigger events if memory is greater than 2.}
+    expr: ' vm_mem_perc{id="0035703e-afc5-46fc-acbf-0b57df8019c1"} >2'
+    for: 10s
+    labels: {serviceID: 5baca658-3b70-488c-931b-4001a7ce8123, tp: DEV}
+  - alert: mon_rule_vm_mem_perc_37
+    annotations: {summary: Trigger events if memory is greater than 2.}
+    expr: ' vm_mem_perc{id="0035703e-afc5-46fc-acbf-0b57df8019c1"} >2'
+    for: 10s
+    labels: {serviceID: 5baca658-3b70-488c-931b-4001a7ce8123, tp: DEV}
+  - alert: mon_rule_vm_mem_perc_38
+    annotations: {summary: Trigger events if memory is greater than 2.}
+    expr: ' vm_mem_perc{id="0035703e-afc5-46fc-acbf-0b57df8019c1"} >2'
+    for: 10s
+    labels: {serviceID: 5baca658-3b70-488c-931b-4001a7ce8123, tp: DEV}
+  - alert: mon_rule_vm_mem_perc_39
+    annotations: {summary: Trigger events if memory is greater than 2.}
+    expr: ' vm_mem_perc{id="0035703e-afc5-46fc-acbf-0b57df8019c1"} >2'
+    for: 10s
+    labels: {serviceID: 5baca658-3b70-488c-931b-4001a7ce8123, tp: DEV}
+  - alert: mon_rule_vm_mem_perc_40
+    annotations: {summary: Trigger events if memory is greater than 2.}
+    expr: ' vm_mem_perc{id="0035703e-afc5-46fc-acbf-0b57df8019c1"} >2'
+    for: 10s
+    labels: {serviceID: 5baca658-3b70-488c-931b-4001a7ce8123, tp: DEV}
+  - alert: mon_rule_vm_mem_perc_41
+    annotations: {summary: Trigger events if memory is greater than 2.}
+    expr: ' vm_mem_perc{id="0035703e-afc5-46fc-acbf-0b57df8019c1"} >2'
+    for: 10s
+    labels: {serviceID: 5baca658-3b70-488c-931b-4001a7ce8123, tp: DEV}
+  - alert: mon_rule_vm_mem_perc_42
+    annotations: {summary: Trigger events if memory is greater than 2.}
+    expr: ' vm_mem_perc{id="0035703e-afc5-46fc-acbf-0b57df8019c1"} >2'
+    for: 10s
+    labels: {serviceID: 5baca658-3b70-488c-931b-4001a7ce8123, tp: DEV}
+  - alert: mon_rule_vm_mem_perc_43
+    annotations: {summary: Trigger events if memory is greater than 2.}
+    expr: ' vm_mem_perc{id="0035703e-afc5-46fc-acbf-0b57df8019c1"} >2'
+    for: 10s
+    labels: {serviceID: 5baca658-3b70-488c-931b-4001a7ce8123, tp: DEV}
+  - alert: mon_rule_vm_mem_perc_44
+    annotations: {summary: Trigger events if memory is greater than 2.}
+    expr: ' vm_mem_perc{id="0035703e-afc5-46fc-acbf-0b57df8019c1"} >2'
+    for: 10s
+    labels: {serviceID: 5baca658-3b70-488c-931b-4001a7ce8123, tp: DEV}
+  - alert: mon_rule_vm_mem_perc_45
+    annotations: {summary: Trigger events if memory is greater than 2.}
+    expr: ' vm_mem_perc{id="0035703e-afc5-46fc-acbf-0b57df8019c1"} >2'
+    for: 10s
+    labels: {serviceID: 5baca658-3b70-488c-931b-4001a7ce8123, tp: DEV}
+  - alert: mon_rule_vm_mem_perc_46
+    annotations: {summary: Trigger events if memory is greater than 2.}
+    expr: ' vm_mem_perc{id="0035703e-afc5-46fc-acbf-0b57df8019c1"} >2'
+    for: 10s
+    labels: {serviceID: 5baca658-3b70-488c-931b-4001a7ce8123, tp: DEV}
+  - alert: mon_rule_vm_mem_perc_47
+    annotations: {summary: Trigger events if memory is greater than 2.}
+    expr: ' vm_mem_perc{id="0035703e-afc5-46fc-acbf-0b57df8019c1"} >2'
+    for: 10s
+    labels: {serviceID: 5baca658-3b70-488c-931b-4001a7ce8123, tp: DEV}
+  - alert: mon_rule_vm_mem_perc_48
+    annotations: {summary: Trigger events if memory is greater than 2.}
+    expr: ' vm_mem_perc{id="0035703e-afc5-46fc-acbf-0b57df8019c1"} >2'
+    for: 10s
+    labels: {serviceID: 5baca658-3b70-488c-931b-4001a7ce8123, tp: DEV}
+  - alert: mon_rule_vm_mem_perc_49
+    annotations: {summary: Trigger events if memory is greater than 2.}
+    expr: ' vm_mem_perc{id="0035703e-afc5-46fc-acbf-0b57df8019c1"} >2'
+    for: 10s
+    labels: {serviceID: 5baca658-3b70-488c-931b-4001a7ce8123, tp: DEV}
+  - alert: mon_rule_vm_mem_perc_50
+    annotations: {summary: Trigger events if memory is greater than 2.}
+    expr: ' vm_mem_perc{id="0035703e-afc5-46fc-acbf-0b57df8019c1"} >2'
+    for: 10s
+    labels: {serviceID: 5baca658-3b70-488c-931b-4001a7ce8123, tp: DEV}
+  - alert: mon_rule_vm_mem_perc_51
+    annotations: {summary: Trigger events if memory is greater than 2.}
+    expr: ' vm_mem_perc{id="0035703e-afc5-46fc-acbf-0b57df8019c1"} >2'
+    for: 10s
+    labels: {serviceID: 5baca658-3b70-488c-931b-4001a7ce8123, tp: DEV}
+  - alert: mon_rule_vm_mem_perc_52
+    annotations: {summary: Trigger events if memory is greater than 2.}
+    expr: ' vm_mem_perc{id="0035703e-afc5-46fc-acbf-0b57df8019c1"} >2'
+    for: 10s
+    labels: {serviceID: 5baca658-3b70-488c-931b-4001a7ce8123, tp: DEV}
+  - alert: mon_rule_vm_mem_perc_52
+    annotations: {summary: Trigger events if memory is greater than 2.}
+    expr: ' vm_mem_perc{id="0035703e-afc5-46fc-acbf-0b57df8019c1"} >2'
+    for: 10s
+    labels: {serviceID: 5baca658-3b70-488c-931b-4001a7ce8123, tp: DEV}
+  - alert: mon_rule_vm_mem_perc_53
+    annotations: {summary: Trigger events if memory is greater than 2.}
+    expr: ' vm_mem_perc{id="0035703e-afc5-46fc-acbf-0b57df8019c1"} >2'
+    for: 10s
+    labels: {serviceID: 5baca658-3b70-488c-931b-4001a7ce8123, tp: DEV}
+  - alert: mon_rule_vm_mem_perc_54
+    annotations: {summary: Trigger events if memory is greater than 2.}
+    expr: ' vm_mem_perc{id="0035703e-afc5-46fc-acbf-0b57df8019c1"} >2'
+    for: 10s
+    labels: {serviceID: 5baca658-3b70-488c-931b-4001a7ce8123, tp: DEV}
+  - alert: mon_rule_vm_mem_perc_55
+    annotations: {summary: Trigger events if memory is greater than 2.}
+    expr: ' vm_mem_perc{id="0035703e-afc5-46fc-acbf-0b57df8019c1"} >2'
+    for: 10s
+    labels: {serviceID: 5baca658-3b70-488c-931b-4001a7ce8123, tp: DEV}
+  - alert: mon_rule_vm_mem_perc_56
+    annotations: {summary: Trigger events if memory is greater than 2.}
+    expr: ' vm_mem_perc{id="0035703e-afc5-46fc-acbf-0b57df8019c1"} >2'
+    for: 10s
+    labels: {serviceID: 5baca658-3b70-488c-931b-4001a7ce8123, tp: DEV}
+  - alert: mon_rule_vm_mem_perc_57
+    annotations: {summary: Trigger events if memory is greater than 2.}
+    expr: ' vm_mem_perc{id="0035703e-afc5-46fc-acbf-0b57df8019c1"} >2'
+    for: 10s
+    labels: {serviceID: 5baca658-3b70-488c-931b-4001a7ce8123, tp: DEV}
+  - alert: mon_rule_vm_mem_perc_58
+    annotations: {summary: Trigger events if memory is greater than 2.}
+    expr: ' vm_mem_perc{id="0035703e-afc5-46fc-acbf-0b57df8019c1"} >2'
+    for: 10s
+    labels: {serviceID: 5baca658-3b70-488c-931b-4001a7ce8123, tp: DEV}
+  - alert: mon_rule_vm_mem_perc_59
+    annotations: {summary: Trigger events if memory is greater than 2.}
+    expr: ' vm_mem_perc{id="0035703e-afc5-46fc-acbf-0b57df8019c1"} >2'
+    for: 10s
+    labels: {serviceID: 5baca658-3b70-488c-931b-4001a7ce8123, tp: DEV}
+  - alert: mon_rule_vm_mem_perc_60
+    annotations: {summary: Trigger events if memory is greater than 2.}
+    expr: ' vm_mem_perc{id="0035703e-afc5-46fc-acbf-0b57df8019c1"} >2'
+    for: 10s
+    labels: {serviceID: 5baca658-3b70-488c-931b-4001a7ce8123, tp: DEV}

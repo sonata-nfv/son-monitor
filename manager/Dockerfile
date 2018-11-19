@@ -1,19 +1,52 @@
-FROM ubuntu:14.04
+FROM alpine:3.8
 
-RUN apt-get update && apt-get -y upgrade && \
-apt-get -y install apache2 python2.7 python-pip libmysqlclient-dev python2.7-dev libpq-dev libyaml-dev libapache2-mod-wsgi 
-
-RUN mkdir /opt/Monitoring
-COPY ./ /opt/Monitoring
-RUN ls -la /opt/Monitoring/*
-
-RUN pip install -r /opt/Monitoring/requirements.txt
+LABEL maintainer "Panos Karkazis <pkarkazis@synelixis.com>"
 
 
-ADD ./run.sh /opt/Monitoring/run.sh
+# Copy python requirements file
+COPY ./app/requirements.txt /tmp/requirements.txt
+
+RUN apk add --no-cache \
+    python2 \
+    yaml-dev \
+    python-dev \
+    postgresql-dev \
+    libevent-dev \
+    gcc \
+    musl-dev \
+    linux-headers \
+    bash \
+    nginx \
+    uwsgi \
+    uwsgi-python \
+    supervisor && \
+    python2 -m ensurepip && \
+    rm -r /usr/lib/python*/ensurepip && \
+    pip2 install --upgrade pip setuptools && \
+    pip2 install -r /tmp/requirements.txt && \
+    rm /etc/nginx/conf.d/default.conf && \
+    rm -r /root/.cache
+
+
+RUN mkdir -p /opt/Monitoring
+RUN mkdir -p /run/nginx
+# Add application
+COPY ./app /opt/Monitoring
 RUN chmod 0755 /opt/Monitoring/run.sh
-RUN ls -la /opt/Monitoring/*
 
-EXPOSE 8000 9000 9090 8888
-VOLUME ["/var/log/"]
-CMD ["/opt/Monitoring/run.sh"]
+
+
+# Copy the Nginx global conf
+COPY nginx.conf /etc/nginx/nginx.conf
+# Copy the Flask Nginx site conf
+COPY django-app.conf /etc/nginx/conf.d/django-app.conf 
+# Copy the base uWSGI ini file to enable default dynamic uwsgi process number
+COPY uwsgi.ini /etc/uwsgi/uwsgi.ini
+# Custom Supervisord config
+COPY supervisord.conf /etc/supervisord.conf
+
+
+WORKDIR /opt/Monitoring
+#CMD ["/opt/Monitoring/run.sh"]
+
+CMD ["supervisord", "-n", "-c", "/etc/supervisord.conf"]

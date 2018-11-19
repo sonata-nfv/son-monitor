@@ -21,6 +21,7 @@ Each micro service of the framework is executed in its own Docker container. Bui
 ```
 docker build -f pushgatwway/Dockerfile -t registry.sonata-nfv.eu:5000/son-monitor-pushgateway .
 docker build -f prometheus/Dockerfile -t registry.sonata-nfv.eu:5000/son-monitor-prometheus .
+docker build -f alertmanager/Dockerfile -t registry.sonata-nfv.eu:5000/son-monitor-alertmanager .
 docker build -f manager/Dockerfile -t registry.sonata-nfv.eu:5000/son-monitor-manager .
 docker build -f snmpmng/Dockerfile -t registry.sonata-nfv.eu:5000/son-monitor-snmpmng .
 ```
@@ -47,6 +48,7 @@ To contribute to the development of the 5GTango/SONATA monitoring framwork you h
 docker run -d --name son-monitor-influxdb -p 8086:8086 registry.sonata-nfv.eu:5000/son-monitor-influxdb
 docker run -d --name son-monitor-postgres -e POSTGRES_DB=dbname -e POSTGRES_USER=user -e POSTGRES_PASSWORD=pass -p 5433:5432 ntboes/postgres-uuid
 docker run -d --name son-monitor-pushgateway -p 9091:9091 registry.sonata-nfv.eu:5000/son-monitor-pushgateway
+docker run -d --name son-monitor-alertmanager -p 9093:9093 registry.sonata-nfv.eu:5000/son-monitor-alertmanager
 docker run -d --name son-monitor-prometheus -p 9090:9090 -p 9089:9089 -e RABBIT_URL=<son-broker-ip>:5671 --add-host pushgateway:127.0.0.1 --add-host influx:127.0.0.1 registry.sonata-nfv.eu:5000/son-monitor-prometheus
 docker run -d --name son-monitor-manager --add-host postgsql:127.0.0.1 --add-host prometheus:127.0.0.1 -p 8000:8000 registry.sonata-nfv.eu:5000/son-monitor-manager
 docker run -d --name son-monitor-snmpmng -e POSTGS_PORT=<postgres_port> -e POSTGS_HOST=<postgres_ip> -e DB_USER_NAME=<user_name> -e DB_USER_PASS=<password> -e PROM_SRV=[\"<pushgateway_url>\"]  registry.sonata-nfv.eu:5000/son-monitor-snmpmng
