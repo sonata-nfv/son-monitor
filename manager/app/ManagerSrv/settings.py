@@ -144,7 +144,7 @@ DATABASES = {
         'USER': 'monitoringuser',
         'PASSWORD': 'sonata',
         'HOST': 'son-monitor-postgres',
-        'PORT': 5432,
+        'PORT': 5433,
     }
 }
 
