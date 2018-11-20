@@ -1,6 +1,6 @@
 #!/bin/bash
 echo "Wait for sqlDB...."
-while ! nc -z son-monitor-postgres 5432; do
+while ! nc -z son-monitor-postgres 5433; do
   sleep 1 && echo -n .; # waiting for mysql
 done; 
 python /opt/Monitoring/manage.py makemigrations && \
@@ -12,9 +12,4 @@ if [[ $var == *"False"* ]]
 then
  echo "from django.contrib.auth.models import User; User.objects.create_superuser('user', 'user@mail.com', 'sonat@')" |  python /opt/Monitoring/manage.py shell 
 fi && \
-#cp /opt/Monitoring/apache-site /etc/apache2/sites-available/000-default.conf && \
-#sed -i.bak 's/.*Listen.*/Listen '8000'/' /etc/apache2/ports.conf && \
-#chown -R www-data:www-data /opt/Monitoring && \
-#python /opt/Monitoring/manage.py runserver 0.0.0.0:8000 && \
-#service apache2 restart
 tail -f /dev/null
