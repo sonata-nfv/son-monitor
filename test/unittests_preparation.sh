@@ -12,7 +12,7 @@ if ! [[ "$(docker network inspect -f {{.Name}} son-mon-unittests 2> /dev/null)" 
 docker network create son-mon-unittests
 
 #Run Containers
-docker run -d --name test-son-monitor-postgres --net son-mon-unittests --network-alias postgsql -e POSTGRES_DB=monitoring -e POSTGRES_USER=monitoringuser -e POSTGRES_PASSWORD=sonata -e PGPORT=5433  ntboes/postgres-uuid 
+docker run -d --name test-son-monitor-postgres --net son-mon-unittests --network-alias son-monitor-postgres -e POSTGRES_DB=monitoring -e POSTGRES_USER=monitoringuser -e POSTGRES_PASSWORD=sonata -e PGPORT=5433  ntboes/postgres-uuid 
 docker run -d --name test-son-monitor-influxdb --net son-mon-unittests --network-alias influx -p 8086:8086 registry.sonata-nfv.eu:5000/son-monitor-influxdb
 docker run -d -p 5672:5672 -p 18080:15672 --name test-son-broker --net son-mon-unittests --network-alias broker -e RABBITMQ_CONSOLE_LOG=new rabbitmq:3-management
 

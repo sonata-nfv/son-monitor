@@ -10,6 +10,7 @@ RUN apk add --no-cache \
     python2 \
     yaml-dev \
     python-dev \
+    py-requests \
     postgresql-dev \
     libevent-dev \
     gcc \
