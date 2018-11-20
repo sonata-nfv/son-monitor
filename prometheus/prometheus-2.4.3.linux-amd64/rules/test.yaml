@@ -1,0 +1,18 @@
+groups:
+- name: example
+  rules:
+  - alert: HighErrorRate
+    expr: job:request_latency_seconds:mean5m{job="myjob"} > 0.5
+    for: 10m
+    labels:
+      severity: page
+    annotations:
+      summary: High request latency
+  - alert: TestRule
+    expr: some_metric{job="pushgateway"} > 0.5
+    for: 10s
+    labels:
+      tp: DEV 
+    annotations:
+      summary: TEST RULE
+

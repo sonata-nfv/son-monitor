@@ -1,16 +1,3 @@
 #!/bin/bash
-service supervisor restart
-a2enmod proxy_wstunnel && \
-a2enmod rewrite && \
-a2enmod wsgi && \
-a2enmod proxy proxy_http && \
-sudo a2ensite ws_domain.conf &&\
-a2ensite PromCnf && \
-sed -i.bak 's/.*Listen 80.*/Listen '9089' \nListen '8001' /' /etc/apache2/ports.conf
-service apache2 restart 
-service postfix stop && \
-service postfix start && \
-/etc/init.d/postfix force-reload
 
-python /opt/Monitoring/prometheus/alertMng/alertmanager.py &
-/opt/Monitoring/prometheus/prometheus -config.file=/opt/Monitoring/prometheus/prometheus.yml -storage.local.retention 340h0m0s  -storage.remote.influxdb-url http://influx:8086 -storage.remote.influxdb.database "prometheus" -storage.remote.influxdb.retention-policy "default" >/dev/null 2>&1
+/opt/Monitoring/prometheus/prometheus --config.file=/opt/Monitoring/prometheus/prometheus.yml --storage.tsdb.path=/prometheus --web.enable-lifecycle --web.console.libraries=/opt/Monitoring/prometheus/console_libraries --web.console.templates=/opt/Monitoring/prometheus/consoles 

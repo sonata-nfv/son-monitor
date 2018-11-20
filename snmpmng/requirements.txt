@@ -3,7 +3,6 @@ pip==9.0.1
 ply==3.11
 prometheus-client==0.2.0
 psycopg2==2.7.4
-psycopg2-binary==2.7.4
 pyasn1==0.4.3
 pycryptodomex==3.6.1
 pysmi==0.3.0
