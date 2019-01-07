@@ -29,6 +29,10 @@
 ## acknowledge the contributions of their colleagues of the 5GTANGO
 ## partner consortium (www.5gtango.eu).
 # encoding: utf-8
+
+import json, yaml, httplib, subprocess, time
+
+
 import json, yaml, httplib, subprocess, time
 
 
@@ -85,7 +89,6 @@ class RuleFile(object):
             return rc
 
     def reloadServer(self):
-
         httpServ = httplib.HTTPConnection("localhost", 9090)
         httpServ.connect()
         httpServ.request("POST", "/-/reload")
@@ -106,23 +109,42 @@ class ProData(object):
         d = self.HttpGet(self.srv_addr,self.srv_port,path)
         return d
 
-    def getMetricsResId(self,id):
+    def getMetricsResId(self,id,tm_window):
         now = int(time.time())
         path = "".join(("/api/v1/series?match[]={resource_id=\""+id+"\"}&start=", str(now-60), "&end=",str(now)))
-        #print path
+        if tm_window:
+            tm_window = '['+tm_window+']'
+        else:
+            tm_window = ''
+        print path
         d = self.HttpGet(self.srv_addr,self.srv_port,path)
         resp = []
+        print d['data']
         for mt in d['data']:
-            if mt['__name__'] == 'ALERTS':
+            if mt['__name__'] == 'ALERTS' or mt['__name__'] == 'ALERTS_FOR_STATE':
                 continue
             mt.pop('instance',None)
             mt.pop('id', None)
             mt.pop('group',None)
             mt.pop('job', None)
+            dt = self.getMetricData(id, mt['__name__'],tm_window)
+            mt['data'] = dt
             resp.append(mt)
-        #print len(resp)
+        print len(resp)
         d['data'] = resp
         return d
+
+    def getMetricData(self,vdu ,metric_name,time_window):
+        path = "".join(("/api/v1/query?query=", str(metric_name), "{resource_id=\"" + vdu + "\"}"+time_window))
+        d = self.HttpGet(self.srv_addr, self.srv_port, path)
+        dt = []
+        if 'status' in d:
+            if d['status'] == 'success':
+                if 'value' in d['data']['result'][0]:
+                    dt = d['data']['result'][0]['value']
+                elif 'values' in d['data']['result'][0]:
+                    dt = d['data']['result'][0]['values']
+        return dt
 
     def getMetricDetail(self, metric_name):
         path = "".join(("/api/v1/query?query=", str(metric_name)))
@@ -133,6 +155,7 @@ class ProData(object):
         path = "".join(("/api/v1/query?query=", str(metric_name), "{resource_id=\""+vdu+"\"}"))
         d = self.HttpGet(self.srv_addr,self.srv_port,path)
         return d
+
 
     def getTimeRangeData(self, req):
         try:
@@ -179,7 +202,10 @@ class ProData(object):
         httpServ.connect()
         httpServ.request("GET", path)
         response = httpServ.getresponse()
-        data = json.loads(response.read())
+        if response.status == 200:
+            data = json.loads(response.read())
+        else:
+            data = {'response_status':response.status}
         httpServ.close()
         return data
 

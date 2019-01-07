@@ -77,6 +77,7 @@ class SntSNMPEntFullSerializer(serializers.ModelSerializer):
         return entity
 
 
+
 class SntSmtpSerializerCreate(serializers.ModelSerializer):
     class Meta:
         model = monitoring_smtp
@@ -184,6 +185,8 @@ class SntServicesLightSerializer(serializers.ModelSerializer):
         lookup_field = 'sonata_srv_id'
 
 class SntRulesSerializer(serializers.ModelSerializer):
+    #service = serializers.PrimaryKeyRelatedField(read_only=False, queryset=monitoring_services.objects.all()) 
+    #notification_type = serializers.PrimaryKeyRelatedField(read_only=False, queryset=monitoring_notif_types.objects.all())
     service = SntServicesLightSerializer()
     notification_type = SntNotifTypeSerializer()
     class Meta:
@@ -196,7 +199,7 @@ class SntRulesPerSrvSerializer(serializers.ModelSerializer):
     notification_type = SntNotifTypeSerializer()
     class Meta:
         model = monitoring_rules
-        fields = ('id', 'function', 'vdu', 'name', 'duration', 'summary', 'description', 'condition', 'notification_type', 'created',)
+        fields = ('id','function','vdu', 'name', 'duration', 'summary', 'description', 'condition', 'notification_type', 'created',)
 
 class SntNewFunctionsSerializer(serializers.ModelSerializer):
     #service = serializers.PrimaryKeyRelatedField(read_only=False, queryset=monitoring_services.objects.all())
@@ -260,7 +263,6 @@ class SntPOPSerializer(serializers.ModelSerializer):
 class SntRulesConfSerializer(serializers.Serializer):
     rules = SntRulesPerSrvSerializer(many=True)
 
-
 class SntActMonResSerializer(serializers.ModelSerializer):
     class Meta:
         model = active_monitoring_res
@@ -269,12 +271,13 @@ class SntActMonResSerializer(serializers.ModelSerializer):
 class SntActMonResDetailSerializer(serializers.ModelSerializer):
     class Meta:
         model = active_monitoring_res
-        fields = ('service_id','timestamp','data')
+        fields = ('service_id','test_id','timestamp','data')
 
 class SntActMonResDataSerializer(serializers.ModelSerializer):
     class Meta:
         model = active_monitoring_res
         fields = ('id', 'data')
+
 
 class SntRulesFSerializer(serializers.ModelSerializer):
     notification_type = SntNotifTypeSerializer()
@@ -294,7 +297,9 @@ class SntRulesVnfSerializer(serializers.Serializer):
     vnf_id = serializers.CharField()
     vdus = SntRulesVduSerializer(many=True)
 
+
 class SntPLCRulesConfSerializer(serializers.Serializer):
+    sonata_service_id = serializers.CharField()
     plc_contract = serializers.CharField()
     vnfs = SntRulesVnfSerializer(many=True)
 
@@ -302,116 +307,25 @@ class SntPLCRulesConfSerializer(serializers.Serializer):
         fields = ('service_id', 'plc_contract','vnfs')
 
 class SntSLARulesConfSerializer(serializers.Serializer):
+    sonata_service_id = serializers.CharField()
     sla_contract = serializers.CharField()
-    vnfs = SntRulesVnfSerializer(many=True)
+    rules = SntRulesVnfSerializer(many=True)
 
     class Meta:
-        fields = ('service_id', 'sla_contract','vnfs')
-######################################################################################
-'''
-class TestTBSerializer(serializers.Serializer):
-    pk = serializers.IntegerField(read_only=True)
-    owner = serializers.ReadOnlyField(source='owner.username')
-    title = serializers.CharField(required=False, allow_blank=True, max_length=100)
-    code = serializers.CharField(style={'base_template': 'textarea.html'})
-    linenos = serializers.BooleanField(required=False)
-    language = serializers.ChoiceField(choices=LANGUAGE_CHOICES, default='python')
-    style = serializers.ChoiceField(choices=STYLE_CHOICES, default='friendly')
+        fields = ('service_id', 'sla_contract','rules')
 
-    def create(self, validated_data):
-        
-        #Create and return a new `Snippet` instance, given the validated data.
-        
+class SntAlertsSerializer(serializers.Serializer):
+    alertname = serializers.CharField()
+    topic = serializers.CharField()
+    serviceID = serializers.CharField()
+    functionID = serializers.CharField()
+    resource_id = serializers.CharField()
+    alertstate = serializers.CharField()
 
-        return test_tb.objects.create(**validated_data)
+class SntAlertsListSerializer(serializers.Serializer):
+    status = serializers.CharField()
+    alerts = SntAlertsSerializer(many=True)
 
-    def update(self, instance, validated_data):
-        
-        #Update and return an existing `Snippet` instance, given the validated data.
-        
-        instance.title = validated_data.get('title', instance.title)
-        instance.code = validated_data.get('code', instance.code)
-        instance.linenos = validated_data.get('linenos', instance.linenos)
-        instance.language = validated_data.get('language', instance.language)
-        instance.style = validated_data.get('style', instance.style)
-        instance.save()
-        return instance
+    #class Meta:
+    #    fields = ('status', 'alerts')
 
-class UserSerializer(serializers.ModelSerializer):
-    snippets = serializers.PrimaryKeyRelatedField(many=True, queryset=test_tb.objects.all())
-
-    class Meta:
-        model = User
-        fields = ('id', 'username', 'api', 'owner', 'snippets')
-'''
-
-'''
-{
-    "service": {
-        "sonata_srv_id": "NS777777",
-        "name": "service test1",
-        "description": "service test description",
-        "host_id": "",
-        "sonata_usr_id": "123456"
-    },
-    "functions": [{
-        "sonata_func_id": "NF112233",
-        "name": "function test 1",
-        "description": "function description",
-        "host_id": "555555",
-        "metrics": [{
-            "name": "metric test 1",
-            "description": "metric test description",
-            "threshold": 50,
-            "interval": 10,
-            "units": "kB",
-            "cmd": "cmd1"
-        }, 
-        {
-            "name": "metric test 2",
-            "description": "metric test description",
-            "threshold": 45,
-            "interval": 35,
-            "units": "kB",
-            "cmd": "cmd2"
-        }]
-    },
-    {
-        "sonata_func_id": "NF445566",
-        "name": "function test 21",
-        "description": "function description",
-        "host_id": "666666",
-        "metrics": [{
-            "name": "metric test 3",
-            "description": "metric test description",
-            "threshold": 46,
-            "interval": 23,
-            "units": "kB",
-            "cmd": "cmd3"
-        }, {
-            "name": "metric test 4",
-            "description": "metric test description",
-            "threshold": 89,
-            "interval": 34,
-            "units": "kB",
-            "cmd": "cmd4"
-        }]
-    }],
-    "rules": [{
-        "name": "Rule 4",
-        "duration": "4m",
-        "summary": "Rule sweet rule ",
-        "description": "Rule sweet rule ",
-        "condition": "metric1-mmetric2> 0.25",
-        "notification_type": 2
-    },
-    {
-        "name": "Rule 45",
-        "duration": "4m",
-        "summary": "Rule sweet rule... ",
-        "description": "Rule sweet rule ....",
-        "condition": "metric1-mmetrNewServiceSerializeric2> 0.25",
-        "notification_type": 2
-    }]
-}
-'''

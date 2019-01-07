@@ -41,6 +41,7 @@ from api.urls import public_apis
 
 urlpatterns = [
     url(r'^docs/', include('rest_framework_swagger.urls')),
-    url(r'^', include(public_apis, namespace='public_apis')),
+    url(r'^', include(public_apis_v1, namespace='public_apis')),
+    url(r'^', include(public_apis_v2, namespace='public_apis_v2')),
     url(r'^', include(internal_apis, namespace='internal_apis')),
 ]
