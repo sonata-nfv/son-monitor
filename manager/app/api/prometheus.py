@@ -146,7 +146,7 @@ class ProData(object):
                     dt = d['data']['result'][0]['values']
         return dt
 
-    def getMetricDetail(self, metric_name):
+    def getMetricFullDetail(self, metric_name):
         path = "".join(("/api/v1/query?query=", str(metric_name)))
         d = self.HttpGet(self.srv_addr,self.srv_port,path)
         return d

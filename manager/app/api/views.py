@@ -569,7 +569,7 @@ class SntPromMetricPerPOPDetail(generics.ListAPIView):
         if prom_url['status'] == 'failed':
             return Response({'status': prom_url['msg']}, status=status.HTTP_404_NOT_FOUND)
         mt = ProData(prom_url['addr'],9090)
-        data = mt.getMetricDetail(metric_name)
+        data = mt.getMetricFullDetail(metric_name)
         response = {}
         response['metrics'] = data['data']
         print response
@@ -1225,7 +1225,7 @@ class SntPromMetricDetail(generics.ListAPIView):
     def get(self, request, *args, **kwargs):
         metric_name  = self.kwargs['metricName']
         mt = ProData('prometheus',9090)
-        data = mt.getMetricDetail(metric_name)
+        data = mt.getMetricFullDetail(metric_name)
         response = {}
         response['metrics'] = data['data']
         print response
