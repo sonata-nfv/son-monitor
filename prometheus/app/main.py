@@ -179,4 +179,4 @@ if __name__ == "__main__":
     handler = logging.handlers.RotatingFileHandler("alertconf.out", maxBytes=2048000, backupCount=5)
     handler.setFormatter(formatter)
     logger.addHandler(handler)
-    app.run(host='0.0.0.0', debug=True)
+    app.run(host='0.0.0.0')
