@@ -1240,48 +1240,6 @@ class SntPromSrvConf(generics.ListAPIView):
         print rsp
         return Response({'config':rsp}, status=status.HTTP_200_OK)
 
-class SntPromSrvTargets(generics.ListCreateAPIView):
-    serializer_class = SntPromTargetsSerialazer
-    url = 'http://prometheus:9089/prometheus/configuration'
-
-    def get(self, request, *args, **kwargs):
-        cl = Http()
-        rsp = cl.GET(self.url, [])
-
-        if 'scrape_configs' in rsp:
-                rsp = rsp['scrape_configs']
-        else:
-            rsp = []
-        print rsp
-        return Response({'targets': rsp}, status=status.HTTP_200_OK)
-
-    def post(self, request, *args, **kwargs):
-        data = request.data
-        if not 'targets' in data:
-            return Response({"error":"data malformed"}, status=status.HTTP_400_BAD_REQUEST)
-        if type(data['targets']) is list:
-            for trg in data['targets']:
-                if not 'static_configs' in trg or not 'job_name' in trg:
-                    return Response({"error": "data malformed"}, status=status.HTTP_400_BAD_REQUEST)
-                if type(trg['static_configs']) is list:
-                   for url in trg['static_configs']:
-                       if not 'targets' in url:
-                           return Response({"error": "data malformed"}, status=status.HTTP_400_BAD_REQUEST)
-                else:
-                    return Response({"error": "data malformed"}, status=status.HTTP_400_BAD_REQUEST)
-        else:
-            return Response({"error": "data malformed"}, status=status.HTTP_400_BAD_REQUEST)
-
-        #Get current congiguration from prometheus
-        cl = Http()
-        rsp = cl.GET(self.url, [])
-        #Update configuration
-        if 'scrape_configs' in rsp:
-                rsp['scrape_configs'] = data['targets']
-        #Save the new configuration
-        rsp = cl.POST(url_=self.url, headers_=[], data_=json.dumps(rsp))
-        return Response({"prometheus_conf":rsp}, status=status.HTTP_200_OK)
-
  
 class SntActMRList(generics.ListAPIView):
     serializer_class = SntActMonResSerializer
