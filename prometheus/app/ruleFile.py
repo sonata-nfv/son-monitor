@@ -134,6 +134,7 @@ class fileBuilder(object):
 
     def buildConf(self):
         resp={}
+        self.file_name = self.prometheusPth+self.file_name
         with open(self.file_name+'.tmp', 'w') as yaml_file:
             yaml.safe_dump(self.configuration, yaml_file, default_flow_style=False)
         rs = self.validateConfig(self.file_name+'.tmp')
