@@ -7,7 +7,7 @@ if [ -d "/opt/Monitoring/prometheus/k8s_cnf" ]; then
     cp /opt/Monitoring/prometheus/k8s_cnf/prometheus.yml /opt/Monitoring/prometheus/prometheus.yml
     chmod 777 /opt/Monitoring/prometheus/prometheus.yml
   fi
-  if [ -e "/opt/Monitoring/prometheus/k8s_cnf/*.rules " ]; then
+  if [ -e "/opt/Monitoring/prometheus/k8s_cnf/prometheus.rules " ]; then
     cp /opt/Monitoring/prometheus/k8s_cnf/prometheus.rules /opt/Monitoring/prometheus/rules/prometheus.rules
     chmod 777 /opt/Monitoring/prometheus/rules/prometheus.rules
   fi
