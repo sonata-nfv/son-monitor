@@ -135,6 +135,8 @@ urlpatterns3 = [
 	url(r'^api/v2/vnfs/(?P<vnf_id>[^/]+)/vdu/(?P<vdu_id>[^/]+)/metrics$',views_v2.SntPromMetricListVnfVdu.as_view()),
 
 	url(r'^api/v2/prometheus/metrics$', views_v2.SntPromMetricList.as_view()),
+	url(r'^api/v2/prometheus/targets$', views_v2.SntPromSrvTargets.as_view()),
+
 	url(r'^api/v2/prometheus/metrics/name/(?P<metricName>[^/]+)$', views_v2.SntPromMetricDetail.as_view()),
 	url(r'^api/v2/prometheus/configuration$', views_v2.SntPromSrvConf.as_view()),
 

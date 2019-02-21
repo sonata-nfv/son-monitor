@@ -329,3 +329,5 @@ class SntAlertsListSerializer(serializers.Serializer):
     #class Meta:
     #    fields = ('status', 'alerts')
 
+class SntPromTargetsSerialazer(serializers.Serializer):
+    targets = serializers.JSONField

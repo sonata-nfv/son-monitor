@@ -134,13 +134,16 @@ class fileBuilder(object):
 
     def buildConf(self):
         resp={}
+        self.file_name = self.prometheusPth+self.file_name
         with open(self.file_name+'.tmp', 'w') as yaml_file:
             yaml.safe_dump(self.configuration, yaml_file, default_flow_style=False)
         rs = self.validateConfig(self.file_name+'.tmp')
-        resp['report']=rs['message']
-        resp['status'] = 'FAILED'
-        resp['prom_reboot'] = None
-        if rs['status'] == 'SUCCESS':
+        if rs['code'] != 0:
+            resp['report'] = str(rs['message'])
+            resp['status'] = 'FAILED'
+            resp['prom_reboot'] = None
+        else:
+            resp['report'] = "OK"
             if os.path.exists(self.file_name):
                 copyfile(self.file_name, self.file_name+'.backup')
             if os.path.exists(self.file_name+'.tmp'):
@@ -151,16 +154,12 @@ class fileBuilder(object):
         return resp
 
     def validateConfig(self,file):
-        p = subprocess.Popen(['./promtool', 'check-config', file], stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        p = subprocess.Popen(['./promtool', 'check','config', file], stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         output, status = p.communicate()
         rc = p.returncode
         msg={}
-        msg['code'] = rc
+        msg['code'] = int(rc)
         msg['message'] =  status
-        if not 'FAILED' in status:              
-            msg['status'] = 'SUCCESS'
-        else:
-            msg['status'] = 'FAILED'
         return msg
 
 
