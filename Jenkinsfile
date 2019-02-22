@@ -13,6 +13,11 @@ pipeline {
             sh 'docker build -t registry.sonata-nfv.eu:5000/son-monitor-manager -f manager/Dockerfile manager/'
           }
         }
+        stage('son-vnv_monitor-manager') {
+          steps {
+            sh 'docker build -t registry.sonata-nfv.eu:5000/son-vnv-monitor-manager -f vnv_manager/Dockerfile manager/'
+          }
+        }
         stage('son-monitor-prometheus') {
           steps {
             sh 'docker build -t registry.sonata-nfv.eu:5000/son-monitor-prometheus -f prometheus/Dockerfile prometheus/'
@@ -78,6 +83,11 @@ pipeline {
             sh 'docker push registry.sonata-nfv.eu:5000/son-monitor-manager'
           }
         }
+        stage('son-vnv-monitor-manager') {
+          steps {
+            sh 'docker push registry.sonata-nfv.eu:5000/son-vnv-monitor-manager'
+          }
+        }
         stage('son-monitor-prometheus') {
           steps {
             sh 'docker push registry.sonata-nfv.eu:5000/son-monitor-prometheus'
@@ -134,6 +144,12 @@ pipeline {
           steps {
             sh 'docker tag registry.sonata-nfv.eu:5000/son-monitor-manager:latest registry.sonata-nfv.eu:5000/son-monitor-manager:int'
             sh 'docker push  registry.sonata-nfv.eu:5000/son-monitor-manager:int'
+          }
+        }
+        stage('son-vnv-monitor-manager') {
+          steps {
+            sh 'docker tag registry.sonata-nfv.eu:5000/son-monitor-manager:latest registry.sonata-nfv.eu:5000/son-vnv-monitor-manager:int'
+            sh 'docker push  registry.sonata-nfv.eu:5000/son-vnv-monitor-manager:int'
           }
         }
         stage('son-monitor-prometheus') {
