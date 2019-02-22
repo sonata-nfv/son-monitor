@@ -2,3 +2,6 @@
 *~
 *.pyc
 *.backup
+k8s-deployment.yaml
+K8s-prometheus.yaml
+
