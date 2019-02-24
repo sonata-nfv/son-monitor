@@ -120,7 +120,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'mon_mng_vnv.wsgi.application'
+WSGI_APPLICATION = 'vnv_mon_manager.wsgi.application'
 
 
 # Database
@@ -133,7 +133,7 @@ DATABASES = {
         'USER': 'monitoringuser',
         'PASSWORD': 'sonata',
         'HOST': 'son-monitor-postgres',
-        'PORT': 5432,
+        'PORT': 5433,
     }
 }
 
