@@ -31,32 +31,18 @@
 # encoding: utf-8
 
 
-from django.shortcuts import render
-from django.http import HttpResponse
-from django.views.decorators.csrf import csrf_exempt
 from rest_framework import status
 from rest_framework.decorators import api_view
-from rest_framework.views import APIView
 from rest_framework.response import Response
-from api.models import *
 from api.serializers import *
 from api.prometheus import *
-#from api.serializers import UserSerializer
-from django.http import Http404
-from rest_framework import mixins
 from rest_framework import generics
-from django.contrib.auth.models import User
-from rest_framework import permissions
-from api.permissions import IsOwnerOrReadOnly
 from rest_framework.reverse import reverse
 from itertools import *
-from django.forms.models import model_to_dict
 import json, socket, os, base64
-from drf_multiple_model.views import MultipleModelAPIView
-from httpClient import Http
+from api.httpClient import Http
 from django.db.models import Q
 import datetime, psutil
-from time import timezone
 from django.db import IntegrityError
 
 
@@ -115,7 +101,7 @@ class SntPLCRuleconf(generics.CreateAPIView):
                     rules = vdu['rules']
                     rules_status += len(rules)
                     for r in rules:
-                        print 'vnf '+ rls['vnf'] + ' vdu: '+ rls['vdu_id'] +json.dumps(r)
+                        print ('vnf '+ rls['vnf'] + ' vdu: '+ rls['vdu_id'] +json.dumps(r))
                         nt = monitoring_notif_types.objects.all().filter(id=r['notification_type']['id'])
                         if nt.count() == 0:
                             return Response({'error': 'Alert notification type does not supported. Action Aborted'},
@@ -220,14 +206,14 @@ class SntSLARuleconf(generics.CreateAPIView):
                     rules = vdu['rules']
                     rules_status += len(rules)
                     for r in rules:
-                        print 'vnf '+ rls['vnf'] + ' vdu: '+ rls['vdu_id'] +json.dumps(r)
+                        print ('vnf '+ rls['vnf'] + ' vdu: '+ rls['vdu_id'] +json.dumps(r))
                         nt = monitoring_notif_types.objects.all().filter(id=r['notification_type']['id'])
                         if nt.count() == 0:
                             return Response({'error': 'Alert notification type does not supported. Action Aborted'},
                                 status=status.HTTP_400_BAD_REQUEST)
                         else:
                             if srvid != "alerts":
-                                print(rls['vnf'], rls['vdu_id'])
+                                prfint(rls['vnf'], rls['vdu_id'])
                                 rule = monitoring_rules(service=srv[0], summary=r['summary'], notification_type=nt[0],
                                                     name=r['name'], condition=r['condition'], duration=r['duration'],
                                                     description=r['description'],consumer='SLA',function=rls['vnf'],vdu=rls['vdu_id'])
@@ -344,20 +330,18 @@ class SntCredList(generics.ListAPIView):
     def get(self, request, *args, **kwargs):
         smtp = monitoring_smtp.objects.filter(component=self.kwargs['component'])
         if smtp.count() > 0:
-            print '1'
             dict = [ obj.as_dict() for obj in smtp]
             psw = (dict[0])['psw']
             psw = base64.b64encode(psw)
             return Response({'status':'key found', 'creds':psw}, status=status.HTTP_200_OK)
         else:
-            print '2'
             return Response({'status':'key not found'}, status=status.HTTP_200_OK)
 
 
 def is_json(myjson):
   try:
     json_object = json.loads(myjson)
-  except ValueError, e:
+  except ValueError as e:
     return False
   return True
 
@@ -366,7 +350,7 @@ def getPromIP(pop_id_):
     
     pop_id  = pop_id_
     pop = monitoring_pops.objects.values('prom_url').filter(sonata_pop_id=pop_id)
-    print pop.count()
+    print (pop.count())
     if pop.count() == 0:
         return {'status':'failed', 'msg':'Undefined POP','addr':None}
         #return Response({'status':"Undefined POP"}, status=status.HTTP_404_NOT_FOUND)
@@ -376,7 +360,7 @@ def getPromIP(pop_id_):
     
     if arch != 'CENTRALIZED':
         prom_url = monitoring_pops.objects.values('prom_url').filter(sonata_pop_id=pop_id)[0]['prom_url']
-        print prom_url
+        print (prom_url)
         if prom_url == 'undefined':
              return {'status':'failed', 'msg':'Undefined Prometheus address','addr':None}
             #return Response({'status':"Undefined Prometheus address"}, status=status.HTTP_404_NOT_FOUND)
@@ -523,12 +507,11 @@ class SntPOPDetail(generics.DestroyAPIView):
 
     
     def delete(self, request, *args, **kwargs):
-        #karpa start
         self.lookup_field = 'sonata_pop_id'
         pop_id = self.kwargs['sonata_pop_id']
         queryset = monitoring_pops.objects.all()
         queryset = queryset.filter(sonata_pop_id=pop_id)
-        print queryset.count()
+        print (queryset.count())
 
         if queryset.count() > 0:
             code = self.updatePromConf(pop_id)
@@ -557,7 +540,7 @@ class SntPromMetricPerPOPList(generics.RetrieveAPIView):
         data = mt.getMetrics()
         response = {}
         response['metrics'] = data['data']
-        print response
+        print (response)
         return Response(response)
 
 class SntPromMetricPerPOPDetail(generics.ListAPIView):
@@ -572,7 +555,7 @@ class SntPromMetricPerPOPDetail(generics.ListAPIView):
         data = mt.getMetricFullDetail(metric_name)
         response = {}
         response['metrics'] = data['data']
-        print response
+        print (response)
         return Response(response)
 
 class SntPromMetricPerPOPData(generics.CreateAPIView):
@@ -594,7 +577,6 @@ class SntPromMetricPerPOPData(generics.CreateAPIView):
         mt = ProData(prom_url['addr'],9090)
         data = mt.getTimeRangeData(request.data)
         response = {}
-        #print data
         try:
             response['metrics'] = data['data']
         except KeyError:
@@ -612,7 +594,7 @@ class SntPromSrvPerPOPConf(generics.ListAPIView):
         url = 'http://'+prom_url['addr']+':9089/prometheus/configuration'
         cl = Http()
         rsp = cl.GET(url,[])
-        print rsp
+        print (rsp)
         return Response({'config':rsp}, status=status.HTTP_200_OK)
 
 class SntUserList(generics.ListAPIView):
@@ -620,7 +602,7 @@ class SntUserList(generics.ListAPIView):
     def get_queryset(self):
         queryset = monitoring_users.objects.all()
         userid  = self.kwargs['pk']
-        print userid
+        print (userid)
         return queryset.filter(pk=userid)
 
 class SntUserPerTypeList(generics.ListAPIView):
@@ -679,32 +661,32 @@ class SntServicesDetail(generics.DestroyAPIView):
         srvid  = self.kwargs['sonata_srv_id']
         
         queryset = queryset.filter(sonata_srv_id=srvid)
-        print queryset.count()
+        print (queryset.count())
 
         if queryset.count() > 0:
             # DELETE also the SNMP entities (if any)
             fcts = monitoring_functions.objects.all().filter(service__sonata_srv_id=srvid)
             if fcts.count() > 0:
                 for f in fcts:
-                    print f.host_id
+                    print (f.host_id)
                     snmp_entities = monitoring_snmp_entities.objects.all().filter(Q(entity_id=f.host_id) & Q(entity_type='vnf'))
                     if snmp_entities.count() > 0:
                         snmp_entities.update(status='DELETED')
-            print 'Network Service deleted ...'
+            print ('Network Service deleted ...')
             queryset.delete()
             cl = Http()
             rsp = cl.DELETE('http://prometheus:9089/prometheus/rules/'+str(srvid),[])            
-            print rsp
-            print 'Service ' +srvid +' removed'
+            print (rsp)
+            print ('Service ' +srvid +' removed')
             time.sleep(1)
             rsp = cl.DELETE('http://prometheus:9089/prometheus/rules/sla-' + str(srvid), [])
-            print rsp
+            print (rsp)
             time.sleep(1)
             rsp = cl.DELETE('http://prometheus:9089/prometheus/rules/plc-' + str(srvid), [])
-            print rsp
+            print (rsp)
             return  Response({'staus':"service removed"}, status=status.HTTP_204_NO_CONTENT)
         else:
-            print 'Service ' +srvid +' not found' 
+            print ('Service ' +srvid +' not found') 
             return  Response({'status':"service not found"}, status=status.HTTP_404_NOT_FOUND)
 
 class SntFunctionsList(generics.ListAPIView):
@@ -753,16 +735,16 @@ class SntNewServiceConf(generics.CreateAPIView):
     def post(self, request, *args, **kwargs):
 
         if not 'service' in request.data:
-            print 'Received new Service notification: Undefined Service'
+            print ('Received new Service notification: Undefined Service')
             return Response({'error':'Undefined Service'}, status=status.HTTP_400_BAD_REQUEST)
         if not 'functions' in request.data:
-            print 'Received new Service notification: Undefined Functions'
+            print ('Received new Service notification: Undefined Functions')
             return Response({'error':'Undefined Functions'}, status=status.HTTP_400_BAD_REQUEST)
         if not 'rules' in request.data:
-            print 'Received new Service notification: Undefined Rules'
+            print ('Received new Service notification: Undefined Rules')
             return Response({'error':'Undefined Rules'}, status=status.HTTP_400_BAD_REQUEST)
 
-        print 'Received new Service notification: '+ json.dumps(request.data)
+        print ('Received new Service notification: '+ json.dumps(request.data))
 
         service = request.data['service']
         functions = request.data['functions']
@@ -953,8 +935,6 @@ class SntRulesDetail(generics.DestroyAPIView):
         queryset = monitoring_rules.objects.all()
         srvid  = self.kwargs['sonata_srv_id']
         fq=queryset.filter(service__sonata_srv_id=srvid)
-        print fq
-        print fq.count()
 
         if fq.count() > 0:
             fq.delete()
@@ -973,7 +953,6 @@ class SntPromMetricList(generics.RetrieveAPIView):
         data = mt.getMetrics()
         response = {}
         response['metrics'] = data['data']
-        #print response
         return Response(response)
 
 class SntPromMetricListVnf(generics.RetrieveAPIView):
@@ -989,7 +968,6 @@ class SntPromMetricListVnf(generics.RetrieveAPIView):
             return Response(response)
         vdus = []
         vdus.append(vnf[0].host_id)
-        #print (vdus)
         response['status'] = 'Success'
         response['vdus'] = []
         for vdu in vdus:
@@ -1070,10 +1048,9 @@ class SntWSreq(generics.CreateAPIView):
             filters = request.data['filters']
         metric = request.data['metric']
         url = "http://"+psw+":8002/new/?metric="+metric+"&params="+json.dumps(filters).replace(" ", "")
-        print url
+        print (url)
         cl = Http()
         rsp = cl.GET(url,[])
-        print url
         response = {}
         try:
             if 'name_space' in rsp:
@@ -1084,7 +1061,7 @@ class SntWSreq(generics.CreateAPIView):
                 response['status'] = "FAIL"
                 response['ws_url'] = None
         except KeyError:
-            response = data
+            response = request.data
             pass
         return Response(response)
 
@@ -1102,10 +1079,9 @@ class SntWSreqPerPOP(generics.CreateAPIView):
             return Response({'status': prom_url['msg']}, status=status.HTTP_404_NOT_FOUND)
         ip = socket.gethostbyname(prom_url['addr'])
         url = "http://"+ip+":8002/new/?metric="+metric+"&params="+json.dumps(filters).replace(" ", "")
-        #print url
         cl = Http()
         rsp = cl.GET(url,[])
-        print rsp
+        print (rsp)
         response = {}
         try:
             if 'name_space' in rsp:
@@ -1116,7 +1092,7 @@ class SntWSreqPerPOP(generics.CreateAPIView):
                 response['status'] = "FAIL"
                 response['ws_url'] = None
         except KeyError:
-            response = data
+            response = request.data
             pass
         return Response(response)
 
@@ -1228,7 +1204,7 @@ class SntPromMetricDetail(generics.ListAPIView):
         data = mt.getMetricFullDetail(metric_name)
         response = {}
         response['metrics'] = data['data']
-        print response
+        print (response)
         return Response(response)
 
 class SntPromSrvConf(generics.ListAPIView):
@@ -1237,7 +1213,7 @@ class SntPromSrvConf(generics.ListAPIView):
         url = 'http://prometheus:9089/prometheus/configuration'
         cl = Http()
         rsp = cl.GET(url,[])
-        print rsp
+        print (rsp)
         return Response({'config':rsp}, status=status.HTTP_200_OK)
 
  
