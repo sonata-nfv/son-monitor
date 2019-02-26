@@ -30,7 +30,7 @@
 ## partner consortium (www.5gtango.eu).
 # encoding: utf-8
 
-from rest_framework import status
+from rest_framework import status, exceptions
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from api.models import *
@@ -802,7 +802,23 @@ class SntMetricsPerFunctionList1(generics.ListAPIView):
 
 
 class SntNewServiceConf(generics.ListCreateAPIView):
-    serializer_class = None
+    def get_serializer_class(self):
+        assert self.method_serializer_classes is not None, (
+            'Expected view %s should contain method_serializer_classes '
+            'to get right serializer class.' %
+            (self.__class__.__name__, )
+        )
+        for methods, serializer_cls in self.method_serializer_classes.items():
+            if self.request.method in methods:
+                return serializer_cls
+
+        raise exceptions.MethodNotAllowed(self.request.method)
+
+    method_serializer_classes = {
+        ('GET',): SntServicesSerializer,
+        ('POST'): NewServiceSerializer
+    }
+
     def get_queryset(self):
         self.serializer_class = SntServicesSerializer
         queryset = monitoring_services.objects.all()
@@ -1274,7 +1290,7 @@ class SntRuleconf(generics.CreateAPIView):
         if len(rules) > 0:
             cl = Http()
             print(json.dumps(rls))
-            rsp = cl.POST('http://' + prometheus + ':9089/prometheus/rules', [], json.dumps(rls))
+            rsp = cl.POST('http://prometheus:9089/prometheus/rules', [], json.dumps(rls))
             if rsp == 200:
                 return Response({'status': "success", "rules": rules_status})
             else:

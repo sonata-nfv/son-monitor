@@ -41,7 +41,7 @@ SECRET_KEY = '1&)ibfox)f&3y9eil1=x$l^q-6@ufmd!eh96e12*nm!ssmtfun'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
