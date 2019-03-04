@@ -122,7 +122,7 @@ pipeline {
             echo 'Deploying in pre-int...'
           }
         }
-        stage('Deploying') {
+        stage('Deploying in SP') {
           steps {
             sh 'rm -rf tng-devops || true'
             sh 'git clone https://github.com/sonata-nfv/tng-devops.git'
@@ -130,6 +130,8 @@ pipeline {
               sh 'ansible-playbook roles/sp.yml -i environments -e "target=pre-int-sp component=monitoring"'
             }
           }
+        }
+        stage('Deploying in VnV') {
           steps {
             sh 'rm -rf tng-devops || true'
             sh 'git clone https://github.com/sonata-nfv/tng-devops.git'
@@ -198,7 +200,7 @@ pipeline {
             echo 'Deploying in integration...'
           }
         }
-        stage('Deploying') {
+        stage('Deploying in SP') {
           steps {
             sh 'rm -rf tng-devops || true'
             sh 'git clone https://github.com/sonata-nfv/tng-devops.git'
@@ -206,6 +208,8 @@ pipeline {
               sh 'ansible-playbook roles/sp.yml -i environments -e "target=int-sp component=monitoring"'
             }
           }
+        }
+        stage('Deploying in VnV') {
           steps {
             sh 'rm -rf tng-devops || true'
             sh 'git clone https://github.com/sonata-nfv/tng-devops.git'
