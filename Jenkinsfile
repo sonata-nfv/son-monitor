@@ -48,6 +48,7 @@ pipeline {
     stage('Tests: Preparation') {
       steps {
         echo 'Prepear for Tests'
+        sh './test/unittests_clean.sh'
         sh './test/unittests_preparation.sh'
       }
     }
@@ -227,7 +228,7 @@ pipeline {
             echo 'Deploying in integration...'
           }
         }
-        
+
         stage('Deploying in VnV') {
           steps {
             sh 'rm -rf tng-devops || true'
