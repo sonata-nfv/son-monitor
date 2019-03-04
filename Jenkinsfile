@@ -227,6 +227,7 @@ pipeline {
             echo 'Deploying in integration...'
           }
         }
+        
         stage('Deploying in VnV') {
           steps {
             sh 'rm -rf tng-devops || true'
