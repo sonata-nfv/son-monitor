@@ -115,9 +115,9 @@ pipeline {
         }
       }
     }
-    stage('Deployment in pre-int') {
+    stage('Deployment in SP pre-int') {
       parallel {
-        stage('Deployment in pre-int') {
+        stage('Deployment in SP pre-int') {
           steps {
             echo 'Deploying in pre-int...'
           }
@@ -131,6 +131,16 @@ pipeline {
             }
           }
         }
+      }
+    }
+
+    stage('Deployment in VnV pre-int') {
+      parallel {
+        stage('Deployment in VnV pre-int') {
+          steps {
+            echo 'Deploying in pre-int...'
+          }
+        }
         stage('Deploying in VnV') {
           steps {
             sh 'rm -rf tng-devops || true'
@@ -142,6 +152,7 @@ pipeline {
         }
       }
     }
+
     stage('Promoting containers to integration env') {
       parallel {
         stage('Publishing containers to int') {
@@ -193,9 +204,9 @@ pipeline {
         }
       }
     }
-    stage('Deployment in integration') {
+    stage('Deployment in SP integration') {
       parallel {
-        stage('Deployment in integration') {
+        stage('Deployment in SP integration') {
           steps {
             echo 'Deploying in integration...'
           }
@@ -209,17 +220,28 @@ pipeline {
             }
           }
         }
+      }
+    }
+
+    stage('Deployment in VnV integration') {
+      parallel {
+        stage('Deployment in VnV integration') {
+          steps {
+            echo 'Deploying in integration...'
+          }
+        }
         stage('Deploying in VnV') {
           steps {
             sh 'rm -rf tng-devops || true'
             sh 'git clone https://github.com/sonata-nfv/tng-devops.git'
             dir(path: 'tng-devops') {
-              sh 'ansible-playbook roles/sp.yml -i environments -e "target=int-sp component=monitoring"'
+              sh 'ansible-playbook roles/vnv.yml -i environments -e "target=int-sp component=monitoring"'
             }
           }
         }
       }
     }
+
   }
   post {
     success {
