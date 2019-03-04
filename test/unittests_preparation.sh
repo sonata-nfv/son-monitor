@@ -1,11 +1,14 @@
 #!/bin/bash
 
+
 echo "Deleting old containers"
 cnts=$(docker ps --all -q -f network=son-mon-unittests)
 if [ "$cnts" != '' ] 
 then
    docker rm -fv $cnts
 fi
+
+sleep 15
 
 #Creating unittests network
 if ! [[ "$(docker network inspect -f {{.Name}} son-mon-unittests 2> /dev/null)" == "" ]]; then docker network rm son-mon-unittests ; fi

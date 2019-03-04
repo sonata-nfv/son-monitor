@@ -145,7 +145,7 @@ pipeline {
             sh 'rm -rf tng-devops || true'
             sh 'git clone https://github.com/sonata-nfv/tng-devops.git'
             dir(path: 'tng-devops') {
-              sh 'ansible-playbook roles/vnv.yml -i environments -e "target=pre-int-vnv component=monitoring"'
+              sh 'ansible-playbook roles/vnv.yml -i environments -e "target=pre-int-vnv-bcn.5gtango.eu component=monitoring"'
             }
           }
         }
@@ -166,7 +166,7 @@ pipeline {
         }
         stage('son-vnv-monitor-manager') {
           steps {
-            sh 'docker tag registry.sonata-nfv.eu:5000/son-monitor-manager:latest registry.sonata-nfv.eu:5000/son-vnv-monitor-manager:int'
+            sh 'docker tag registry.sonata-nfv.eu:5000/son-vnv-monitor-manager:latest registry.sonata-nfv.eu:5000/son-vnv-monitor-manager:int'
             sh 'docker push  registry.sonata-nfv.eu:5000/son-vnv-monitor-manager:int'
           }
         }
@@ -232,7 +232,7 @@ pipeline {
             sh 'rm -rf tng-devops || true'
             sh 'git clone https://github.com/sonata-nfv/tng-devops.git'
             dir(path: 'tng-devops') {
-              sh 'ansible-playbook roles/vnv.yml -i environments -e "target=int-vnv component=monitoring"'
+              sh 'ansible-playbook roles/vnv.yml -i environments -e "target=int-vnv-ave-5gtango.eu component=monitoring"'
             }
           }
         }
