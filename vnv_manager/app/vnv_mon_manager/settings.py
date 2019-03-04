@@ -39,9 +39,9 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'y@*$q=4u9k2e!fdcsv_h0!i$!9yvas*ue_lte-59v8#azt1*9i'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -120,7 +120,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'mon_mng_vnv.wsgi.application'
+WSGI_APPLICATION = 'vnv_mon_manager.wsgi.application'
 
 
 # Database
@@ -133,7 +133,7 @@ DATABASES = {
         'USER': 'monitoringuser',
         'PASSWORD': 'sonata',
         'HOST': 'son-monitor-postgres',
-        'PORT': 5432,
+        'PORT': 5433,
     }
 }
 

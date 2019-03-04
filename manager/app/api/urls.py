@@ -33,6 +33,22 @@
 from django.conf.urls import url, include
 from rest_framework.urlpatterns import format_suffix_patterns
 from api import views, views_v2
+from drf_yasg.views import get_schema_view
+from drf_yasg import openapi
+
+
+schema_view = get_schema_view(
+   openapi.Info(
+      title="Monitoring Manager API",
+      default_version='v2.5',
+      description="Monitoring Manager API",
+      terms_of_service="",
+      contact=openapi.Contact(email="pkarkazis@synelixis.com"),
+      license=openapi.License(name="Apache 2.0"),
+   ),
+   public=True,
+   #permission_classes=(permissions.AllowAny,),
+)
 
 # API endpoints
 urlpatterns2 = [
@@ -89,7 +105,7 @@ urlpatterns2 = [
     url(r'^api/v1/prometheus/vnf/(?P<vnf_id>[^/]+)/vdu/(?P<vdu_id>[^/]+)/metrics/list$', views.SntPromMetricListVnfVdu.as_view()),
 	url(r'^api/v1/prometheus/metrics/name/(?P<metricName>[^/]+)/$', views.SntPromMetricDetail.as_view()),
     url(r'^api/v1/prometheus/vnf/(?P<vnf_id>[^/]+)/metrics/name/(?P<metricName>[^/]+)/$', views.SntPromVnfMetricDetail.as_view()),
-    url(r'^api/v1/prometheus/vnf/(?P<vnf_id>[^/]+)/vdu/{vdu_id}/metrics/data$', views.SntPromMetricDataPerVnf.as_view()),
+    url(r'^api/v1/prometheus/vnf/(?P<vnf_id>[^/]+)/vdu/(?P<vdu_id>[^/]+)/metrics/data$', views.SntPromMetricDataPerVnf.as_view()),
     url(r'^api/v1/prometheus/vnf/(?P<vnf_id>[^/]+)/metrics/data$', views.SntPromMetricDataPerVnf.as_view()),
 	url(r'^api/v1/prometheus/metrics/data$', views.SntPromMetricData.as_view()),
 	url(r'^api/v1/prometheus/configuration$', views.SntPromSrvConf.as_view()),
@@ -150,8 +166,15 @@ urlpatterns3 = [
 	url(r'^api/v2/snmps/(?P<pk>[0-9]+)$', views_v2.SntSNMPEntDetail.as_view()),
 ]
 
+urlpatterns4 = [
+    url(r'^docs/$', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
+    url(r'^redoc/$', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
+	url(r'^pings$', views.Ping.as_view(), name='health'),
+]
+
 public_apis_v1 = format_suffix_patterns(urlpatterns2)
 public_apis_v2 = format_suffix_patterns(urlpatterns3)
+doc = format_suffix_patterns(urlpatterns4)
 
 urlpatterns1 = [
     url(r'^pings$', views.Ping.as_view()),

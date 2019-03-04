@@ -30,50 +30,55 @@
 ## partner consortium (www.5gtango.eu).
 # encoding: utf-8
 
-import json,urllib2
+import json
+import httplib2
 
 class Http(object):
     def __init__(self):
         self
         
     def GET(self,url_,headers_):
-	try: 
-            req = urllib2.Request(url_)
-            req.add_header('Content-Type','application/json')
-            response=urllib2.urlopen(req)
-            code = response.code
-            data = json.loads(response.read())
+        try:
+            httpServ = httplib2.Http()
+            response, content = httpServ.request(url_,headers={'Content-Type':'application/json'} ,method='GET')
+            if response.status == 200:
+                data = json.loads(content.decode())
+            else:
+                data = {'response_status': response.status}
             return data
-        
-        except urllib2.HTTPError, e:
-            return e.code
-        except urllib2.URLError, e: 
-            return e
-        except ValueError, e:
-            return e
+
+        except httplib2.HttpLib2Error as e:
+            return str(e)
+        except httplib2.ServerNotFoundError as e:
+            return (e)
+        except ValueError as e:
+            return (e)
 
     def POST(self, url_,headers_,data_):
-        try: 
-            req = urllib2.Request(url_)
-            req.add_header('Content-Type','text/html')
-            req.get_method = lambda: 'POST'
-            response=urllib2.urlopen(req,data_)
-            code = response.code  
-            return code
-        except urllib2.HTTPError, e:
-            return e.code
-        except urllib2.URLError, e:
-            return e
+        try:
+            httpServ = httplib2.Http()
+            response, content = httpServ.request(url_, headers={'Content-Type':'application/json'},
+                                        body=data_,
+                                        method='POST')
 
-    def DELETE(self, url_,headers_):  #karpa
-        try: 
-            req = urllib2.Request(url_)
-            req.add_header('Content-Type','text/html')
-            req.get_method = lambda: 'DELETE'
-            response=urllib2.urlopen(req)
-            code = response.code  
-            return code
-        except urllib2.HTTPError, e:
-            return e.code
-        except urllib2.URLError, e:
-            return e
+            return response.status
+        except httplib2.HttpLib2Error as e:
+            return str(e)
+        except httplib2.ServerNotFoundError as e:
+            return (e)
+        except ValueError as e:
+            return (e)
+
+    def DELETE(self, url_,headers_):
+        try:
+            httpServ = httplib2.Http()
+            response, content = httpServ.request(url_, headers={'Content-Type': 'text/html'},
+                                                 method='DELETE')
+            return response.status
+
+        except httplib2.HttpLib2Error as e:
+            return str(e)
+        except httplib2.ServerNotFoundError as e:
+            return (e)
+        except ValueError as e:
+            return (e)

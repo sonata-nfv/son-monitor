@@ -30,10 +30,10 @@
 ## partner consortium (www.5gtango.eu).
 # encoding: utf-8
 
-import json, yaml, httplib, subprocess, time
 
 
-import json, yaml, httplib, subprocess, time
+import json, yaml, subprocess, time
+import http.client as httplib
 
 
 class RuleFile(object):
@@ -42,8 +42,8 @@ class RuleFile(object):
         self.serviceID = serviceID
         self.rules = rules
 
-    def relaodConf(self):
-        print 'reload....'
+    def relaodChonf(self):
+        print ('reload....')
 
     def buildRule(self, rule):
         rule = 'ALERT ' + rule['name'].replace (" ", "_") +'\n'+'  IF ' + rule['condition'] + '\n'+'  FOR ' + rule['duration'] + '\n'+'  LABELS { serviceID = "' + self.serviceID +'" }'+'\n'+'  ANNOTATIONS { '+'\n'+'    summary = "Instance {{ $labels.instance }} down",'+'\n'+'    description = "{{ $labels.instance }} of job {{ $labels.job }} has been down for more than 5 minutes.",'+'\n'+'}'+'\n'
@@ -60,7 +60,7 @@ class RuleFile(object):
         #    json.dump(body, outfile)
 
         if self.validate(filename) == 0:
-            print "RuleFile created SUCCESSFULLY"
+            print ("RuleFile created SUCCESSFULLY")
             #add file to conf file
             with open('/opt/Monitoring/prometheus-0.17.0rc2.linux-amd64/prometheus.yml', 'r') as conf_file:
                 conf = yaml.load(conf_file)
@@ -68,7 +68,7 @@ class RuleFile(object):
                     if filename in rf:
                         return
                 conf['rule_files'].append(filename)
-                print conf['rule_files']
+                print (conf['rule_files'])
                 with open('/opt/Monitoring/prometheus-0.17.0rc2.linux-amd64/prometheus.yml', 'w') as yml:
                     yaml.safe_dump(conf, yml)
                 self.reloadServer()
@@ -78,7 +78,7 @@ class RuleFile(object):
     def validate(self,file):
         p = subprocess.Popen(['/opt/Monitoring/manager/promtool', 'check-rules', file], stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         output, status = p.communicate()
-        print status
+        print (status)
         rc = p.returncode
         if rc == 0:
             if 'SUCCESS' in status:
@@ -93,7 +93,7 @@ class RuleFile(object):
         httpServ.connect()
         httpServ.request("POST", "/-/reload")
         response = httpServ.getresponse()
-        print response.status
+        print (response.status)
         httpServ.close()
 
 
@@ -116,10 +116,9 @@ class ProData(object):
             tm_window = '['+tm_window+']'
         else:
             tm_window = ''
-        print path
         d = self.HttpGet(self.srv_addr,self.srv_port,path)
         resp = []
-        print d['data']
+        print (d['data'])
         for mt in d['data']:
             if mt['__name__'] == 'ALERTS' or mt['__name__'] == 'ALERTS_FOR_STATE':
                 continue
@@ -130,7 +129,7 @@ class ProData(object):
             dt = self.getMetricData(id, mt['__name__'],tm_window)
             mt['data'] = dt
             resp.append(mt)
-        print len(resp)
+        print (len(resp))
         d['data'] = resp
         return d
 
@@ -173,7 +172,7 @@ class ProData(object):
                 path = "".join(("/api/v1/query_range?query=",req['name'],ls,"&start=",req['start'],"&end=",req['end'],"&step=",req['step'] ))
         except KeyError:
             path = "".join(("/api/v1/query_range?query=",req['name'],"&start=",req['start'],"&end=",req['end'],"&step=",req['step'] ))
-        print path
+        print (path)
         d = self.HttpGet(self.srv_addr,self.srv_port,path)
         return d
 
@@ -193,7 +192,7 @@ class ProData(object):
                 path = "".join(("/api/v1/query_range?query=",req['name'],ls,"&start=",req['start'],"&end=",req['end'],"&step=",req['step'] ))
         except KeyError:
             path = "".join(("/api/v1/query_range?query=",req['name'],"&start=",req['start'],"&end=",req['end'],"&step=",req['step'] ))
-        print path
+        print (path)
         d = self.HttpGet(self.srv_addr,self.srv_port,path)
         return d
 

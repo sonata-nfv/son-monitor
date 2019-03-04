@@ -68,7 +68,7 @@ class SntSNMPEntFullSerializer(serializers.ModelSerializer):
         ent_ip = validated_data['ip']
         ent_port = validated_data['port']
         ent = monitoring_snmp_entities.objects.all().filter(ip=ent_ip,port=ent_port)
-        print ent.count()
+        print (ent.count())
         if ent.count() > 0:
             ent.delete()
         entity = monitoring_snmp_entities.objects.create(**validated_data)
@@ -330,4 +330,7 @@ class SntAlertsListSerializer(serializers.Serializer):
     #    fields = ('status', 'alerts')
 
 class SntPromTargetsSerialazer(serializers.Serializer):
+    targets = serializers.JSONField
+
+class SntPromConfSerialazer (serializers.Serializer):
     targets = serializers.JSONField

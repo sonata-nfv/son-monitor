@@ -29,19 +29,17 @@ partner consortium (www.sonata-nfv.eu).
 from django.conf.urls import url
 from django.contrib import admin
 from django.conf.urls import include
-from rest_framework import routers
-from usersMng import views
-from api.urls import internal_apis
-from api.urls import public_apis_v1, public_apis_v2
+from api.urls import public_apis_v1, public_apis_v2, doc
 
-#router = routers.DefaultRouter()
-#router.register(r'users', views.UserViewSet)
-#router.register(r'groups', views.GroupViewSet)
 
 
 urlpatterns = [
-    url(r'^docs/', include('rest_framework_swagger.urls')),
-    url(r'^', include(public_apis_v1, namespace='public_apis')),
+    #url(r'^docs/', include('rest_framework_swagger.urls')),
+    #url(r'^', include(public_apis_v1, namespace='public_apis')),
+    #url(r'^', include(public_apis_v2, namespace='public_apis_v2')),
+    #url(r'^', include(internal_apis, namespace='internal_apis')),
+    url(r'^', include(public_apis_v1, namespace='public_apis_v1')),
     url(r'^', include(public_apis_v2, namespace='public_apis_v2')),
-    url(r'^', include(internal_apis, namespace='internal_apis')),
+    #url(r'^' + str(health_url), include(internal_apis, namespace='internal_apis')),
+    url(r'^', include(doc, namespace='documentation')),
 ]

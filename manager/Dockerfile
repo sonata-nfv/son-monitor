@@ -7,9 +7,9 @@ LABEL maintainer "Panos Karkazis <pkarkazis@synelixis.com>"
 COPY ./app/requirements.txt /tmp/requirements.txt
 
 RUN apk add --no-cache \
-    python2 \
+    python3 \
     yaml-dev \
-    python-dev \
+    python3-dev \
     py-requests \
     postgresql-dev \
     libevent-dev \
@@ -19,12 +19,12 @@ RUN apk add --no-cache \
     bash \
     nginx \
     uwsgi \
-    uwsgi-python \
+    uwsgi-python3 \
     supervisor && \
-    python2 -m ensurepip && \
+    python3 -m ensurepip && \
     rm -r /usr/lib/python*/ensurepip && \
-    pip2 install --upgrade pip setuptools && \
-    pip2 install -r /tmp/requirements.txt && \
+    pip3 install --upgrade pip setuptools && \
+    pip3 install -r /tmp/requirements.txt && \
     rm /etc/nginx/conf.d/default.conf && \
     rm -r /root/.cache
 
