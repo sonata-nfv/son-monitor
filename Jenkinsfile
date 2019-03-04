@@ -122,7 +122,7 @@ pipeline {
             echo 'Deploying in pre-int...'
           }
         }
-        stage('Deploying in SP') {
+        stage('Deploying in SP-PRE-INT-ENV') {
           steps {
             sh 'rm -rf tng-devops || true'
             sh 'git clone https://github.com/sonata-nfv/tng-devops.git'
@@ -131,27 +131,17 @@ pipeline {
             }
           }
         }
-      }
-    }
-    stage('Deployment in VnV pre-int') {
-      parallel {
-        stage('Deployment in VnV pre-int') {
-          steps {
-            echo 'Deploying in pre-int...'
-          }
-        }
-        stage('Deploying in VnV') {
+        stage('Deploying in VnV-PRE-INT-ENV') {
           steps {
             sh 'rm -rf tng-devops || true'
             sh 'git clone https://github.com/sonata-nfv/tng-devops.git'
             dir(path: 'tng-devops') {
-              sh 'ansible-playbook roles/vnv.yml -i environments -e "target=pre-int-sp component=monitoring"'
+              sh 'ansible-playbook roles/vnv.yml -i environments -e "target=pre-int-vnv component=monitoring"'
             }
           }
         }
       }
     }
-    
     stage('Promoting containers to integration env') {
       parallel {
         stage('Publishing containers to int') {
@@ -210,7 +200,7 @@ pipeline {
             echo 'Deploying in integration...'
           }
         }
-        stage('Deploying in SP') {
+        stage('Deploying in SP-INT') {
           steps {
             sh 'rm -rf tng-devops || true'
             sh 'git clone https://github.com/sonata-nfv/tng-devops.git'
@@ -219,21 +209,12 @@ pipeline {
             }
           }
         }
-      }
-    }
-    stage('Deployment in VnV integration') {
-      parallel {
-        stage('Deployment in VnV integration') {
-          steps {
-            echo 'Deploying in integration...'
-          }
-        }
-        stage('Deploying in VnV') {
+        stage('Deploying in VnV-INT') {
           steps {
             sh 'rm -rf tng-devops || true'
             sh 'git clone https://github.com/sonata-nfv/tng-devops.git'
             dir(path: 'tng-devops') {
-              sh 'ansible-playbook roles/vnv.yml -i environments -e "target=int-sp component=monitoring"'
+              sh 'ansible-playbook roles/vnv.yml -i environments -e "target=int-vnv component=monitoring"'
             }
           }
         }
