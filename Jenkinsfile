@@ -122,7 +122,7 @@ pipeline {
             echo 'Deploying in pre-int...'
           }
         }
-        stage('Deploying in SP-PRE-INT-ENV') {
+        stage('Deploying in SP') {
           steps {
             sh 'rm -rf tng-devops || true'
             sh 'git clone https://github.com/sonata-nfv/tng-devops.git'
@@ -131,7 +131,16 @@ pipeline {
             }
           }
         }
-        stage('Deploying in VnV-PRE-INT-ENV') {
+      }
+    }
+    stage('Deployment in VnV pre-int') {
+      parallel {
+        stage('Deployment in VnV pre-int') {
+          steps {
+            echo 'Deploying in pre-int...'
+          }
+        }
+        stage('Deploying in VnV') {
           steps {
             sh 'rm -rf tng-devops || true'
             sh 'git clone https://github.com/sonata-nfv/tng-devops.git'
@@ -200,7 +209,7 @@ pipeline {
             echo 'Deploying in integration...'
           }
         }
-        stage('Deploying in SP-INT') {
+        stage('Deploying in SP') {
           steps {
             sh 'rm -rf tng-devops || true'
             sh 'git clone https://github.com/sonata-nfv/tng-devops.git'
@@ -209,7 +218,16 @@ pipeline {
             }
           }
         }
-        stage('Deploying in VnV-INT') {
+      }
+    }
+    stage('Deployment in VnV integration') {
+      parallel {
+        stage('Deployment in VnV integration') {
+          steps {
+            echo 'Deploying in integration...'
+          }
+        }
+        stage('Deploying in VnV') {
           steps {
             sh 'rm -rf tng-devops || true'
             sh 'git clone https://github.com/sonata-nfv/tng-devops.git'
