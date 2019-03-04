@@ -48,7 +48,6 @@ pipeline {
     stage('Tests: Preparation') {
       steps {
         echo 'Prepear for Tests'
-        sh './test/unittests_clean.sh'
         sh './test/unittests_preparation.sh'
       }
     }
@@ -146,7 +145,7 @@ pipeline {
             sh 'rm -rf tng-devops || true'
             sh 'git clone https://github.com/sonata-nfv/tng-devops.git'
             dir(path: 'tng-devops') {
-              sh 'ansible-playbook roles/vnv.yml -i environments -e "target=pre-int-vnv component=monitoring"'
+              sh 'ansible-playbook roles/vnv.yml -i environments -e "target=pre-int-vnv-bcn.5gtango.eu component=monitoring"'
             }
           }
         }
@@ -228,13 +227,12 @@ pipeline {
             echo 'Deploying in integration...'
           }
         }
-
         stage('Deploying in VnV') {
           steps {
             sh 'rm -rf tng-devops || true'
             sh 'git clone https://github.com/sonata-nfv/tng-devops.git'
             dir(path: 'tng-devops') {
-              sh 'ansible-playbook roles/vnv.yml -i environments -e "target=int-vnv component=monitoring"'
+              sh 'ansible-playbook roles/vnv.yml -i environments -e "target=int-vnv-ave-5gtango.eu component=monitoring"'
             }
           }
         }
