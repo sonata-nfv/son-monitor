@@ -166,7 +166,7 @@ pipeline {
         }
         stage('son-vnv-monitor-manager') {
           steps {
-            sh 'docker tag registry.sonata-nfv.eu:5000/son-monitor-manager:latest registry.sonata-nfv.eu:5000/son-vnv-monitor-manager:int'
+            sh 'docker tag registry.sonata-nfv.eu:5000/son-vnv-monitor-manager:latest registry.sonata-nfv.eu:5000/son-vnv-monitor-manager:int'
             sh 'docker push  registry.sonata-nfv.eu:5000/son-vnv-monitor-manager:int'
           }
         }
