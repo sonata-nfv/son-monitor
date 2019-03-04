@@ -133,7 +133,6 @@ pipeline {
         }
       }
     }
-
     stage('Deployment in VnV pre-int') {
       parallel {
         stage('Deployment in VnV pre-int') {
@@ -152,7 +151,6 @@ pipeline {
         }
       }
     }
-
     stage('Promoting containers to integration env') {
       parallel {
         stage('Publishing containers to int') {
@@ -222,7 +220,6 @@ pipeline {
         }
       }
     }
-
     stage('Deployment in VnV integration') {
       parallel {
         stage('Deployment in VnV integration') {
@@ -241,7 +238,6 @@ pipeline {
         }
       }
     }
-
   }
   post {
     success {
