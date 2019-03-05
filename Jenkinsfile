@@ -15,7 +15,7 @@ pipeline {
         }
         stage('son-vnv_monitor-manager') {
           steps {
-            sh 'docker build -t registry.sonata-nfv.eu:5000/son-vnv-monitor-manager -f vnv_manager/Dockerfile manager/'
+            sh 'docker build -t registry.sonata-nfv.eu:5000/son-vnv-monitor-manager -f vnv_manager/Dockerfile vnv_manager/'
           }
         }
         stage('son-monitor-prometheus') {
