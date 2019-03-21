@@ -68,10 +68,10 @@ urlpatterns2 = [
 	url(r'^policies/monitoring-rules$', views.SntPLCRuleconf.as_view()),
 	url(r'^policies/monitoring-alerts$', views.SntPLCAlertsList.as_view()),
 
-	url(r'^notification-types$', views.SntNotifTypesList.as_view()),
-	url(r'^notification-types/(?P<pk>[0-9]+)$', views.SntNotifTypesDetail.as_view()),
+	#url(r'^notification-types$', views.SntNotifTypesList.as_view()),
+	#url(r'^notification-types/(?P<pk>[0-9]+)$', views.SntNotifTypesDetail.as_view()),
 
-	url(r'^services$', views.SntNewServiceConf.as_view()),
+	url(r'^services$', views.SntNewService.as_view()),
 	url(r'^services/(?P<srv_id>[^/]+)$', views.SntServicesDetail.as_view()),
     url(r'^services/(?P<srv_id>[^/]+)/metrics$', views.SntPromNSMetricListVnf.as_view()),
 	url(r'^vnfs/(?P<vnf_id>[^/]+)/metrics$', views.SntPromMetricListVnf.as_view()),
@@ -85,8 +85,8 @@ urlpatterns2 = [
 	url(r'^active-monitoring-tests/service/(?P<srv_id>[^/]+)/test/(?P<test_id>[^/]+)$', views.SntActMRDetail.as_view()),
 	url(r'^active-monitoring-tests$', views.SntActMRPost.as_view()),
 
-	url(r'^snmps$', views.SntSNMPEntCreate.as_view()),
-	url(r'^snmps/(?P<pk>[0-9]+)$', views.SntSNMPEntDetail.as_view()),
+	#url(r'^snmps$', views.SntSNMPEntCreate.as_view()),
+	#url(r'^snmps/(?P<pk>[0-9]+)$', views.SntSNMPEntDetail.as_view()),
 ]
 
 urlpatterns3 = [

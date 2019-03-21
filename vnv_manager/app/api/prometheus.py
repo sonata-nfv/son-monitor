@@ -106,14 +106,13 @@ class ProData(object):
         d = self.HttpGet(self.srv_addr,self.srv_port,path)
         return d
 
-    def getMetricsResId(self,id,tm_window):
+    def getMetricsResId(self,key,id,tm_window):
         now = int(time.time())
-        path = "".join(("/api/v1/series?match[]={resource_id=\""+id+"\"}&start=", str(now-60), "&end=",str(now)))
+        path = "".join(("/api/v1/series?match[]={"+key+"=\""+id+"\"}&start=", str(now-60), "&end=",str(now)))
         if tm_window:
             tm_window = '['+tm_window+']'
         else:
             tm_window = ''
-        print(path)
         d = self.HttpGet(self.srv_addr,self.srv_port,path)
         resp = []
         print (d['data'])
@@ -124,15 +123,15 @@ class ProData(object):
             mt.pop('id', None)
             mt.pop('group',None)
             mt.pop('job', None)
-            dt = self.getMetricData(id, mt['__name__'],tm_window)
+            dt = self.getMetricData(key,id, mt['__name__'],tm_window)
             mt['data'] = dt
             resp.append(mt)
         print (len(resp))
         d['data'] = resp
         return d
 
-    def getMetricData(self,vdu ,metric_name,time_window):
-        path = "".join(("/api/v1/query?query=", str(metric_name), "{resource_id=\"" + vdu + "\"}"+time_window))
+    def getMetricData(self,key,vdu ,metric_name,time_window):
+        path = "".join(("/api/v1/query?query=", str(metric_name), "{"+key+"=\"" + vdu + "\"}"+time_window)
         d = self.HttpGet(self.srv_addr, self.srv_port, path)
         dt = []
         if 'status' in d:
@@ -148,8 +147,8 @@ class ProData(object):
         d = self.HttpGet(self.srv_addr,self.srv_port,path)
         return d
 
-    def getMetricDetail(self, vdu, metric_name):
-        path = "".join(("/api/v1/query?query=", str(metric_name), "{resource_id=\""+vdu+"\"}"))
+    def getMetricDetail(self,key, vdu, metric_name):
+        path = "".join(("/api/v1/query?query=", str(metric_name), "{"+key+"=\""+vdu+"\"}"))
         d = self.HttpGet(self.srv_addr,self.srv_port,path)
         return d
 
