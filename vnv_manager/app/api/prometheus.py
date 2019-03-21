@@ -131,7 +131,7 @@ class ProData(object):
         return d
 
     def getMetricData(self,key,vdu ,metric_name,time_window):
-        path = "".join(("/api/v1/query?query=", str(metric_name), "{"+key+"=\"" + vdu + "\"}"+time_window)
+        path = "".join(("/api/v1/query?query=", str(metric_name), "{"+key+"=\"" + vdu + "\"}"+time_window))
         d = self.HttpGet(self.srv_addr, self.srv_port, path)
         dt = []
         if 'status' in d:
