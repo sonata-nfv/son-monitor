@@ -800,6 +800,76 @@ class SntMetricsPerFunctionList1(generics.ListAPIView):
         response['metrics'] = dictionaries
         return Response(response)
 
+class SntNewService(generics.ListCreateAPIView):
+    def get_serializer_class(self):
+        assert self.method_serializer_classes is not None, (
+            'Expected view %s should contain method_serializer_classes '
+            'to get right serializer class.' %
+            (self.__class__.__name__, )
+        )
+        for methods, serializer_cls in self.method_serializer_classes.items():
+            if self.request.method in methods:
+                return serializer_cls
+
+        raise exceptions.MethodNotAllowed(self.request.method)
+
+    method_serializer_classes = {
+        ('GET',): SntServicesSerializer,
+        ('POST'): LightServiceSerializer
+    }
+
+    def get_queryset(self):
+        self.serializer_class = SntServicesSerializer
+        queryset = monitoring_services.objects.all()
+        return queryset
+
+    def post(self, request, *args, **kwargs):
+        self.serializer_class = NewServiceSerializer
+        ns = request.data
+        if not 'ns_instance_uuid' in ns:
+            return Response({"error": "NS id missing"}, status=status.HTTP_400_BAD_REQUEST)
+        if not 'functions' in ns:
+            return Response({"error": "VNFs missing"}, status=status.HTTP_400_BAD_REQUEST)
+        elif len(ns['functions']) == 0:
+            return Response({"error": "VNFs missing"}, status=status.HTTP_400_BAD_REQUEST)
+        else:
+            for vnf in ns['functions']:
+                if not 'vc_id' in vnf and not 'pod_name' in vnf:
+                    return Response({"error": "VDU id missing"}, status=status.HTTP_400_BAD_REQUEST)
+
+        s = monitoring_services.objects.all().filter(sonata_srv_id=ns['ns_instance_uuid'])
+        if s.count() > 0:
+            s.delete()
+
+        ns_id = ns['ns_instance_uuid']
+        test_id = ns['test_id']
+        srv = monitoring_services(sonata_srv_id=ns_id,description=test_id)
+        srv.save()
+
+        for vnf in ns['functions']:
+            fnc_pop_id = vnf['vim_id']
+            fnc_pop_endpoint = vnf['vim_endpoint']
+            pop = monitoring_pops.objects.all().filter(sonata_pop_id=fnc_pop_id)
+            if pop.count() == 0:
+                pop = monitoring_pops(sonata_pop_id=fnc_pop_id, sonata_sp_id="undefined", name="undefined",
+                                      prom_url=fnc_pop_endpoint)
+                pop.save()
+            functions_status = len(ns['functions'])
+            srh_key = 'resource_id'
+            if 'vc_id' in vnf:
+                vdu = vnf['vc_id']
+                sch_key = 'resource_id'
+            if 'pod_name' in vnf:
+                vdu = vnf['pod_name']
+                sch_key = 'container_name'
+
+            func = monitoring_functions(service=srv, host_id=vdu, host_type=sch_key,
+                                        sonata_func_id=vnf['vnfr_id'],
+                                        pop_id=fnc_pop_id)
+            func.save()
+
+        return Response(ns, status=status.HTTP_201_CREATED)
+
 
 class SntNewServiceConf(generics.ListCreateAPIView):
     def get_serializer_class(self):
@@ -1104,7 +1174,7 @@ class SntPromMetricListVnf(generics.RetrieveAPIView):
         for vdu in vdus:
             dt = {}
             dt['vdu_id'] = vdu
-            data = mt.getMetricsResId(vdu,time_window)
+            data = mt.getMetricsResId(vnf[0].host_type,vdu,time_window)
             if 'data' in data:
                 dt['metrics'] = data['data']
             else:
@@ -1137,7 +1207,7 @@ class SntPromMetricListVnfVdu(generics.RetrieveAPIView):
         for vdu in vdus:
             dt = {}
             dt['vdu_id'] = vdu
-            data = mt.getMetricsResId(vdu,time_window)
+            data = mt.getMetricsResId(vnf[0].host_type,vdu,time_window)
             if 'data' in data:
                 dt['metrics'] = data['data']
             else:
@@ -1165,7 +1235,7 @@ class SntPromVnfMetricDetail(generics.ListAPIView):
         for vdu in vdus:
             dt = {}
             dt['vdu_id'] = vdu
-            data = mt.getMetricDetail(vdu, metric_name)
+            data = mt.getMetricDetail(vnf[0].host_type,vdu, metric_name)
             if 'data' in data:
                 dt['metrics'] = data['data']['result']
             else:
@@ -1341,7 +1411,7 @@ class SntPromMetricDataPerVnf(generics.CreateAPIView):
         request.data["name"]="cpu_util"
         queryset = monitoring_functions.objects.all()
         vnf = queryset.filter(sonata_func_id=vnfid)
-        request.data["labels"] = [{"labeltag":"resource_id", "labelid":vnf[0].host_id}]
+        request.data["labels"] = [{"labeltag":vnf[0].host_type, "labelid":vnf[0].host_id}]
         data = mt.getTimeRangeDataVnf(request.data)
         response = {}
         # print data
@@ -1493,7 +1563,7 @@ class SntPromNSMetricListVnf(generics.RetrieveAPIView):
             f['vdus'] = []
             vdu={}
             vdu['vdu_id'] = vnf.host_id
-            data = mt.getMetricsResId(vnf.host_id,time_window)
+            data = mt.getMetricsResId(vnf.host_type,vnf.host_id,time_window)
             if 'data' in data:
                 vdu['metrics'] = data['data']
             else:

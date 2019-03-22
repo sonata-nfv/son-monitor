@@ -113,10 +113,11 @@ class SntUserSerializer(serializers.ModelSerializer):
 class SntServicesSerializer(serializers.ModelSerializer):
     #user = serializers.PrimaryKeyRelatedField(read_only=False, queryset=monitoring_users.objects.all())
     #user = SntUserSerializer()
-    srv_id = serializers.CharField(source='sonata_srv_id')
+    ns_instance_id = serializers.CharField(source='sonata_srv_id')
+    test_id = serializers.CharField(source='description')
     class Meta:
         model = monitoring_services
-        fields = ('srv_id', 'name', 'description')
+        fields = ('ns_instance_id', 'test_id','created')
 
 class SntServicesFullSerializer(serializers.ModelSerializer):
     #user = serializers.PrimaryKeyRelatedField(read_only=False, queryset=monitoring_users.objects.all())
@@ -209,6 +210,15 @@ class SntNewFunctionsSerializer(serializers.ModelSerializer):
         model = monitoring_functions
         fields = ('sonata_func_id', 'name', 'description', 'created', 'host_id', 'pop_id', 'metrics')
 
+class LightFunctionsSerializer(serializers.ModelSerializer):
+    vnfr_id = serializers.CharField(source='sonata_func_id')
+    vc_id = serializers.CharField(source='host_id')
+    vim_id = serializers.CharField()
+    vim_endpoint = serializers.CharField(source='pop_id')
+    class Meta:
+        model = monitoring_functions
+        fields = ('vnfr_id','vc_id', 'vim_id', 'vim_endpoint')
+
 class SntNewRulesSerializer(serializers.ModelSerializer):
     #service = serializers.PrimaryKeyRelatedField(read_only=False, queryset=monitoring_services.objects.all())
     #function = serializers.PrimaryKeyRelatedField(read_only=False, queryset=monitoring_functions.objects.all())
@@ -221,6 +231,11 @@ class NewServiceSerializer(serializers.Serializer):
     service = SntServicesSerializer()
     functions = SntNewFunctionsSerializer(many=True)
     rules = SntNewRulesSerializer(many=True)
+
+class LightServiceSerializer(serializers.Serializer):
+    ns_instance_uuid = serializers.CharField()
+    test_id = serializers.CharField()
+    functions = LightFunctionsSerializer(many=True)
 
 class promMetricLabelSerializer(serializers.Serializer):
     metric_name = ''
