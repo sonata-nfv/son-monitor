@@ -220,24 +220,6 @@ pipeline {
         }
       }
     }
-    stage('Deployment in VnV integration') {
-      parallel {
-        stage('Deployment in VnV integration') {
-          steps {
-            echo 'Deploying in integration...'
-          }
-        }
-        stage('Deploying in VnV') {
-          steps {
-            sh 'rm -rf tng-devops || true'
-            sh 'git clone https://github.com/sonata-nfv/tng-devops.git'
-            dir(path: 'tng-devops') {
-              sh 'ansible-playbook roles/vnv.yml -i environments -e "target=int-vnv.5gtango.eu component=monitoring"'
-            }
-          }
-        }
-      }
-    }
   }
   post {
     success {
