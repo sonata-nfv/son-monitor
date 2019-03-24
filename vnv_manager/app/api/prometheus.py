@@ -30,7 +30,7 @@
 ## partner consortium (www.5gtango.eu).
 # encoding: utf-8
 
-import json, yaml, subprocess, time
+import json, yaml, subprocess, time, datetime
 import httplib2 as httplib
 
 class RuleFile(object):
@@ -101,14 +101,14 @@ class ProData(object):
         self.srv_port = srv_port_
 
     def getMetrics(self):
-        now = int(time.time())
+        now = int(datetime.datetime.utcnow().timestamp())
         path = "".join(("/api/v1/label/__name__/values?_=", str(now)))
         d = self.HttpGet(self.srv_addr,self.srv_port,path)
         return d
 
     def getMetricsResId(self,key,id,tm_window):
-        now = int(time.time())
-        path = "".join(("/api/v1/series?match[]={"+key+"=\""+id+"\"}&start=", str(now-60), "&end=",str(now)))
+        now = int(datetime.datetime.utcnow().timestamp())
+        path = "".join(("/api/v1/series?match[]={"+key+"=\""+id+"\"}&start=", str(now-500), "&end=",str(now)))
         if tm_window:
             tm_window = '['+tm_window+']'
         else:
