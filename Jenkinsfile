@@ -43,6 +43,11 @@ pipeline {
             sh 'docker build -t registry.sonata-nfv.eu:5000/son-monitor-snmpmng -f snmpmng/Dockerfile snmpmng/'
           }
         }
+        stage('son-monitor-grafana') {
+          steps {
+            sh 'docker build -t registry.sonata-nfv.eu:5000/son-monitor-grafana -f grafana/Dockerfile grafana/'
+          }
+        }
       }
     }
     stage('Tests: Preparation') {
@@ -111,6 +116,11 @@ pipeline {
         stage('son-monitor-snmpmng') {
           steps {
             sh 'docker push registry.sonata-nfv.eu:5000/son-monitor-snmpmng'
+          }
+        }
+        stage('son-monitor-grafana') {
+          steps {
+            sh 'docker push registry.sonata-nfv.eu:5000/son-monitor-grafana'
           }
         }
       }
@@ -198,6 +208,12 @@ pipeline {
           steps {
             sh 'docker tag registry.sonata-nfv.eu:5000/son-monitor-snmpmng:latest registry.sonata-nfv.eu:5000/son-monitor-snmpmng:int'
             sh 'docker push  registry.sonata-nfv.eu:5000/son-monitor-snmpmng:int'
+          }
+        }
+        stage('son-monitor-grafana') {
+          steps {
+            sh 'docker tag registry.sonata-nfv.eu:5000/son-monitor-grafana:latest registry.sonata-nfv.eu:5000/son-monitor-grafana:int'
+            sh 'docker push  registry.sonata-nfv.eu:5000/son-monitor-grafana:int'
           }
         }
       }
