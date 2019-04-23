@@ -16,7 +16,7 @@
   "gnetId": null,
   "graphTooltip": 0,
   "id": 3,
-  "iteration": 1555929265173,
+  "iteration": 1556013801848,
   "links": [],
   "panels": [
     {
@@ -567,9 +567,8 @@
       {
         "allValue": null,
         "current": {
-          "tags": [],
-          "text": "cdu01-674f6e6f-b5c2-44f1-9e2c-fc8cc7b27ba1",
-          "value": "cdu01-674f6e6f-b5c2-44f1-9e2c-fc8cc7b27ba1"
+          "text": "All",
+          "value": "$__all"
         },
         "datasource": "Prometheus",
         "definition": "label_values({name=~\"^k8s.*\",pod_name=~\"^eu-5gtango.*\"},container_name)",
@@ -578,285 +577,9 @@
         "label": null,
         "multi": false,
         "name": "cnt_name",
-        "options": [
-          {
-            "selected": false,
-            "text": "All",
-            "value": "$__all"
-          },
-          {
-            "selected": false,
-            "text": "POD",
-            "value": "POD"
-          },
-          {
-            "selected": true,
-            "text": "cdu01-674f6e6f-b5c2-44f1-9e2c-fc8cc7b27ba1",
-            "value": "cdu01-674f6e6f-b5c2-44f1-9e2c-fc8cc7b27ba1"
-          },
-          {
-            "selected": false,
-            "text": "cdu01-a493f923-af07-4082-a27f-7692f3f4e959",
-            "value": "cdu01-a493f923-af07-4082-a27f-7692f3f4e959"
-          },
-          {
-            "selected": false,
-            "text": "cdu02-674f6e6f-b5c2-44f1-9e2c-fc8cc7b27ba1",
-            "value": "cdu02-674f6e6f-b5c2-44f1-9e2c-fc8cc7b27ba1"
-          },
-          {
-            "selected": false,
-            "text": "cdu03-674f6e6f-b5c2-44f1-9e2c-fc8cc7b27ba1",
-            "value": "cdu03-674f6e6f-b5c2-44f1-9e2c-fc8cc7b27ba1"
-          },
-          {
-            "selected": false,
-            "text": "cdu04-674f6e6f-b5c2-44f1-9e2c-fc8cc7b27ba1",
-            "value": "cdu04-674f6e6f-b5c2-44f1-9e2c-fc8cc7b27ba1"
-          },
-          {
-            "selected": false,
-            "text": "cndu01-00532f01-dbda-4438-ab5b-1472f9c78e2f",
-            "value": "cndu01-00532f01-dbda-4438-ab5b-1472f9c78e2f"
-          },
-          {
-            "selected": false,
-            "text": "cndu01-09b0b31c-6f97-474a-976b-69e87b190abc",
-            "value": "cndu01-09b0b31c-6f97-474a-976b-69e87b190abc"
-          },
-          {
-            "selected": false,
-            "text": "cndu01-09e8e730-bb43-4346-a0f3-f26a27214908",
-            "value": "cndu01-09e8e730-bb43-4346-a0f3-f26a27214908"
-          },
-          {
-            "selected": false,
-            "text": "cndu01-0cd06f1f-3fa7-41d9-9398-0b19436077c6",
-            "value": "cndu01-0cd06f1f-3fa7-41d9-9398-0b19436077c6"
-          },
-          {
-            "selected": false,
-            "text": "cndu01-0cec8e25-d080-444c-8366-8a65b916250d",
-            "value": "cndu01-0cec8e25-d080-444c-8366-8a65b916250d"
-          },
-          {
-            "selected": false,
-            "text": "cndu01-0e0af068-bc76-47ef-ab39-6530c28e9b07",
-            "value": "cndu01-0e0af068-bc76-47ef-ab39-6530c28e9b07"
-          },
-          {
-            "selected": false,
-            "text": "cndu01-16ac68b3-65db-49e7-a46e-25817f5d1ec5",
-            "value": "cndu01-16ac68b3-65db-49e7-a46e-25817f5d1ec5"
-          },
-          {
-            "selected": false,
-            "text": "cndu01-17f78132-47ed-434e-8266-8b9804f595a2",
-            "value": "cndu01-17f78132-47ed-434e-8266-8b9804f595a2"
-          },
-          {
-            "selected": false,
-            "text": "cndu01-1b80bff8-c038-4fea-a812-60f705e361f2",
-            "value": "cndu01-1b80bff8-c038-4fea-a812-60f705e361f2"
-          },
-          {
-            "selected": false,
-            "text": "cndu01-1e9f7689-1a2c-47ba-9627-595f43903ca4",
-            "value": "cndu01-1e9f7689-1a2c-47ba-9627-595f43903ca4"
-          },
-          {
-            "selected": false,
-            "text": "cndu01-2003720b-6764-42e3-b888-42903ed76264",
-            "value": "cndu01-2003720b-6764-42e3-b888-42903ed76264"
-          },
-          {
-            "selected": false,
-            "text": "cndu01-24feaf8e-fae3-457c-b209-07698a3cda6d",
-            "value": "cndu01-24feaf8e-fae3-457c-b209-07698a3cda6d"
-          },
-          {
-            "selected": false,
-            "text": "cndu01-2a9bc9be-0d21-4533-a443-1e453badb1b9",
-            "value": "cndu01-2a9bc9be-0d21-4533-a443-1e453badb1b9"
-          },
-          {
-            "selected": false,
-            "text": "cndu01-3fe2b29b-1b18-4cd1-803d-ba3ad0e261db",
-            "value": "cndu01-3fe2b29b-1b18-4cd1-803d-ba3ad0e261db"
-          },
-          {
-            "selected": false,
-            "text": "cndu01-478bc443-52fd-4dee-9c5e-421cca2ff8e4",
-            "value": "cndu01-478bc443-52fd-4dee-9c5e-421cca2ff8e4"
-          },
-          {
-            "selected": false,
-            "text": "cndu01-6f48933d-d767-460e-8f24-4d783a66e19c",
-            "value": "cndu01-6f48933d-d767-460e-8f24-4d783a66e19c"
-          },
-          {
-            "selected": false,
-            "text": "cndu01-73d6e218-b5c0-4c22-bac7-585f6d82bcd7",
-            "value": "cndu01-73d6e218-b5c0-4c22-bac7-585f6d82bcd7"
-          },
-          {
-            "selected": false,
-            "text": "cndu01-7b3d6c20-b068-4231-b922-97c3129051c8",
-            "value": "cndu01-7b3d6c20-b068-4231-b922-97c3129051c8"
-          },
-          {
-            "selected": false,
-            "text": "cndu01-81599b0d-a43c-4382-bd59-f50ddbcd93dc",
-            "value": "cndu01-81599b0d-a43c-4382-bd59-f50ddbcd93dc"
-          },
-          {
-            "selected": false,
-            "text": "cndu01-98925595-a0e2-4547-b92f-e9fe2ffdd837",
-            "value": "cndu01-98925595-a0e2-4547-b92f-e9fe2ffdd837"
-          },
-          {
-            "selected": false,
-            "text": "cndu01-98992ce9-aa9d-4e21-b1f7-53e8ac3d82ba",
-            "value": "cndu01-98992ce9-aa9d-4e21-b1f7-53e8ac3d82ba"
-          },
-          {
-            "selected": false,
-            "text": "cndu01-9e945ff9-946e-4534-a70d-4fdf0bc85e96",
-            "value": "cndu01-9e945ff9-946e-4534-a70d-4fdf0bc85e96"
-          },
-          {
-            "selected": false,
-            "text": "cndu01-a3a58dfc-6efd-4b3f-bf0d-575916a59d32",
-            "value": "cndu01-a3a58dfc-6efd-4b3f-bf0d-575916a59d32"
-          },
-          {
-            "selected": false,
-            "text": "cndu01-a7f3dc1b-5d12-4dfe-9443-2e4c6e870119",
-            "value": "cndu01-a7f3dc1b-5d12-4dfe-9443-2e4c6e870119"
-          },
-          {
-            "selected": false,
-            "text": "cndu01-ae69cbae-4f05-4673-9c04-57617380002c",
-            "value": "cndu01-ae69cbae-4f05-4673-9c04-57617380002c"
-          },
-          {
-            "selected": false,
-            "text": "cndu01-b4162f5d-b416-4fee-aac2-2bd7110b4458",
-            "value": "cndu01-b4162f5d-b416-4fee-aac2-2bd7110b4458"
-          },
-          {
-            "selected": false,
-            "text": "cndu01-b4588a5e-7220-455a-88f8-ed5e9297cf7d",
-            "value": "cndu01-b4588a5e-7220-455a-88f8-ed5e9297cf7d"
-          },
-          {
-            "selected": false,
-            "text": "cndu01-b56be67c-e3db-4572-99bd-73463102c710",
-            "value": "cndu01-b56be67c-e3db-4572-99bd-73463102c710"
-          },
-          {
-            "selected": false,
-            "text": "cndu01-c2dac2ab-cbd0-4c14-90ba-592ec5ff40e5",
-            "value": "cndu01-c2dac2ab-cbd0-4c14-90ba-592ec5ff40e5"
-          },
-          {
-            "selected": false,
-            "text": "cndu01-c30e3cc3-ba43-4288-aeaf-ab46741ced72",
-            "value": "cndu01-c30e3cc3-ba43-4288-aeaf-ab46741ced72"
-          },
-          {
-            "selected": false,
-            "text": "cndu01-c3556507-8b23-4ded-a6ce-9581b087426c",
-            "value": "cndu01-c3556507-8b23-4ded-a6ce-9581b087426c"
-          },
-          {
-            "selected": false,
-            "text": "cndu01-c3bb8991-c1e0-4b66-b322-782c9547be18",
-            "value": "cndu01-c3bb8991-c1e0-4b66-b322-782c9547be18"
-          },
-          {
-            "selected": false,
-            "text": "cndu01-c4a2700c-8f07-4320-93e2-7a84cf075e29",
-            "value": "cndu01-c4a2700c-8f07-4320-93e2-7a84cf075e29"
-          },
-          {
-            "selected": false,
-            "text": "cndu01-c7891bfd-c27f-438b-920e-eeb7c4e9be81",
-            "value": "cndu01-c7891bfd-c27f-438b-920e-eeb7c4e9be81"
-          },
-          {
-            "selected": false,
-            "text": "cndu01-c8bdbda8-c5da-4f15-a93e-a6373fd038a5",
-            "value": "cndu01-c8bdbda8-c5da-4f15-a93e-a6373fd038a5"
-          },
-          {
-            "selected": false,
-            "text": "cndu01-cb60da66-5d80-4283-9cd4-955912c847e0",
-            "value": "cndu01-cb60da66-5d80-4283-9cd4-955912c847e0"
-          },
-          {
-            "selected": false,
-            "text": "cndu01-d715df8e-2c86-440b-88bd-0ff482e742f5",
-            "value": "cndu01-d715df8e-2c86-440b-88bd-0ff482e742f5"
-          },
-          {
-            "selected": false,
-            "text": "cndu01-dd8d5615-b832-4ffc-b071-f462cddaaf97",
-            "value": "cndu01-dd8d5615-b832-4ffc-b071-f462cddaaf97"
-          },
-          {
-            "selected": false,
-            "text": "cndu01-e0947fcd-20fb-456f-989f-077de26c2544",
-            "value": "cndu01-e0947fcd-20fb-456f-989f-077de26c2544"
-          },
-          {
-            "selected": false,
-            "text": "cndu01-e1433170-5963-4ab3-9dc9-16313350a017",
-            "value": "cndu01-e1433170-5963-4ab3-9dc9-16313350a017"
-          },
-          {
-            "selected": false,
-            "text": "cndu01-e1a212b7-26d2-412d-91d7-76b027fddb32",
-            "value": "cndu01-e1a212b7-26d2-412d-91d7-76b027fddb32"
-          },
-          {
-            "selected": false,
-            "text": "cndu01-e2e62d55-6697-4989-966a-ec7a54606dd5",
-            "value": "cndu01-e2e62d55-6697-4989-966a-ec7a54606dd5"
-          },
-          {
-            "selected": false,
-            "text": "cndu01-e4eee317-ad81-4e1d-b217-f75be1c429cf",
-            "value": "cndu01-e4eee317-ad81-4e1d-b217-f75be1c429cf"
-          },
-          {
-            "selected": false,
-            "text": "cndu01-ec3d7853-f67f-4d62-9d3b-a3455fc15d8c",
-            "value": "cndu01-ec3d7853-f67f-4d62-9d3b-a3455fc15d8c"
-          },
-          {
-            "selected": false,
-            "text": "cndu01-ee6e8954-d7b8-4cdf-b09d-831a4ff0d269",
-            "value": "cndu01-ee6e8954-d7b8-4cdf-b09d-831a4ff0d269"
-          },
-          {
-            "selected": false,
-            "text": "cndu01-f54743f1-f549-4ca7-9d35-92477f1e2db8",
-            "value": "cndu01-f54743f1-f549-4ca7-9d35-92477f1e2db8"
-          },
-          {
-            "selected": false,
-            "text": "cndu01-f5592edc-0c0d-4981-9682-78744c245b2a",
-            "value": "cndu01-f5592edc-0c0d-4981-9682-78744c245b2a"
-          },
-          {
-            "selected": false,
-            "text": "cndu01-fbcb127e-ffb8-4712-af13-bbe97e076814",
-            "value": "cndu01-fbcb127e-ffb8-4712-af13-bbe97e076814"
-          }
-        ],
+        "options": [],
         "query": "label_values({name=~\"^k8s.*\",pod_name=~\"^eu-5gtango.*\"},container_name)",
-        "refresh": 0,
+        "refresh": 1,
         "regex": "",
         "skipUrlSync": false,
         "sort": 0,
@@ -869,8 +592,9 @@
       {
         "allValue": null,
         "current": {
-          "text": "eu-5gtango-smpilot-cc-0-1-674f6e6f-55f6cf7f4d-8mcbh",
-          "value": "eu-5gtango-smpilot-cc-0-1-674f6e6f-55f6cf7f4d-8mcbh"
+          "isNone": true,
+          "text": "None",
+          "value": ""
         },
         "datasource": "Prometheus",
         "definition": "label_values({name=~\"^k8s.*\",pod_name=~\"^eu-5gtango.*\",container_name=\"$cnt_name\"},pod_name)",
@@ -924,6 +648,6 @@
   },
   "timezone": "",
   "title": "K8s dashboard",
-  "uid": "epaA4ugWk",
-  "version": 23
+  "uid": "k8s_dash1",
+  "version": 25
 }
