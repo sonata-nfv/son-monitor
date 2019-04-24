@@ -859,11 +859,12 @@ class SntNewService(generics.ListCreateAPIView):
             if 'vc_id' in vnf:
                 vdu = vnf['vc_id']
                 sch_key = 'resource_id'
-            if 'pod_name' in vnf:
-                vdu = vnf['pod_name']
+            if 'container_name' in vnf:
+                pod = vnf['pod_name']
+                cnt = vnf['container_name']
                 sch_key = 'container_name'
 
-            func = monitoring_functions(service=srv, host_id=vdu, host_type=sch_key,
+            func = monitoring_functions(service=srv, host_id=cnt, host_type=sch_key,
                                         sonata_func_id=vnf['vnfr_id'],
                                         pop_id=fnc_pop_id)
             func.save()

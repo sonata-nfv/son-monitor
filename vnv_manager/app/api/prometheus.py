@@ -114,6 +114,15 @@ class ProData(object):
         else:
             tm_window = ''
         d = self.HttpGet(self.srv_addr,self.srv_port,path)
+        if key == 'container_name':
+            pod_name = d['data'][0]['pod_name']
+            print(pod_name)
+            now = int(datetime.datetime.utcnow().timestamp())
+            path = "".join(
+                ("/api/v1/series?match[]={__name__=~\"^container_network.*\",container_name=\"POD\",pod_name=\"" + pod_name + "\"}&start=", str(now - 500), "&end=", str(now)))
+            print(path)
+            tf_mtr = self.HttpGet(self.srv_addr, self.srv_port, path)
+
         resp = []
         print (d['data'])
         for mt in d['data']:
@@ -123,9 +132,20 @@ class ProData(object):
             mt.pop('id', None)
             mt.pop('group',None)
             mt.pop('job', None)
-            dt = self.getMetricData(key,id, mt['__name__'],tm_window)
-            mt['data'] = dt
+            if tm_window != '':
+                dt = self.getMetricData(key,id, mt['__name__'],tm_window)
+                mt['data'] = dt
             resp.append(mt)
+        if key == 'container_name':
+            for mt in tf_mtr['data']:
+                mt.pop('instance', None)
+                mt.pop('id', None)
+                mt.pop('group', None)
+                mt.pop('job', None)
+                if tm_window != '':
+                    dt = self.getMetricData('pod_name',pod_name, mt['__name__'],tm_window)
+                    mt['data'] = dt
+                resp.append(mt)
         print (len(resp))
         d['data'] = resp
         return d
