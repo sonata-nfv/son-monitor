@@ -918,6 +918,7 @@ class SntNewServiceConf(generics.CreateAPIView):
             #    pop = monitoring_pops(sonata_pop_id=srv_pop_id, sonata_sp_id="undefined", name="undefined",
             #                          prom_url="undefined")  # karpa
             #    pop.save()
+        
         if service['host_id']:
             srv_host_id = service['host_id']
         srv = monitoring_services(sonata_srv_id=service['sonata_srv_id'], name=service['name'],
@@ -938,6 +939,7 @@ class SntNewServiceConf(generics.CreateAPIView):
             #    pop = monitoring_pops(sonata_pop_id=fnc_pop_id, sonata_sp_id="undefined", name="undefined", 
             #        prom_url="undefined")
             #    pop.save()
+
             functions_status = len(functions)
 
             sch_key = 'resource_id'
