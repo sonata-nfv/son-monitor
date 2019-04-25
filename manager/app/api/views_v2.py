@@ -861,10 +861,10 @@ class SntNewServiceConf(generics.CreateAPIView):
         service = request.data['service']
         functions = request.data['functions']
         rules = request.data['rules']
-        functions_status = 'NULL'
-        metrics_status = 'NULL'
-        rules_status = 'NULL'
-        oids_status = 'NULL'
+        functions_status = 0
+        metrics_status = 0
+        rules_status = 0
+        oids_status = 0
 
         usr = None
         if 'sonata_usr' in service:
@@ -914,10 +914,10 @@ class SntNewServiceConf(generics.CreateAPIView):
         if service['pop_id']:
             srv_pop_id = service['pop_id']
             pop = monitoring_pops.objects.all().filter(sonata_pop_id=srv_pop_id)
-            if pop.count() == 0:
-                pop = monitoring_pops(sonata_pop_id=srv_pop_id, sonata_sp_id="undefined", name="undefined",
-                                      prom_url="undefined")  # karpa
-                pop.save()
+            #if pop.count() == 0:
+            #    pop = monitoring_pops(sonata_pop_id=srv_pop_id, sonata_sp_id="undefined", name="undefined",
+            #                          prom_url="undefined")  # karpa
+            #    pop.save()
         if service['host_id']:
             srv_host_id = service['host_id']
         srv = monitoring_services(sonata_srv_id=service['sonata_srv_id'], name=service['name'],
@@ -928,18 +928,26 @@ class SntNewServiceConf(generics.CreateAPIView):
         if isinstance(dev, monitoring_users):
             srv.user.add(dev)
         srv.save()
-
+        
         oids_status = 0
         metrics_status = 0
         for f in functions:
             fnc_pop_id = f['pop_id']
             pop = monitoring_pops.objects.all().filter(sonata_pop_id=fnc_pop_id)
-            if pop.count() == 0:
-                pop = monitoring_pops(sonata_pop_id=fnc_pop_id, sonata_sp_id="undefined", name="undefined",
-                                      prom_url="undefined")
-                pop.save()
+            #if pop.count() == 0:
+            #    pop = monitoring_pops(sonata_pop_id=fnc_pop_id, sonata_sp_id="undefined", name="undefined", 
+            #        prom_url="undefined")
+            #    pop.save()
             functions_status = len(functions)
-            func = monitoring_functions(service=srv, host_id=f['host_id'], name=f['name'],
+
+            sch_key = 'resource_id'
+            if 'host_id' in f:
+                vdu = f['host_id']
+                sch_key = 'resource_id'
+            if 'cnt_nm' in f:
+                vdu = f['cnt_nm'][0]
+                sch_key = 'container_name'
+            func = monitoring_functions(service=srv, host_id=vdu, name=f['name'], host_type=sch_key,
                                         sonata_func_id=f['sonata_func_id'], description=f['description'],
                                         pop_id=f['pop_id'])
             func.save()
@@ -949,7 +957,7 @@ class SntNewServiceConf(generics.CreateAPIView):
                                             interval=m['interval'], description=m['description'])
                 metric.save()
 
-            old_snmps = monitoring_snmp_entities.objects.all().filter(entity_id=f['host_id'])
+            old_snmps = monitoring_snmp_entities.objects.all().filter(entity_id=vdu)
             if old_snmps.count() > 0:
                 old_snmps.update(status='DELETED')
 
@@ -960,7 +968,7 @@ class SntNewServiceConf(generics.CreateAPIView):
                         port = snmp['port']
                     else:
                         port = 161
-                    ent = monitoring_snmp_entities(entity_id=f['host_id'], version=snmp['version'],
+                    ent = monitoring_snmp_entities(entity_id=vdu, version=snmp['version'],
                                                    auth_protocol=snmp['auth_protocol'],
                                                    security_level=snmp['security_level'],
                                                    ip=snmp['ip'], port=port, username=snmp['username'],

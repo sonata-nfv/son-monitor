@@ -188,7 +188,7 @@ class monitoring_pops(models.Model):
         managed = True
 
     def __unicode__(self):
-        return u'%s %s %s' % (self.name, self.prom_url, self.sonata_pop_id, self.sonata_sp_id)
+        return u'%s %s %s %s' % (self.name, self.prom_url, self.sonata_pop_id, self.sonata_sp_id)
 
 class monitoring_users(models.Model):
     USR_TYPES = (('cst', 'customer'), ('dev', 'developer'), ('admin', "admin"),)
@@ -230,6 +230,7 @@ class monitoring_functions(models.Model):
     service = models.ForeignKey(monitoring_services)
     pop_id = models.CharField(max_length=60, blank=True)
     host_id = models.CharField(max_length=60, blank=True)
+    host_type = models.CharField(max_length=60, blank=True)
     name = models.CharField(max_length=30, blank=True)
     sonata_func_id = models.CharField(max_length=60, blank=True)
     description = models.CharField(max_length=1024)
