@@ -230,6 +230,7 @@ class monitoring_functions(models.Model):
     service = models.ForeignKey(monitoring_services)
     pop_id = models.CharField(max_length=60, blank=True)
     host_id = models.CharField(max_length=60, blank=True)
+    host_type = models.CharField(max_length=60, blank=True)
     name = models.CharField(max_length=30, blank=True)
     sonata_func_id = models.CharField(max_length=60, blank=True)
     description = models.CharField(max_length=1024)
