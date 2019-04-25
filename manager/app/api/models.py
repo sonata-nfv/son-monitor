@@ -188,7 +188,7 @@ class monitoring_pops(models.Model):
         managed = True
 
     def __unicode__(self):
-        return u'%s %s %s' % (self.name, self.prom_url, self.sonata_pop_id, self.sonata_sp_id)
+        return u'%s %s %s %s' % (self.name, self.prom_url, self.sonata_pop_id, self.sonata_sp_id)
 
 class monitoring_users(models.Model):
     USR_TYPES = (('cst', 'customer'), ('dev', 'developer'), ('admin', "admin"),)

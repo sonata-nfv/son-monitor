@@ -914,10 +914,10 @@ class SntNewServiceConf(generics.CreateAPIView):
         if service['pop_id']:
             srv_pop_id = service['pop_id']
             pop = monitoring_pops.objects.all().filter(sonata_pop_id=srv_pop_id)
-            if pop.count() == 0:
-                pop = monitoring_pops(sonata_pop_id=srv_pop_id, sonata_sp_id="undefined", name="undefined",
-                                      prom_url="undefined")  # karpa
-                pop.save()
+            #if pop.count() == 0:
+            #    pop = monitoring_pops(sonata_pop_id=srv_pop_id, sonata_sp_id="undefined", name="undefined",
+            #                          prom_url="undefined")  # karpa
+            #    pop.save()
         if service['host_id']:
             srv_host_id = service['host_id']
         srv = monitoring_services(sonata_srv_id=service['sonata_srv_id'], name=service['name'],
@@ -928,16 +928,16 @@ class SntNewServiceConf(generics.CreateAPIView):
         if isinstance(dev, monitoring_users):
             srv.user.add(dev)
         srv.save()
-
+        
         oids_status = 0
         metrics_status = 0
         for f in functions:
             fnc_pop_id = f['pop_id']
             pop = monitoring_pops.objects.all().filter(sonata_pop_id=fnc_pop_id)
-            if pop.count() == 0:
-                pop = monitoring_pops(sonata_pop_id=fnc_pop_id, sonata_sp_id="undefined", name="undefined", 
-                    prom_url="undefined")
-                pop.save()
+            #if pop.count() == 0:
+            #    pop = monitoring_pops(sonata_pop_id=fnc_pop_id, sonata_sp_id="undefined", name="undefined", 
+            #        prom_url="undefined")
+            #    pop.save()
             functions_status = len(functions)
 
             sch_key = 'resource_id'
