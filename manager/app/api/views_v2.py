@@ -936,7 +936,7 @@ class SntNewServiceConf(generics.CreateAPIView):
             pop = monitoring_pops.objects.all().filter(sonata_pop_id=fnc_pop_id)
             if pop.count() == 0:
                 pop = monitoring_pops(sonata_pop_id=fnc_pop_id, sonata_sp_id="undefined", name="undefined", 
-                    type="undefined",prom_url="undefined")
+                    prom_url="undefined")
                 pop.save()
             functions_status = len(functions)
 
