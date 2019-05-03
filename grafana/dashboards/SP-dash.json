@@ -18,8 +18,7 @@
   "editable": true,
   "gnetId": null,
   "graphTooltip": 0,
-  "id": 3,
-  "iteration": 1556870515383,
+  "iteration": 1556874031632,
   "links": [],
   "panels": [
     {
@@ -188,7 +187,7 @@
         "showThresholdMarkers": true,
         "thresholds": [
           {
-            "color": "#3274D9",
+            "color": "#73BF69",
             "index": 0,
             "value": null
           },
@@ -1292,6 +1291,6 @@
   },
   "timezone": "utc",
   "title": "SP",
-  "uid": "SP_dash",
-  "version": 38
+  "uid": "sp_dash",
+  "version": 74
 }
