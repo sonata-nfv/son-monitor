@@ -914,10 +914,10 @@ class SntNewServiceConf(generics.CreateAPIView):
         if service['pop_id']:
             srv_pop_id = service['pop_id']
             pop = monitoring_pops.objects.all().filter(sonata_pop_id=srv_pop_id)
-            #if pop.count() == 0:
-            #    pop = monitoring_pops(sonata_pop_id=srv_pop_id, sonata_sp_id="undefined", name="undefined",
-            #                          prom_url="undefined")  # karpa
-            #    pop.save()
+            if pop.count() == 0:
+                pop = monitoring_pops(sonata_pop_id=srv_pop_id, sonata_sp_id="undefined", name="undefined",
+                                      prom_url="undefined")  # karpa
+                pop.save()
         
         if service['host_id']:
             srv_host_id = service['host_id']
