@@ -1118,7 +1118,7 @@ class SntPromNSMetricListVnf(generics.RetrieveAPIView):
             f['vdus'] = []
             vdu={}
             vdu['vdu_id'] = vnf.host_id
-            data = mt.getMetricsResId(vnf.host_id,time_window)
+            data = mt.getMetricsResId(vnf.host_type,vnf.host_id,time_window)
             if 'data' in data:
                 vdu['metrics'] = data['data']
             else:
@@ -1150,7 +1150,7 @@ class SntPromMetricListVnf(generics.RetrieveAPIView):
         for vdu in vdus:
             dt = {}
             dt['vdu_id'] = vdu
-            data = mt.getMetricsResId(vdu,time_window)
+            data = mt.getMetricsResId(vnf[0].host_type,vdu,time_window)
             if 'data' in data:
                 dt['metrics'] = data['data']
             else:
@@ -1183,7 +1183,7 @@ class SntPromMetricListVnfVdu(generics.RetrieveAPIView):
         for vdu in vdus:
             dt = {}
             dt['vdu_id'] = vdu
-            data = mt.getMetricsResId(vdu,time_window)
+            data = mt.getMetricsResId(vnf[0].host_type,vdu,time_window)
             if 'data' in data:
                 dt['metrics'] = data['data']
             else:
