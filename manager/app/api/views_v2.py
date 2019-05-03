@@ -935,10 +935,10 @@ class SntNewServiceConf(generics.CreateAPIView):
         for f in functions:
             fnc_pop_id = f['pop_id']
             pop = monitoring_pops.objects.all().filter(sonata_pop_id=fnc_pop_id)
-            #if pop.count() == 0:
-            #    pop = monitoring_pops(sonata_pop_id=fnc_pop_id, sonata_sp_id="undefined", name="undefined", 
-            #        prom_url="undefined")
-            #    pop.save()
+            if pop.count() == 0:
+                pop = monitoring_pops(sonata_pop_id=fnc_pop_id, sonata_sp_id="undefined", name="undefined", 
+                    prom_url="undefined")
+                pop.save()
 
             functions_status = len(functions)
 
@@ -946,8 +946,8 @@ class SntNewServiceConf(generics.CreateAPIView):
             if 'host_id' in f:
                 vdu = f['host_id']
                 sch_key = 'resource_id'
-            if 'cnt_nm' in f:
-                vdu = f['cnt_nm'][0]
+            if 'cnt_name' in f:
+                vdu = f['cnt_name'][0]
                 sch_key = 'container_name'
             func = monitoring_functions(service=srv, host_id=vdu, name=f['name'], host_type=sch_key,
                                         sonata_func_id=f['sonata_func_id'], description=f['description'],
