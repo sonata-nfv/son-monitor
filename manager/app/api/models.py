@@ -180,6 +180,7 @@ class monitoring_pops(models.Model):
     prom_url = models.CharField(max_length=128, blank=True)
     sonata_sp_id = models.CharField(max_length=60)
     sonata_pop_id = models.CharField(max_length=60)
+    type = models.CharField(max_length=60,blank=True,default="undefined")
     created = models.DateTimeField(default=timezone.now)
 
     class Meta:
