@@ -32,7 +32,7 @@
 
 
 
-import json, yaml, subprocess, time
+import json, yaml, subprocess, time, datetime
 import http.client as httplib
 
 
@@ -109,32 +109,52 @@ class ProData(object):
         d = self.HttpGet(self.srv_addr,self.srv_port,path)
         return d
 
-    def getMetricsResId(self,id,tm_window):
+    def getMetricsResId(self,key,id,tm_window):
         now = int(time.time())
-        path = "".join(("/api/v1/series?match[]={resource_id=\""+id+"\"}&start=", str(now-60), "&end=",str(now)))
+        path = "".join(("/api/v1/series?match[]={"+key+"=\""+id+"\"}&start=", str(now-500), "&end=",str(now)))
         if tm_window:
             tm_window = '['+tm_window+']'
         else:
             tm_window = ''
         d = self.HttpGet(self.srv_addr,self.srv_port,path)
         resp = []
-        print (d['data'])
+        if key == 'container_name':
+            pod_name = d['data'][0]['pod_name']
+            now = int(datetime.datetime.utcnow().timestamp())
+            path = "".join(
+                ("/api/v1/series?match[]={__name__=~\"^container_network.*\",container_name=\"POD\",pod_name=\"" + pod_name + "\"}&start=", str(now - 500), "&end=", str(now)))
+            tf_mtr = self.HttpGet(self.srv_addr, self.srv_port, path)
+        #print (d['data'])
+        metrics = []
         for mt in d['data']:
             if mt['__name__'] == 'ALERTS' or mt['__name__'] == 'ALERTS_FOR_STATE':
                 continue
             mt.pop('instance',None)
             mt.pop('id', None)
             mt.pop('group',None)
-            mt.pop('job', None)
-            dt = self.getMetricData(id, mt['__name__'],tm_window)
-            mt['data'] = dt
+            mt.pop('job', None)            
+            if tm_window != '':
+                dt = self.getMetricData(key,id, mt['__name__'],tm_window)
+                mt['data'] = dt
+            metrics.append(mt['__name__'])   
             resp.append(mt)
-        print (len(resp))
+        if key == 'container_name':
+            for mt in tf_mtr['data']:
+                mt.pop('instance', None)
+                mt.pop('id', None)
+                mt.pop('group', None)
+                mt.pop('job', None)
+                if tm_window != '':
+                    dt = self.getMetricData('pod_name',pod_name, mt['__name__'],tm_window)
+                    mt['data'] = dt
+                metrics.append(mt['__name__'])
+                resp.append(mt)
+        print (json.dumps(metrics))
         d['data'] = resp
         return d
 
-    def getMetricData(self,vdu ,metric_name,time_window):
-        path = "".join(("/api/v1/query?query=", str(metric_name), "{resource_id=\"" + vdu + "\"}"+time_window))
+    def getMetricData(self, key, vdu ,metric_name, time_window):
+        path = "".join(("/api/v1/query?query=", str(metric_name), "{" + key + "=\"" + vdu + "\"}" + time_window))
         d = self.HttpGet(self.srv_addr, self.srv_port, path)
         dt = []
         if 'status' in d:

@@ -914,10 +914,10 @@ class SntNewServiceConf(generics.CreateAPIView):
         if service['pop_id']:
             srv_pop_id = service['pop_id']
             pop = monitoring_pops.objects.all().filter(sonata_pop_id=srv_pop_id)
-            #if pop.count() == 0:
-            #    pop = monitoring_pops(sonata_pop_id=srv_pop_id, sonata_sp_id="undefined", name="undefined",
-            #                          prom_url="undefined")  # karpa
-            #    pop.save()
+            if pop.count() == 0:
+                pop = monitoring_pops(sonata_pop_id=srv_pop_id, sonata_sp_id="undefined", name="undefined",
+                                      prom_url="undefined", type="undefined")
+                pop.save()
         
         if service['host_id']:
             srv_host_id = service['host_id']
@@ -935,20 +935,22 @@ class SntNewServiceConf(generics.CreateAPIView):
         for f in functions:
             fnc_pop_id = f['pop_id']
             pop = monitoring_pops.objects.all().filter(sonata_pop_id=fnc_pop_id)
-            #if pop.count() == 0:
-            #    pop = monitoring_pops(sonata_pop_id=fnc_pop_id, sonata_sp_id="undefined", name="undefined", 
-            #        prom_url="undefined")
-            #    pop.save()
-
             functions_status = len(functions)
 
             sch_key = 'resource_id'
             if 'host_id' in f:
                 vdu = f['host_id']
                 sch_key = 'resource_id'
-            if 'cnt_nm' in f:
-                vdu = f['cnt_nm'][0]
+                pop_type = 'openstack'
+            if 'cnt_name' in f:
+                vdu = f['cnt_name'][0]
                 sch_key = 'container_name'
+                pop_type = 'k8s'
+            if pop.count() == 0:
+                pop = monitoring_pops(sonata_pop_id=fnc_pop_id, sonata_sp_id="undefined",
+                                      name="undefined",prom_url="undefined",type=pop_type)
+                pop.save()
+
             func = monitoring_functions(service=srv, host_id=vdu, name=f['name'], host_type=sch_key,
                                         sonata_func_id=f['sonata_func_id'], description=f['description'],
                                         pop_id=f['pop_id'])
@@ -1118,7 +1120,7 @@ class SntPromNSMetricListVnf(generics.RetrieveAPIView):
             f['vdus'] = []
             vdu={}
             vdu['vdu_id'] = vnf.host_id
-            data = mt.getMetricsResId(vnf.host_id,time_window)
+            data = mt.getMetricsResId(vnf.host_type,vnf.host_id,time_window)
             if 'data' in data:
                 vdu['metrics'] = data['data']
             else:
@@ -1150,7 +1152,7 @@ class SntPromMetricListVnf(generics.RetrieveAPIView):
         for vdu in vdus:
             dt = {}
             dt['vdu_id'] = vdu
-            data = mt.getMetricsResId(vdu,time_window)
+            data = mt.getMetricsResId(vnf[0].host_type,vdu,time_window)
             if 'data' in data:
                 dt['metrics'] = data['data']
             else:
@@ -1183,7 +1185,7 @@ class SntPromMetricListVnfVdu(generics.RetrieveAPIView):
         for vdu in vdus:
             dt = {}
             dt['vdu_id'] = vdu
-            data = mt.getMetricsResId(vdu,time_window)
+            data = mt.getMetricsResId(vnf[0].host_type,vdu,time_window)
             if 'data' in data:
                 dt['metrics'] = data['data']
             else:
