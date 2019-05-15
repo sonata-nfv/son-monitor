@@ -61,325 +61,6 @@ def api_root(request, format=None):
     })
 
 
-class SntPLCRuleconf(generics.CreateAPIView):
-    serializer_class = SntPLCRulesConfSerializer
-
-    def post(self, request, *args, **kwargs):
-
-        dt = request.data
-        print(dt.keys())
-        if 'plc_cnt' in dt.keys():
-            policy_cnt = dt['plc_cnt']
-        if 'srvID' in self.kwargs:
-            srvid = self.kwargs['srvID']
-        elif 'sonata_service_id' in dt.keys():
-            srvid = dt['sonata_service_id']
-        else:
-            return Response({'error': 'Undefined service_id'}, status=status.HTTP_400_BAD_REQUEST)
-
-        if 'vnfs' in dt.keys():
-            vnfs = dt['vnfs']
-        else:
-            return Response({'error': 'Undefined vnfs'}, status=status.HTTP_400_BAD_REQUEST)
-
-        # Check if service exists
-        srv = monitoring_services.objects.all().filter(sonata_srv_id=srvid)
-        if srv.count() == 0:
-            if srvid != 'generic':
-                return Response({'error': 'Requested Service not found'}, status=status.HTTP_404_NOT_FOUND)
-            else:
-                srvid = 'alerts'
-
-        # Delete old rule from DB
-        rules_db = monitoring_rules.objects.all().filter(service__sonata_srv_id=srvid, consumer='PLC')
-        rules_db.delete()
-
-        # Create prometheus configuration file
-        rls = {}
-        rls['rules'] = []
-        srvrules = []
-        rules_status = 0
-        rls['service'] = 'plc-' + srvid
-        for vnf in dt['vnfs']:
-            rls['vnf'] = vnf['nvfid']
-            if 'vdus' in vnf.keys():
-                for vdu in vnf['vdus']:
-                    rls['vdu_id'] = vdu['vdu_id']
-                    rules = vdu['rules']
-                    rules_status += len(rules)
-                    for r in rules:
-                        print ('vnf ' + rls['vnf'] + ' vdu: ' + rls['vdu_id'] + json.dumps(r))
-                        nt = monitoring_notif_types.objects.all().filter(id=r['notification_type']['id'])
-                        if nt.count() == 0:
-                            return Response({'error': 'Alert notification type does not supported. Action Aborted'},
-                                            status=status.HTTP_400_BAD_REQUEST)
-                        else:
-                            if srvid != "alerts":
-                                print(rls['vnf'], rls['vdu_id'])
-                                rule = monitoring_rules(service=srv[0], summary=r['summary'], notification_type=nt[0],
-                                                        name=r['name'], condition=r['condition'],
-                                                        duration=r['duration'],
-                                                        description=r['description'], consumer='PLC',
-                                                        function=rls['vnf'], vdu=rls['vdu_id'])
-                                rule.save()
-                        rl = {}
-                        rl['name'] = r['name']
-                        rl['description'] = r['description']
-                        rl['summary'] = r['summary']
-                        rl['duration'] = r['duration']
-                        rl['notification_type'] = r['notification_type']
-                        rl['condition'] = r['condition']
-                        rl['labels'] = ["serviceID=\"" + srvid + "\", functionID=\"" + rls['vnf'] + "\", tp=\"PLC\""]
-                        rls['rules'].append(rl)
-                    srvrules += rules
-
-        if len(srvrules) > 0:
-            cl = Http()
-            rsp = cl.POST('http://prometheus:9089/prometheus/rules', [], json.dumps(rls))
-            if rsp == 200:
-                return Response({'status': "success", "rules": rules_status})
-            else:
-                return Response({'error': 'Rule update fail ' + str(rsp)},
-                                status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-        else:
-            return Response({'error': 'No rules defined'})
-
-class SntPLCRulesDetail(generics.DestroyAPIView):
-    serializer_class = SntRulesSerializer
-
-    def delete(self, request, *args, **kwargs):
-        queryset = monitoring_rules.objects.all()
-        srvid = self.kwargs['sonata_srv_id']
-        fq = queryset.filter(service__sonata_srv_id=srvid, consumer='PLC')
-
-        if fq.count() > 0:
-            fq.delete()
-            cl = Http()
-            rsp = cl.DELETE('http://prometheus:9089/prometheus/rules/' + str('plc-'+srvid), [])
-            return Response({'status': "service's rules removed"}, status=status.HTTP_204_NO_CONTENT)
-        else:
-            return Response({'status': "rules not found"}, status=status.HTTP_404_NOT_FOUND)
-
-class SntPLCRulesPerServiceList(generics.ListAPIView):
-    serializer_class = SntRulesPerSrvSerializer
-
-    def get_queryset(self):
-        queryset = monitoring_rules.objects.all()
-        srvid = self.kwargs['srv_id']
-        return queryset.filter(service__sonata_srv_id=srvid, consumer='PLC')
-
-class SntPLCRulesList(generics.ListAPIView):
-    serializer_class = SntRulesSerializer
-    def get_queryset(self):
-        queryset = monitoring_rules.objects.all()
-        return queryset.filter(consumer='PLC')
-
-
-###SLA Rules
-class SntSLARuleconf(generics.CreateAPIView):
-    serializer_class = SntSLARulesConfSerializer
-
-    def post(self, request, *args, **kwargs):
-        dt = request.data
-        if 'srvID' in self.kwargs:
-            srvid = self.kwargs['srv_id']
-        elif 'sonata_service_id' in dt:
-            srvid = dt['sonata_service_id']
-        else:
-            return Response({'error': 'sonata_service_id missing'}, status=status.HTTP_400_BAD_REQUEST)
-        # print(dt.keys())
-        if 'plc_cnt' in dt.keys():
-            policy_cnt = dt['plc_cnt']
-        if 'vnfs' in dt.keys():
-            vnfs = dt['vnfs']
-        else:
-            return Response({'error': 'Undefined vnfs'}, status=status.HTTP_400_BAD_REQUEST)
-
-        # Check if service exists
-        srv = monitoring_services.objects.all().filter(sonata_srv_id=srvid)
-        if srv.count() == 0:
-            if srvid != 'generic':
-                return Response({'error': 'Requested Service not found'}, status=status.HTTP_404_NOT_FOUND)
-            else:
-                srvid = 'alerts'
-
-        # Delete old rule from DB
-        rules_db = monitoring_rules.objects.all().filter(service__sonata_srv_id=srvid, consumer='SLA')
-        rules_db.delete()
-
-        # Create prometheus configuration file
-        rls = {}
-        rls['rules'] = []
-        srvrules = []
-        rules_status = 0
-        rls['service'] = 'sla-' + srvid
-        for vnf in dt['vnfs']:
-            rls['vnf'] = vnf['nvfid']
-            if 'vdus' in vnf.keys():
-                for vdu in vnf['vdus']:
-                    rls['vdu_id'] = vdu['vdu_id']
-                    rules = vdu['rules']
-                    rules_status += len(rules)
-                    for r in rules:
-                        print('vnf ' + rls['vnf'] + ' vdu: ' + rls['vdu_id'] + json.dumps(r))
-                        nt = monitoring_notif_types.objects.all().filter(id=r['notification_type']['id'])
-                        if nt.count() == 0:
-                            return Response({'error': 'Alert notification type does not supported. Action Aborted'},
-                                            status=status.HTTP_400_BAD_REQUEST)
-                        else:
-                            if srvid != "alerts":
-                                print(rls['vnf'], rls['vdu_id'])
-                                rule = monitoring_rules(service=srv[0], summary=r['summary'], notification_type=nt[0],
-                                                        name=r['name'], condition=r['condition'],
-                                                        duration=r['duration'],
-                                                        description=r['description'], consumer='SLA',
-                                                        function=rls['vnf'], vdu=rls['vdu_id'])
-                                rule.save()
-                        rl = {}
-                        rl['name'] = r['name']
-                        rl['description'] = r['description']
-                        rl['summary'] = r['summary']
-                        rl['duration'] = r['duration']
-                        rl['notification_type'] = r['notification_type']
-                        rl['condition'] = r['condition']
-                        rl['labels'] = ["serviceID=\"" + srvid + "\", functionID=\"" + rls['vnf'] + "\", tp=\"SLA\""]
-                        rls['rules'].append(rl)
-                    srvrules += rules
-
-        if len(srvrules) > 0:
-            cl = Http()
-            rsp = cl.POST('http://prometheus:9089/prometheus/rules', [], json.dumps(rls))
-            if rsp == 200:
-                return Response({'status': "success", "rules": rules_status})
-            else:
-                return Response({'error': 'Rules update fail ' + str(rsp)},
-                                status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-        else:
-            return Response({'error': 'No rules defined'})
-
-class SntSLARulesDetail(generics.DestroyAPIView):
-    serializer_class = SntRulesSerializer
-
-    def delete(self, request, *args, **kwargs):
-        queryset = monitoring_rules.objects.all()
-        srvid = self.kwargs['sonata_srv_id']
-        fq = queryset.filter(service__sonata_srv_id=srvid,consumer='SLA')
-
-        if fq.count() > 0:
-            fq.delete()
-            cl = Http()
-            rsp = cl.DELETE('http://prometheus:9089/prometheus/rules/' + str('sla-'+srvid), [])
-            return Response({'status': "service's rules removed"}, status=status.HTTP_204_NO_CONTENT)
-        else:
-            return Response({'status': "rules not found"}, status=status.HTTP_404_NOT_FOUND)
-
-class SntSLARulesPerServiceList(generics.ListAPIView):
-    serializer_class = SntRulesPerSrvSerializer
-
-    def get_queryset(self):
-        queryset = monitoring_rules.objects.all()
-        srvid = self.kwargs['srv_id']
-        return queryset.filter(service__sonata_srv_id=srvid, consumer='SLA')
-
-    def delete(self, request, *args, **kwargs):
-        queryset = monitoring_rules.objects.all()
-        srvid = self.kwargs['srv_id']
-        fq = queryset.filter(service__sonata_srv_id=srvid, consumer='SLA')
-
-        if fq.count() > 0:
-            fq.delete()
-            cl = Http()
-            rsp = cl.DELETE('http://prometheus:9089/prometheus/rules/' + str('sla-' + srvid), [])
-            return Response({'status': "service's rules removed"}, status=status.HTTP_204_NO_CONTENT)
-        else:
-            return Response({'status': "rules not found"}, status=status.HTTP_404_NOT_FOUND)
-
-class SntSLARulesList(generics.ListAPIView):
-    serializer_class = SntRulesSerializer
-    def get_queryset(self):
-        queryset = monitoring_rules.objects.all()
-        return queryset.filter(consumer='SLA')
-
-class SntSNMPEntCreate(generics.ListCreateAPIView):
-    queryset = monitoring_snmp_entities.objects.all()
-    serializer_class = SntSNMPEntFullSerializer
-
-class SntSNMPEntList(generics.ListAPIView):
-    queryset = monitoring_snmp_entities.objects.all()
-    serializer_class = SntSNMPEntSerializer
-
-class SntSNMPEntDetail(generics.DestroyAPIView):
-    # queryset = monitoring_snmp_entities.objects.all()
-    # serializer_class = SntSNMPEntSerializer
-
-    def delete(self, request, *args, **kwargs):
-        id = self.kwargs['pk']
-        queryset = monitoring_snmp_entities.objects.all().filter(id=id)
-
-        if queryset.count() > 0:
-            queryset.update(status='DELETED')
-            return Response(status=status.HTTP_204_NO_CONTENT)
-        else:
-            return Response({'status': "SNMP server not found"}, status=status.HTTP_404_NOT_FOUND)
-
-
-class SntSmtpCreate(generics.CreateAPIView):
-    #    queryset = monitoring_smtp.objects.all()
-    serializer_class = SntSmtpSerializerCreate
-
-    def post(self, request, *args, **kwargs):
-        queryset = monitoring_smtp.objects.filter(component=request.data['component'])
-
-        if queryset.count() > 0:
-            queryset.update(smtp_server=request.data['smtp_server'], port=request.data['port'],
-                            user_name=request.data['user_name'], password=request.data['password'],
-                            sec_type=request.data['sec_type'])
-            return Response(monitoring_smtp.objects.values().filter(component=request.data['component']))
-        else:
-            smtp = monitoring_smtp(smtp_server=request.data['smtp_server'], port=request.data['port'],
-                                   user_name=request.data['user_name'], password=request.data['password'],
-                                   component=request.data['component'], sec_type=request.data['sec_type'])
-            smtp.save()
-            return Response(monitoring_smtp.objects.values().filter(component=request.data['component']))
-
-
-class SntSmtpList(generics.ListAPIView):
-    serializer_class = SntSmtpSerializerList
-
-    def get_queryset(self):
-        comp = self.kwargs['component']
-        queryset = monitoring_smtp.objects.filter(component=comp)
-        return queryset
-
-
-class SntSmtpDetail(generics.DestroyAPIView):
-    queryset = monitoring_smtp.objects.all()
-    serializer_class = SntSmtpSerializerList
-
-
-class SntCredList(generics.ListAPIView):
-    # serializer_class = SntSmtpSerializerList
-    serializer_class = SntSmtpSerializerCred
-
-    def get(self, request, *args, **kwargs):
-        smtp = monitoring_smtp.objects.filter(component=self.kwargs['component'])
-        if smtp.count() > 0:
-            dict = [obj.as_dict() for obj in smtp]
-            psw = (dict[0])['psw']
-            psw = base64.b64encode(psw)
-            return Response({'status': 'key found', 'creds': psw}, status=status.HTTP_200_OK)
-        else:
-            return Response({'status': 'key not found'}, status=status.HTTP_200_OK)
-
-
-def is_json(myjson):
-    try:
-        json_object = json.loads(myjson)
-    except ValueError as e:
-        return False
-    return True
-
-
 def getPromIP(pop_id_):
     arch = os.environ.get('MON_ARCH', 'CENTRALIZED')
 
@@ -1616,6 +1297,104 @@ class SntActMRPost(generics.CreateAPIView):
 
         return Response({'service_id': service_id_, 'test_id': test_id_, 'timestamp': tm, 'configuration': cnfg_},
                         status=status.HTTP_200_OK)
+
+class SntPromSrvTargets(generics.ListCreateAPIView):
+    def get_serializer_class(self):
+        assert self.method_serializer_classes is not None, (
+            'Expected view %s should contain method_serializer_classes '
+            'to get right serializer class.' %
+            (self.__class__.__name__, )
+        )
+        for methods, serializer_cls in self.method_serializer_classes.items():
+            if self.request.method in methods:
+                return serializer_cls
+
+        raise exceptions.MethodNotAllowed(self.request.method)
+
+    method_serializer_classes = {
+        ('GET',): SntPromTargetListSerializer,
+        ('POST'): SntPromTargetSerializer
+    }
+
+    url = 'http://prometheus:9089/prometheus/configuration'
+    # start from here
+
+    def get(self, request, *args, **kwargs):
+        self.serializer_class = SntPromTargetListSerializer
+        cl = Http()
+        rsp = cl.GET(self.url, [])
+
+        if 'scrape_configs' in rsp:
+                rsp = rsp['scrape_configs']
+        else:
+            rsp = []
+        print (rsp)
+        return Response({'targets': rsp}, status=status.HTTP_200_OK)
+
+    def post(self, request, *args, **kwargs):
+        self.serializer_class = SntPromTargetSerializer
+        data = request.data
+        #check data
+        if not 'targets' in data:
+            return Response({"error":"data malformed"}, status=status.HTTP_400_BAD_REQUEST)
+        if type(data['targets']) is list:
+            for trg in data['targets']:
+                if not 'targets' in trg or not 'sp_name' in trg or not 'type' in trg:
+                    return Response({"error": "data malformed"}, status=status.HTTP_400_BAD_REQUEST)
+                if type(trg['targets']) is not list:
+                    return Response({"error": "data malformed"}, status=status.HTTP_400_BAD_REQUEST)
+                if trg['type'] not in ['osm','sonata']:
+                    return Response({"error": "MANO platform not supported"}, status=status.HTTP_400_BAD_REQUEST)
+        else:
+            return Response({"error": "data malformed"}, status=status.HTTP_400_BAD_REQUEST)
+
+        #Get current congiguration from prometheus
+        cl = Http()
+        rsp = cl.GET(self.url, [])
+        #Update configuration
+        for trg in data['targets']:
+            if 'scrape_configs' in rsp:
+                idx=0
+                for scp_ent in rsp['scrape_configs']:
+                    if scp_ent['job_name'] == trg['sp_name']:
+                        rsp['scrape_configs'].pop(idx)
+                        break
+                    idx+=1
+                t = {}
+                t['job_name']=trg['sp_name']
+                t['static_configs'] = []
+                targets = {}
+                targets['targets'] = trg['targets']
+                if trg['type'] == 'sonata':
+                    targets['targets'].append(str(trg['sp_ip']+':9091'))
+                t['static_configs'].append(targets)
+                rsp['scrape_configs'].append(t)
+
+        #Save the new configuration
+        rsp = cl.POST(url_=self.url, headers_=[], data_=json.dumps(rsp))
+
+        return Response({'status': 'success', 'prom_code': rsp}, status=status.HTTP_200_OK)
+
+
+class SntPromSrvTargetsDetail(generics.DestroyAPIView):
+    url = 'http://prometheus:9089/prometheus/configuration'
+
+    def delete(self, request, *args, **kwargs):
+        sp_name = self.kwargs['sp_name']
+        cl = Http()
+        rsp = cl.GET(self.url, [])
+        # Update configuration
+        idx = 0
+        if 'scrape_configs' in rsp:
+            for scp_ent in rsp['scrape_configs']:
+                if scp_ent['job_name'] == sp_name:
+                    rsp['scrape_configs'].pop(idx)
+                    # Save the new configuration
+                    rsp = cl.POST(url_=self.url, headers_=[], data_=json.dumps(rsp))
+                    return Response({}, status=status.HTTP_204_NO_CONTENT)
+                idx+=1
+
+        return Response({"error": "SP not found!!"}, status=status.HTTP_404_NOT_FOUND)
 
 
 class Ping(generics.ListAPIView):

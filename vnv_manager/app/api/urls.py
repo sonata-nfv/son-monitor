@@ -53,21 +53,8 @@ schema_view = get_schema_view(
 
 
 # API endpoints
-urlpatterns1 = [
-	url(r'^api/v1/internal/smtp/creds/(?P<component>[^/]+)$', views.SntCredList.as_view()),
-
-]
-
 
 urlpatterns2 = [
-    url(r'^sla/monitoring-rules/service/(?P<srv_id>[^/]+)$', views.SntSLARulesPerServiceList.as_view()),
-	url(r'^sla/monitoring-rules$', views.SntSLARuleconf.as_view()),
-	url(r'^sla/monitoring-alerts$', views.SntSLAAlertsList.as_view()),
-
-	url(r'^policies/monitoring-rules/service/(?P<srv_id>[^/]+)$', views.SntPLCRulesPerServiceList.as_view()),
-	url(r'^policies/monitoring-rules$', views.SntPLCRuleconf.as_view()),
-	url(r'^policies/monitoring-alerts$', views.SntPLCAlertsList.as_view()),
-
 	#url(r'^notification-types$', views.SntNotifTypesList.as_view()),
 	#url(r'^notification-types/(?P<pk>[0-9]+)$', views.SntNotifTypesDetail.as_view()),
 
@@ -79,14 +66,13 @@ urlpatterns2 = [
 
 	url(r'^prometheus/metrics$', views.SntPromMetricList.as_view()),
 	url(r'^prometheus/metrics/name/(?P<metricName>[^/]+)$', views.SntPromMetricDetail.as_view()),
+	url(r'^prometheus/targets$', views.SntPromSrvTargets.as_view()),
+    url(r'^prometheus/targets/(?P<sp_name>[^/]+)$', views.SntPromSrvTargetsDetail.as_view()),
 	url(r'^prometheus/configuration$', views.SntPromSrvConf.as_view()),
 
 	url(r'^active-monitoring-tests/service/(?P<srv_id>[^/]+)$', views.SntActMRList.as_view()),
 	url(r'^active-monitoring-tests/service/(?P<srv_id>[^/]+)/test/(?P<test_id>[^/]+)$', views.SntActMRDetail.as_view()),
 	url(r'^active-monitoring-tests$', views.SntActMRPost.as_view()),
-
-	#url(r'^snmps$', views.SntSNMPEntCreate.as_view()),
-	#url(r'^snmps/(?P<pk>[0-9]+)$', views.SntSNMPEntDetail.as_view()),
 ]
 
 urlpatterns3 = [
@@ -98,7 +84,6 @@ urlpatterns3 = [
 
 doc = format_suffix_patterns(urlpatterns3)
 public_apis = format_suffix_patterns(urlpatterns2)
-internal_apis = format_suffix_patterns(urlpatterns1)
 
 
 	
