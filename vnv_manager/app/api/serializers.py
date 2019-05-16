@@ -376,5 +376,11 @@ class SntPromTargetsSerializer(serializers.Serializer):
     static_configs = SntPromUrlsSerializer(many=True)
     job_name = serializers.CharField()
 
+class SntPromConfSerializer(serializers.Serializer):
+    config = serializers.CharField()
+
+class SntPromConfSerialazer (serializers.Serializer):
+    targets = serializers.JSONField
+
 class SntPromTargetListSerializer(serializers.Serializer):
     targets=SntPromTargetsSerializer(many=True)
