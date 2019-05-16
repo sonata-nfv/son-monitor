@@ -357,3 +357,10 @@ class SntAlertsListSerializer(serializers.Serializer):
 
 class SntPromConfSerializer(serializers.Serializer):
     config = serializers.CharField()
+
+class SntPromTargetsSerializer(serializers.Serializer):
+    static_configs = SntPromUrlsSerializer(many=True)
+    job_name = serializers.CharField()
+
+class SntPromTargetListSerializer(serializers.Serializer):
+    targets=SntPromTargetsSerializer(many=True)
