@@ -50,6 +50,7 @@ from api.logger import TangoLogger
 
 # Create your views here.
 
+LOG = TangoLogger.getLogger("son-monitor-manager", log_level=logging.INFO, log_json=True)
 
 @api_view(('GET',))
 def api_root(request, format=None):
@@ -859,15 +860,13 @@ class SntNewServiceConf(generics.CreateAPIView):
             return Response({'error': 'Undefined Rules'}, status=status.HTTP_400_BAD_REQUEST)
 
         print ('Received new Service notification: ' + json.dumps(request.data))
-        LOG = TangoLogger.getLogger("logger_name", log_level=logging.INFO, log_json=True)
-        LOG.warning("this is a test message")
-        LOG.warning("this is a test message inf0", extra=request.data)
+        
 
-        LOG = TangoLogger.getLogger("logger_name", log_level=logging.WARN, log_json=True)
-        LOG.warning("this is a test message warning")
+        LOG.info("this is a info message", extra= extra=request.data)
 
-        LOG = TangoLogger.getLogger("logger_name", log_level=logging.ERROR, log_json=True)
-        LOG.warning("this is a test message error")
+        LOG.warn("this is a warning message", extra=request.data)
+
+        LOG.error("this is a error message", extra=request.data)
 
         service = request.data['service']
         functions = request.data['functions']
