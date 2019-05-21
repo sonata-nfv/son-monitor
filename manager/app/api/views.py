@@ -43,7 +43,7 @@ import json, socket, os, base64, logging
 from api.httpClient import Http
 from django.db.models import Q
 from django.db import IntegrityError
-from Logger import TangoLogger
+from api.logger import TangoLogger
 
 
 # Create your views here.
