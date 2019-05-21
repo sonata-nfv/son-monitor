@@ -43,8 +43,9 @@ import json, socket, os, base64
 from api.httpClient import Http
 from django.db.models import Q
 import datetime
-import psutil
+import psutil, logging
 from django.db import IntegrityError
+from Logger import TangoLogger
 
 
 # Create your views here.
