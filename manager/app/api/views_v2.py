@@ -861,8 +861,14 @@ class SntNewServiceConf(generics.CreateAPIView):
         print ('Received new Service notification: ' + json.dumps(request.data))
         LOG = TangoLogger.getLogger("logger_name", log_level=logging.INFO, log_json=True)
         LOG.warning("this is a test message")
-        LOG.warning("this is a test message", extra={"start_stop": "START", "status": "201"})
-        
+        LOG.warning("this is a test message inf0", extra=request.data)
+
+        LOG = TangoLogger.getLogger("logger_name", log_level=logging.WARN, log_json=True)
+        LOG.warning("this is a test message warning")
+
+        LOG = TangoLogger.getLogger("logger_name", log_level=logging.ERROR, log_json=True)
+        LOG.warning("this is a test message error")
+
         service = request.data['service']
         functions = request.data['functions']
         rules = request.data['rules']
