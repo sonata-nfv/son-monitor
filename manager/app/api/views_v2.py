@@ -50,7 +50,8 @@ from api.logger import TangoLogger
 
 # Create your views here.
 
-LOG = TangoLogger.getLogger("son-monitor-manager", log_level=logging.INFO, log_json=True)
+json_logging = not (os.environ.get("json_logging") == "False")
+LOG = TangoLogger.getLogger(__name__, log_level=logging.INFO, log_json=json_logging)
 
 @api_view(('GET',))
 def api_root(request, format=None):
