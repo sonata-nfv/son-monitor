@@ -863,7 +863,7 @@ class SntNewServiceConf(generics.CreateAPIView):
         print ('Received new Service notification: ' + json.dumps(request.data))
         
 
-        LOG.info("this is a info message", extra= extra=request.data)
+        LOG.info("this is a info message", extra=request.data)
 
         LOG.warn("this is a warning message", extra=request.data)
 
