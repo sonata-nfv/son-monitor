@@ -118,7 +118,8 @@ class ProData(object):
             tm_window = ''
         d = self.HttpGet(self.srv_addr,self.srv_port,path)
         resp = []
-        if key == 'container_name':
+        tf_mtr = None
+        if len(d['data']) > 0 and key == 'container_name':
             pod_name = d['data'][0]['pod_name']
             now = int(datetime.datetime.utcnow().timestamp())
             path = "".join(
@@ -138,7 +139,8 @@ class ProData(object):
                 mt['data'] = dt
             metrics.append(mt['__name__'])   
             resp.append(mt)
-        if key == 'container_name':
+            
+        if tf_mtr and key == 'container_name':
             for mt in tf_mtr['data']:
                 mt.pop('instance', None)
                 mt.pop('id', None)
