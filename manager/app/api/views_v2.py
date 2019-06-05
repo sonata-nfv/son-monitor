@@ -1476,7 +1476,7 @@ class SntPromSrvTargets(generics.ListCreateAPIView):
                 if type(trg['static_configs']) is list:
                     for url in trg['static_configs']:
                         if not 'targets' in url:
-                        LOG.info("Data malformed")
+                            LOG.info("Data malformed")
                             return Response({"error": "data malformed"}, status=status.HTTP_400_BAD_REQUEST)
                 else:
                     LOG.info("Data malformed")
