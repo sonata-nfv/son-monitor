@@ -41,7 +41,7 @@ api_url = 'api/v2/'
 health_url = ''
 urlpatterns = [
     url(r'^' + str(api_url), include(public_apis, namespace='public_apis')),
-    #url(r'^' + str(health_url), include(internal_apis, namespace='internal_apis')),
+    url(r'^' + str(health_url), include(internal_apis, namespace='internal_apis')),
     url(r'^', include(doc, namespace='documentation')),
 
 ]

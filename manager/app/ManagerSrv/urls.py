@@ -40,6 +40,6 @@ urlpatterns = [
     #url(r'^', include(internal_apis, namespace='internal_apis')),
     url(r'^', include(public_apis_v1, namespace='public_apis_v1')),
     url(r'^', include(public_apis_v2, namespace='public_apis_v2')),
-    #url(r'^' + str(health_url), include(internal_apis, namespace='internal_apis')),
+    url(r'^', include(internal_apis, namespace='internal_apis')),
     url(r'^', include(doc, namespace='documentation')),
 ]
