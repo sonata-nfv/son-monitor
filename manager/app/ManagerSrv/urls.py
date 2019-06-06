@@ -29,7 +29,7 @@ partner consortium (www.sonata-nfv.eu).
 from django.conf.urls import url
 from django.contrib import admin
 from django.conf.urls import include
-from api.urls import public_apis_v1, public_apis_v2, doc
+from api.urls import public_apis_v1, public_apis_v2, internal_apis, doc
 
 
 
