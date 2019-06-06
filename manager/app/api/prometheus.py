@@ -110,8 +110,9 @@ class ProData(object):
         return d
 
     def getMetricsResId(self,key,id,tm_window):
+        sec_wnd = 86400
         now = int(time.time())
-        path = "".join(("/api/v1/series?match[]={"+key+"=\""+id+"\"}&start=", str(now-500), "&end=",str(now)))
+        path = "".join(("/api/v1/series?match[]={"+key+"=\""+id+"\"}&start=", str(now-sec_wnd), "&end=",str(now)))
         if tm_window:
             tm_window = '['+tm_window+']'
         else:
@@ -123,7 +124,7 @@ class ProData(object):
             pod_name = d['data'][0]['pod_name']
             now = int(datetime.datetime.utcnow().timestamp())
             path = "".join(
-                ("/api/v1/series?match[]={__name__=~\"^container_network.*\",container_name=\"POD\",pod_name=\"" + pod_name + "\"}&start=", str(now - 500), "&end=", str(now)))
+                ("/api/v1/series?match[]={__name__=~\"^container_network.*\",container_name=\"POD\",pod_name=\"" + pod_name + "\"}&start=", str(now - sec_wnd), "&end=", str(now)))
             tf_mtr = self.HttpGet(self.srv_addr, self.srv_port, path)
         #print (d['data'])
         metrics = []
