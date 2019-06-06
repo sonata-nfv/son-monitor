@@ -29,7 +29,7 @@ partner consortium (www.sonata-nfv.eu).
 from django.conf.urls import url
 from django.contrib import admin
 from django.conf.urls import include
-from api.urls import public_apis_v1, public_apis_v2, doc
+from api.urls import public_apis_v1, public_apis_v2, internal_apis, doc
 
 
 
@@ -40,6 +40,6 @@ urlpatterns = [
     #url(r'^', include(internal_apis, namespace='internal_apis')),
     url(r'^', include(public_apis_v1, namespace='public_apis_v1')),
     url(r'^', include(public_apis_v2, namespace='public_apis_v2')),
-    #url(r'^' + str(health_url), include(internal_apis, namespace='internal_apis')),
+    url(r'^', include(internal_apis, namespace='internal_apis')),
     url(r'^', include(doc, namespace='documentation')),
 ]

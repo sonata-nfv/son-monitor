@@ -2,6 +2,7 @@ certifi==2018.11.29
 chardet==3.0.4
 coreapi==2.3.3
 coreschema==0.0.4
+coloredlogs==10.0
 Django==1.11.17
 django-cors-headers==2.4.0
 django-filter==2.0.0
@@ -29,3 +30,4 @@ six==1.11.0
 uritemplate==3.0.0
 urllib3==1.24.1
 uWSGI==2.0.17.1
+pygelf==0.3.5

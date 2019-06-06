@@ -351,9 +351,36 @@ class SntAlertsSerializer(serializers.Serializer):
     resource_id = serializers.CharField()
     alertstate = serializers.CharField()
 
+class SntPromTargetUrlsSerializer(serializers.Serializer):
+    MANO_TYPES = (
+        ('osm', 'osm'),
+        ('sonata', 'sonata'),
+        ('onap', 'onap'),
+    )
+    sp_ip = serializers.CharField()
+    type = serializers.ChoiceField(choices=MANO_TYPES)
+    sp_name = serializers.CharField()
+    targets = serializers.ListField(child=serializers.CharField(max_length=32, allow_blank=True))
+
 class SntAlertsListSerializer(serializers.Serializer):
     status = serializers.CharField()
     alerts = SntAlertsSerializer(many=True)
 
+class SntPromTargetSerializer(serializers.Serializer):
+    targets=SntPromTargetUrlsSerializer(many=True)
+
+class SntPromUrlsSerializer(serializers.Serializer):
+    targets = serializers.ListField(child=serializers.CharField(max_length=32, allow_blank=True))
+
+class SntPromTargetsSerializer(serializers.Serializer):
+    static_configs = SntPromUrlsSerializer(many=True)
+    job_name = serializers.CharField()
+
 class SntPromConfSerializer(serializers.Serializer):
     config = serializers.CharField()
+
+class SntPromConfSerialazer (serializers.Serializer):
+    targets = serializers.JSONField
+
+class SntPromTargetListSerializer(serializers.Serializer):
+    targets=SntPromTargetsSerializer(many=True)

@@ -43,7 +43,8 @@ class RuleFile(object):
         self.rules = rules
 
     def relaodChonf(self):
-        print ('reload....')
+        #print ('reload....')
+        return
 
     def buildRule(self, rule):
         rule = 'ALERT ' + rule['name'].replace (" ", "_") +'\n'+'  IF ' + rule['condition'] + '\n'+'  FOR ' + rule['duration'] + '\n'+'  LABELS { serviceID = "' + self.serviceID +'" }'+'\n'+'  ANNOTATIONS { '+'\n'+'    summary = "Instance {{ $labels.instance }} down",'+'\n'+'    description = "{{ $labels.instance }} of job {{ $labels.job }} has been down for more than 5 minutes.",'+'\n'+'}'+'\n'
@@ -60,7 +61,7 @@ class RuleFile(object):
         #    json.dump(body, outfile)
 
         if self.validate(filename) == 0:
-            print ("RuleFile created SUCCESSFULLY")
+            #print ("RuleFile created SUCCESSFULLY")
             #add file to conf file
             with open('/opt/Monitoring/prometheus-0.17.0rc2.linux-amd64/prometheus.yml', 'r') as conf_file:
                 conf = yaml.load(conf_file)
@@ -68,7 +69,7 @@ class RuleFile(object):
                     if filename in rf:
                         return
                 conf['rule_files'].append(filename)
-                print (conf['rule_files'])
+                #print (conf['rule_files'])
                 with open('/opt/Monitoring/prometheus-0.17.0rc2.linux-amd64/prometheus.yml', 'w') as yml:
                     yaml.safe_dump(conf, yml)
                 self.reloadServer()
@@ -78,7 +79,7 @@ class RuleFile(object):
     def validate(self,file):
         p = subprocess.Popen(['/opt/Monitoring/manager/promtool', 'check-rules', file], stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         output, status = p.communicate()
-        print (status)
+        #print (status)
         rc = p.returncode
         if rc == 0:
             if 'SUCCESS' in status:
@@ -93,7 +94,7 @@ class RuleFile(object):
         httpServ.connect()
         httpServ.request("POST", "/-/reload")
         response = httpServ.getresponse()
-        print (response.status)
+        #print (response.status)
         httpServ.close()
 
 
@@ -110,19 +111,21 @@ class ProData(object):
         return d
 
     def getMetricsResId(self,key,id,tm_window):
+        sec_wnd = 86400
         now = int(time.time())
-        path = "".join(("/api/v1/series?match[]={"+key+"=\""+id+"\"}&start=", str(now-500), "&end=",str(now)))
+        path = "".join(("/api/v1/series?match[]={"+key+"=\""+id+"\"}&start=", str(now-sec_wnd), "&end=",str(now)))
         if tm_window:
             tm_window = '['+tm_window+']'
         else:
             tm_window = ''
         d = self.HttpGet(self.srv_addr,self.srv_port,path)
         resp = []
-        if key == 'container_name':
+        tf_mtr = None
+        if len(d['data']) > 0 and key == 'container_name':
             pod_name = d['data'][0]['pod_name']
             now = int(datetime.datetime.utcnow().timestamp())
             path = "".join(
-                ("/api/v1/series?match[]={__name__=~\"^container_network.*\",container_name=\"POD\",pod_name=\"" + pod_name + "\"}&start=", str(now - 500), "&end=", str(now)))
+                ("/api/v1/series?match[]={__name__=~\"^container_network.*\",container_name=\"POD\",pod_name=\"" + pod_name + "\"}&start=", str(now - sec_wnd), "&end=", str(now)))
             tf_mtr = self.HttpGet(self.srv_addr, self.srv_port, path)
         #print (d['data'])
         metrics = []
@@ -138,7 +141,8 @@ class ProData(object):
                 mt['data'] = dt
             metrics.append(mt['__name__'])   
             resp.append(mt)
-        if key == 'container_name':
+            
+        if tf_mtr and key == 'container_name':
             for mt in tf_mtr['data']:
                 mt.pop('instance', None)
                 mt.pop('id', None)
@@ -149,7 +153,7 @@ class ProData(object):
                     mt['data'] = dt
                 metrics.append(mt['__name__'])
                 resp.append(mt)
-        print (json.dumps(metrics))
+        #print (json.dumps(metrics))
         d['data'] = resp
         return d
 
@@ -192,7 +196,7 @@ class ProData(object):
                 path = "".join(("/api/v1/query_range?query=",req['name'],ls,"&start=",req['start'],"&end=",req['end'],"&step=",req['step'] ))
         except KeyError:
             path = "".join(("/api/v1/query_range?query=",req['name'],"&start=",req['start'],"&end=",req['end'],"&step=",req['step'] ))
-        print (path)
+        #print (path)
         d = self.HttpGet(self.srv_addr,self.srv_port,path)
         return d
 
@@ -212,7 +216,7 @@ class ProData(object):
                 path = "".join(("/api/v1/query_range?query=",req['name'],ls,"&start=",req['start'],"&end=",req['end'],"&step=",req['step'] ))
         except KeyError:
             path = "".join(("/api/v1/query_range?query=",req['name'],"&start=",req['start'],"&end=",req['end'],"&step=",req['step'] ))
-        print (path)
+        #print (path)
         d = self.HttpGet(self.srv_addr,self.srv_port,path)
         return d
 
