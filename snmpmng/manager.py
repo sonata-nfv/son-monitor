@@ -37,9 +37,9 @@ from logging.handlers import RotatingFileHandler
 from Configure import Configuration
 from snmp import snmp_entity
 from sqlDB import psHandler
+from logger import TangoLogger as TangoLogger
 
-
-def init():
+def init(logger):
     global prometh_server
     global job
     global workers
@@ -49,7 +49,7 @@ def init():
     global db_upass
 
     workers = {}
-    conf = Configuration("/opt/Monitoring/exporter.conf")
+    conf = Configuration("/opt/Monitoring/exporter.conf",logger)
     postgres_port = os.getenv('POSTGS_PORT', conf.ConfigSectionMap("sqlDB")['port'])
     postgres_host = os.getenv('POSTGS_HOST', conf.ConfigSectionMap("sqlDB")['host'])
     db_uname = os.getenv('DB_USER_NAME', conf.ConfigSectionMap("sqlDB")['user'])
@@ -124,14 +124,18 @@ def updateEntities():
 
 
 if __name__ == '__main__':
-    logger = logging.getLogger('SNMP_Manager')
-    hdlr = RotatingFileHandler('snmp_manager.log', maxBytes=1000000, backupCount=1)
-    formatter = logging.Formatter('%(asctime)s %(levelname)s %(message)s')
-    hdlr.setFormatter(formatter)
-    logger.addHandler(hdlr)
-    logger.setLevel(logging.WARNING)
+    logger = TangoLogger.getLogger(__name__, log_level=logging.INFO, log_json=True)
+    TangoLogger.getLogger("SNMP_Manager", logging.INFO, log_json=True)
     logger.setLevel(logging.INFO)
-    init()
+
+    #logger = logging.getLogger('SNMP_Manager')
+    #hdlr = RotatingFileHandler('snmp_manager.log', maxBytes=1000000, backupCount=1)
+    #formatter = logging.Formatter('%(asctime)s %(levelname)s %(message)s')
+    #hdlr.setFormatter(formatter)
+    #logger.addHandler(hdlr)
+    #logger.setLevel(logging.WARNING)
+    #logger.setLevel(logging.INFO)
+    init(logger)
 
     logger.info('====================')
     logger.info('SNMP Manager')
