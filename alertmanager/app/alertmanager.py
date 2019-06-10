@@ -32,9 +32,14 @@
 
 from flask import Flask, json, request
 from rabbitMQ import amqp
-import os
+from logger import TangoLogger as TangoLogger
+import os, logging, datetime
 
 app = Flask(__name__)
+LOG = TangoLogger.getLogger(__name__, log_level=logging.INFO, log_json=True)
+TangoLogger.getLogger("Alert_manager", logging.INFO, log_json=True)
+LOG.setLevel(logging.INFO)
+LOG.info('Alert manager to RMQ started ')
 
 @app.before_first_request
 def _declareStuff():
@@ -55,8 +60,7 @@ def _declareStuff():
         print(err.args)
         return
 
-    if 'DEBUG' in os.environ:
-        debug = int(os.environ['DEBUG'])
+    LOG.info('First message arrived')
     else:
         debug = 0
 
@@ -87,8 +91,7 @@ def api():
                     topic = 'son.monitoring.' + msg['tp']
             rmq = amqp(host, port, topic, 'guest', 'guest')
             rmq.send(json.dumps(msg))
-    if debug == 1:
-        print ('send rabbitmq : ' + msg['alertname']+' '+ type)
+    LOG.debug("Notification Received "+ str(notif))
     return('', 204)
 
 
