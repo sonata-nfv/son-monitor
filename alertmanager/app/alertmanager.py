@@ -57,12 +57,10 @@ def _declareStuff():
         else:
             raise ValueError('Rabbimq url unset')
     except ValueError as err:
-        print(err.args)
+        LOG.error("ValueError")
         return
 
     LOG.info('First message arrived')
-    else:
-        debug = 0
 
 
 @app.route("/")
