@@ -1426,4 +1426,5 @@ class Ping(generics.ListAPIView):
     def get(self, request, *args, **kwargs):
         p = psutil.Process(os.getpid())
         uptime = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(p.create_time())) + ' UTC'
+        LOG.info(json.dumps({'alive_since':uptime})
         return Response({'alive_since':uptime}, status=status.HTTP_200_OK)

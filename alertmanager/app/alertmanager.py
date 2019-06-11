@@ -66,6 +66,7 @@ def _declareStuff():
 @app.route("/")
 def hello():
     urls =  "I am alive..."
+    LOG.info('I am alive...')
     return urls
 
 @app.route('/', methods = ['POST'])
