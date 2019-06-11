@@ -48,4 +48,4 @@ EXPOSE     9090 9089 8002
 VOLUME     [ "/prometheus" ]
 
 
-CMD ["/usr/bin/supervisord"]
+CMD ["/usr/bin/supervisord","-c","/etc/supervisord.conf"]
