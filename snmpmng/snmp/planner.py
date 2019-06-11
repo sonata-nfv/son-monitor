@@ -66,12 +66,9 @@ class Scheduler(object):
                    ))
 
         if errorIndication:
-            self.logger.error(errorIndication)
-            print(errorIndication)
+            self.logger.debug(errorIndication)
         elif errorStatus:
-            self.logger.error(errorStatus)
-            print('%s at %s' % (errorStatus,
-                                errorIndex and varBinds[int(errorIndex) - 1][0] or '?'))
+            self.logger.debug(errorStatus)
         else:
             return varBinds
 
@@ -86,20 +83,18 @@ class Scheduler(object):
             self.logger.info('============')
             nowclick = int(round(time.time() * 1000))
             if lastclick:
-                self.logger.info('actual interval '+str(nowclick - lastclick))
+                self.logger.debug('actual interval '+str(nowclick - lastclick))
             lastclick = nowclick
 
             try:
                 varBinds = self.getValues()
                 for varBind in varBinds:
-                    self.logger.info('%s get values for entity %s %s metric: %s' % (self.uuid, self.snmp_server.ip, self.snmp_server.port, varBind[0]) )
+                    self.logger.debug('%s get values for entity %s %s metric: %s' % (self.uuid, self.snmp_server.ip, self.snmp_server.port, varBind[0]) )
                     oid = self.snmp_server.updateVal(varBind)
             except Exception as e:
-                self.logger.exception(str(e))
-                print(str(e))
+                self.logger.debug(str(e))
             except:
-                self.logger.error("General error on retrieving snmp oid: {0} ".format(sys.exc_info()[0]))
-                print("General exception")
+                self.logger.debug("General error on retrieving snmp oid: {0} ".format(sys.exc_info()[0]))
             if stop_():
                 break
             time.sleep(interval_)
