@@ -74,7 +74,7 @@ def getEntities():
     h = psHandler.PShld(usr_=db_uname, psw_=db_upass, host_=postgres_host, port_=postgres_port)
     ents = h.getEntities('ACTIVE')
     if not ents:
-        logger.info('No ACTIVE SNMP AGENTS FOUND')
+        logger.debug('No ACTIVE SNMP AGENTS FOUND')
 
     for ent in ents:
         e = snmp_entity.Server(ip_=ent.ip, port_=ent.port, tm_int_=ent.interval, ent_type_=ent.entity_type,
@@ -94,7 +94,7 @@ def updateEntities():
     ents = h.getEntities('UPDATED')
     dl_ents = h.getEntities('DELETED')
     if not ents:
-        logger.info('No UPDATED SNMP AGENTS FOUND')
+        logger.debug('No UPDATED SNMP AGENTS FOUND')
 
     for ent in ents:
         lb = str(str(ent.id) + ":"+ ent.ip + ':' + ent.port)
