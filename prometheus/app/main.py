@@ -35,16 +35,22 @@ import logging, logging.handlers, sys, yaml, os.path, httplib2
 from flask import json,request,Flask, url_for,jsonify
 from functools import wraps
 from ruleFile import fileBuilder
+from logger import TangoLogger as TangoLogger
 
 
 app = Flask(__name__)
-
+global logger
 global promPath 
 promPath = '/opt/Monitoring/prometheus/'
+logger = TangoLogger.getLogger(__name__, log_level=logging.INFO, log_json=True)
+TangoLogger.getLogger("Prometheus Plugin", logging.INFO, log_json=True)
+logger.setLevel(logging.INFO)
 
 @app.route("/")
 def hello():
+
     urls =  "I am alive..."
+    logger.info(urls)
     return urls
 
 
@@ -164,19 +170,18 @@ def reloadServer():
     try:
         url = 'http://127.0.0.1:9090/-/reload'
         response, content = httpServ.request(url, "POST")
-        print(response.status)
+        logger.info('Prometeus reloaded...')
         return 'SUCCESS'
     except Exception as e:
-        print(str(e))
         return 'FAILED'
 
 
 if __name__ == "__main__":
-    global logger
-    logger = logging.getLogger('MyLogger')
-    logger.setLevel(logging.DEBUG)
-    formatter = logging.Formatter('%(asctime)s %(levelname)s %(message)s')
-    handler = logging.handlers.RotatingFileHandler("alertconf.out", maxBytes=2048000, backupCount=5)
-    handler.setFormatter(formatter)
-    logger.addHandler(handler)
+    #logger = logging.getLogger('MyLogger')
+    #logger.setLevel(logging.DEBUG)
+    #formatter = logging.Formatter('%(asctime)s %(levelname)s %(message)s')
+    #handler = logging.handlers.RotatingFileHandler("alertconf.out", maxBytes=2048000, backupCount=5)
+    #handler.setFormatter(formatter)
+    #logger.addHandler(handler)
+    logger.info('Prometeus plugin started')
     app.run(host='0.0.0.0')

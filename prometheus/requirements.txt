@@ -1,1 +1,2 @@
 flask
+coloredlogs==10.0
