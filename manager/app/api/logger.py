@@ -33,9 +33,8 @@ import logging
 import coloredlogs
 import datetime
 import json
-import sys,os
+import sys
 import traceback
-from pygelf import GelfUdpHandler
 
 
 class TangoLogger(object):
@@ -66,7 +65,6 @@ class TangoLogger(object):
         "timestamp":"2018-11-15 19:25:49.348161 UTC"
     }
     """
-
 
     @staticmethod
     def reconfigure_all_tango_loggers(
@@ -128,7 +126,6 @@ class TangoJsonLogHandler(logging.StreamHandler):
     fields (optionally) for the JSON output.
     """
 
-
     def _to_tango_dict(self, record):
         """
         Creates a dict in 5GTANGO format from the given record.
@@ -168,22 +165,3 @@ class TangoJsonLogHandler(logging.StreamHandler):
         """
         print(json.dumps(self._to_tango_dict(record)))
         sys.stdout.flush()
-        g = GelfLogger().send(self._to_tango_dict(record))
-
-
-class GelfLogger():
-    def __init__(self):
-        gelf_host = os.getenv('GELF_HOST', 'logs.sonata-nfv.eu' )
-        gelf_port = os.getenv('GELF_UDP_PORT', 12900)
-        logging.basicConfig(level=logging.INFO)
-        self.logger = logging.getLogger(__name__)
-        if len(self.logger.handlers) == 0:
-            self.logger.addHandler(GelfUdpHandler(host=gelf_host, port=int(gelf_port), _container_name='son-monitor-manager'))
-    def send(self, message):
-        if 'type' in message:
-            if message['type'] == 'I':
-                self.logger.info(message)
-            elif message['type'] == 'W':
-                self.logger.warning(json.dumps(message))
-            elif message['type'] == 'E':
-                self.logger.error(json.dumps(message))
