@@ -137,8 +137,7 @@ if __name__ == '__main__':
     #logger.setLevel(logging.INFO)
     init(logger)
 
-    logger.info('====================')
-    logger.info('SNMP Manager')
+    logger.info('SNMP Manager started!!')
     logger.info('Promth P/W Server ' + json.dumps(prometh_server))
 
     getEntities()
