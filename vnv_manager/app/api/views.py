@@ -1204,7 +1204,7 @@ class SntActMRDt(generics.CreateAPIView):
             data = active_monitoring_res(test_id=test_id_,service_id=service_id_, timestamp=tm, config=cnfg_, data=data_)
             data.save()
         except IntegrityError as e:
-            LOG.info('IntegrityError exception '+str(e))
+            LOG.info('IntegrityError exception ')
             return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
 
         return Response({'id': fl_test_id_,'timestamp':tm,'configuration':cnfg_}, status=status.HTTP_200_OK)
@@ -1426,5 +1426,5 @@ class Ping(generics.ListAPIView):
     def get(self, request, *args, **kwargs):
         p = psutil.Process(os.getpid())
         uptime = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(p.create_time())) + ' UTC'
-        LOG.info(json.dumps({'alive_since':uptime})
+        LOG.info(json.dumps({'alive_since':uptime}))
         return Response({'alive_since':uptime}, status=status.HTTP_200_OK)
