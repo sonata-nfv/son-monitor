@@ -44,10 +44,13 @@ class Http(object):
             return data
         
         except httplib2.HttpLib2Error as e:
+            self.LOG.info('HttpLib2Error')
             return str(e)
         except httplib2.ServerNotFoundError as e:
+            self.LOG.info('ServerNotFoundError')
             return (e)
         except ValueError as e:
+            self.LOG.info('ValueError')
             return (e)
 
     def POST(self, url_,headers_,data_):
@@ -59,10 +62,13 @@ class Http(object):
 
             return response.status
         except httplib2.HttpLib2Error as e:
+            self.LOG.info('HttpLib2Error')
             return str(e)
         except httplib2.ServerNotFoundError as e:
+            self.LOG.info('ServerNotFoundError')
             return (e)
         except ValueError as e:
+            self.LOG.info('ValueError')
             return (e)
 
     def DELETE(self, url_,headers_):
@@ -73,8 +79,11 @@ class Http(object):
             return response.status
 
         except httplib2.HttpLib2Error as e:
+            self.LOG.info('HttpLib2Error')
             return str(e)
         except httplib2.ServerNotFoundError as e:
+            self.LOG.info('ServerNotFoundError')
             return (e)
         except ValueError as e:
+            self.LOG.info('ValueError')
             return (e)

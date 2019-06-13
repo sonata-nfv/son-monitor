@@ -37,9 +37,9 @@ from logging.handlers import RotatingFileHandler
 from Configure import Configuration
 from snmp import snmp_entity
 from sqlDB import psHandler
+from logger import TangoLogger as TangoLogger
 
-
-def init():
+def init(logger):
     global prometh_server
     global job
     global workers
@@ -49,7 +49,7 @@ def init():
     global db_upass
 
     workers = {}
-    conf = Configuration("/opt/Monitoring/exporter.conf")
+    conf = Configuration("/opt/Monitoring/exporter.conf",logger)
     postgres_port = os.getenv('POSTGS_PORT', conf.ConfigSectionMap("sqlDB")['port'])
     postgres_host = os.getenv('POSTGS_HOST', conf.ConfigSectionMap("sqlDB")['host'])
     db_uname = os.getenv('DB_USER_NAME', conf.ConfigSectionMap("sqlDB")['user'])
@@ -74,7 +74,7 @@ def getEntities():
     h = psHandler.PShld(usr_=db_uname, psw_=db_upass, host_=postgres_host, port_=postgres_port)
     ents = h.getEntities('ACTIVE')
     if not ents:
-        logger.info('No ACTIVE SNMP AGENTS FOUND')
+        logger.debug('No ACTIVE SNMP AGENTS FOUND')
 
     for ent in ents:
         e = snmp_entity.Server(ip_=ent.ip, port_=ent.port, tm_int_=ent.interval, ent_type_=ent.entity_type,
@@ -94,7 +94,7 @@ def updateEntities():
     ents = h.getEntities('UPDATED')
     dl_ents = h.getEntities('DELETED')
     if not ents:
-        logger.info('No UPDATED SNMP AGENTS FOUND')
+        logger.debug('No UPDATED SNMP AGENTS FOUND')
 
     for ent in ents:
         lb = str(str(ent.id) + ":"+ ent.ip + ':' + ent.port)
@@ -124,17 +124,20 @@ def updateEntities():
 
 
 if __name__ == '__main__':
-    logger = logging.getLogger('SNMP_Manager')
-    hdlr = RotatingFileHandler('snmp_manager.log', maxBytes=1000000, backupCount=1)
-    formatter = logging.Formatter('%(asctime)s %(levelname)s %(message)s')
-    hdlr.setFormatter(formatter)
-    logger.addHandler(hdlr)
-    logger.setLevel(logging.WARNING)
+    logger = TangoLogger.getLogger(__name__, log_level=logging.INFO, log_json=True)
+    TangoLogger.getLogger("SNMP_Manager", logging.INFO, log_json=True)
     logger.setLevel(logging.INFO)
-    init()
 
-    logger.info('====================')
-    logger.info('SNMP Manager')
+    #logger = logging.getLogger('SNMP_Manager')
+    #hdlr = RotatingFileHandler('snmp_manager.log', maxBytes=1000000, backupCount=1)
+    #formatter = logging.Formatter('%(asctime)s %(levelname)s %(message)s')
+    #hdlr.setFormatter(formatter)
+    #logger.addHandler(hdlr)
+    #logger.setLevel(logging.WARNING)
+    #logger.setLevel(logging.INFO)
+    init(logger)
+
+    logger.info('SNMP Manager started!!')
     logger.info('Promth P/W Server ' + json.dumps(prometh_server))
 
     getEntities()

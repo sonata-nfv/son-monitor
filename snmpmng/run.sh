@@ -1,4 +1,4 @@
 #!/bin/bash
 
-python3 /opt/Monitoring/manager.py >/dev/null 2>&1 & \
+python3 /opt/Monitoring/manager.py & \
 tail -f /dev/null

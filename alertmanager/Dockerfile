@@ -45,4 +45,4 @@ RUN chmod 0755 /opt/Monitoring/run.sh
 
 EXPOSE 9093 5001
 
-CMD ["/usr/bin/supervisord"]
+CMD ["/usr/bin/supervisord","-c","/etc/supervisord.conf"]

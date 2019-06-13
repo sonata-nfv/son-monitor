@@ -35,9 +35,10 @@ import configparser
 
 
 class Configuration(object):
-    def __init__(self, file):
+    def __init__(self, file, logger):
         self.Config = configparser.ConfigParser()
         self.Config.read(file)
+        self.logger = logger
 
     def ConfigSectionMap(self, section):
         dict1 = {}
@@ -46,8 +47,8 @@ class Configuration(object):
             try:
                 dict1[option] = self.Config.get(section, option)
                 if dict1[option] == -1:
-                    print("skip: %s" % option)
+                    self.logger.info("skip configuration option")
             except:
-                print("exception on %s!" % option)
+                self.logger.info("exception on configuration option!")
                 dict1[option] = None
         return dict1

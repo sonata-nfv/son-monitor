@@ -14,6 +14,6 @@ WORKDIR /opt/Monitoring/pushgateway/
 
 EXPOSE 9091
 
-ENTRYPOINT [ "/opt/Monitoring/pushgateway/pushgateway" ]
+ENTRYPOINT [ "/opt/Monitoring/run.sh" ]
 
 

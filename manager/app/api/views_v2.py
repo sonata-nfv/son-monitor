@@ -50,8 +50,10 @@ from api.logger import TangoLogger
 
 # Create your views here.
 
-json_logging = not (os.environ.get("json_logging") == "False")
-LOG = TangoLogger.getLogger(__name__, log_level=logging.INFO, log_json=json_logging)
+LOG = TangoLogger.getLogger(__name__, log_level=logging.INFO, log_json=True)
+TangoLogger.getLogger("Monitoring_manager", logging.INFO, log_json=True)
+LOG.setLevel(logging.INFO)
+LOG.info('Monitoring Manager started')
 
 @api_view(('GET',))
 def api_root(request, format=None):
@@ -1569,4 +1571,5 @@ class Ping(generics.ListAPIView):
     def get(self, request, *args, **kwargs):
         p = psutil.Process(os.getpid())
         uptime = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(p.create_time())) + ' UTC'
+        LOG.info(json.dumps({'alive_since':uptime}))
         return Response({'alive_since': uptime}, status=status.HTTP_200_OK)

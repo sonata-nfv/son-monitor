@@ -3,6 +3,7 @@ FROM grafana/grafana:6.0.2
 USER root
 
 ENV GF_AUTH_ANONYMOUS_ENABLED=true
+ENV GF_LOG_MODE=file
 
 ADD ./datasources/ /etc/grafana/provisioning/datasources/
 ADD ./dashboards/ /etc/grafana/provisioning/dashboards/
