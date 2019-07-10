@@ -118,14 +118,14 @@ class ProData(object):
         tf_mtr = None
         d = self.HttpGet(self.srv_addr,self.srv_port,path)
         if len(d['data']) > 0 and key == 'container_name':
-            pod_name = d['data'][0]['pod_name']
-            #print(pod_name)
-            now = int(datetime.datetime.utcnow().timestamp())
-            path = "".join(
-                ("/api/v1/series?match[]={__name__=~\"^container_network.*\",container_name=\"POD\",pod_name=\"" + pod_name + "\"}&start=", str(now - sec_wnd), "&end=", str(now)))
-            #print(path)
-            tf_mtr = self.HttpGet(self.srv_addr, self.srv_port, path)
-        
+            for mtr in d['data']:
+                if 'pod_name' in mtr:
+                    pod_name = mtr['pod_name']
+                    now = int(datetime.datetime.utcnow().timestamp())
+                    path = "".join(
+                        ("/api/v1/series?match[]={__name__=~\"^container_network.*\",container_name=\"POD\",pod_name=\"" + pod_name + "\"}&start=", str(now - sec_wnd), "&end=", str(now)))
+                    tf_mtr = self.HttpGet(self.srv_addr, self.srv_port, path)
+                    break
         for mt in d['data']:
             if mt['__name__'] == 'ALERTS' or mt['__name__'] == 'ALERTS_FOR_STATE':
                 continue
