@@ -39,6 +39,16 @@ from django.core import serializers as core_serializers
 
 #######################################################################################################
 
+class SntPasMonResDetailSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = passive_monitoring_res
+        fields = ('service_id','test_id','created','terminated','data')
+
+class SntPasMonResSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = passive_monitoring_res
+        fields = ('service_id','test_id','created','terminated')
+
 class SntSNMPOidSerializer(serializers.ModelSerializer):
     class Meta:
         model = monitoring_snmp_oids

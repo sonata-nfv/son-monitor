@@ -420,6 +420,24 @@ class SntServicesDetail(generics.DestroyAPIView):
         queryset = queryset.filter(sonata_srv_id=srvid)
 
         if queryset.count() > 0:
+            data = self.getPMetrics(sonata_srv_id=srvid,creation_time=queryset[0].created)
+            #store here in DB ...
+            srv = queryset.first()
+            old_rec = passive_monitoring_res.objects.filter(test_id=srv.description)
+            if old_rec.count() > 0:
+                old_rec.delete()
+
+            try:
+                data = passive_monitoring_res(test_id=srv.description,
+                                              service_id=srvid,
+                                              created=srv.created,
+                                              config={},
+                                              data=data.data)
+                data.save()
+                LOG.info('Test Record saved')
+            except IntegrityError as e:
+                LOG.info('IntegrityError exception')
+            '''
             # DELETE also the SNMP entities (if any)
             fcts = monitoring_functions.objects.all().filter(service__sonata_srv_id=srvid)
             if fcts.count() > 0:
@@ -435,11 +453,48 @@ class SntServicesDetail(generics.DestroyAPIView):
             rsp = cl.DELETE('http://prometheus:9089/prometheus/rules/sla-' + str(srvid), [])
             time.sleep(2)
             rsp = cl.DELETE('http://prometheus:9089/prometheus/rules/plc-' + str(srvid), [])
+            '''
+            queryset.delete()
             LOG.info("Network Service deleted")
             return Response({'status': "service removed"}, status=status.HTTP_204_NO_CONTENT)
         else:
             LOG.info("Network Service not found")
             return Response({'status': "service not found"}, status=status.HTTP_404_NOT_FOUND)
+
+    def getPMetrics(self,sonata_srv_id,creation_time):
+        now = datetime.datetime.utcnow()
+        time_window = int(now.timestamp() - creation_time.timestamp())
+        if time_window < 60:
+            time_window = '60s'
+        elif time_window > 1200:
+            time_window = '20m'
+        else:
+            time_window = str(int(time_window / 60))+'m'
+
+        mt = ProData('prometheus', 9090)
+        queryset = monitoring_functions.objects.all()
+        vnfs = queryset.filter(service__sonata_srv_id=sonata_srv_id)
+        response = {}
+        if vnfs.count() == 0:
+            response['status'] = "Fail (VNF not found)"
+            return Response(response)
+        response['vnfs'] = []
+        response['status'] = 'Success'
+        for vnf in vnfs:
+            f = {}
+            f['vnf_id'] = vnf.sonata_func_id
+            f['vdus'] = []
+            vdu = {}
+            vdu['vdu_id'] = vnf.host_id
+            data = mt.getMetricsResId(vnf.host_type, vnf.host_id, time_window)
+            if 'data' in data:
+                vdu['metrics'] = data['data']
+            else:
+                vdu['metrics'] = []
+            f['vdus'].append(vdu)
+
+            response['vnfs'].append(f)
+        return Response(response)
 
 
 class SntFunctionsList(generics.ListAPIView):
@@ -1419,6 +1474,21 @@ class SntPromSrvTargetsDetail(generics.DestroyAPIView):
                 idx+=1
         LOG.info("SP not found")
         return Response({"error": "SP not found!!"}, status=status.HTTP_404_NOT_FOUND)
+
+class SntPasMDataList(generics.ListAPIView):
+    serializer_class = SntPasMonResSerializer
+
+    def get_queryset(self):
+        queryset = passive_monitoring_res.objects.all()
+        return queryset
+
+class SntPasMDataDetail(generics.ListAPIView):
+    serializer_class = SntPasMonResDetailSerializer
+
+    def get_queryset(self):
+        queryset = passive_monitoring_res.objects.all()
+        test_id_ = self.kwargs['test_id']
+        return queryset.filter(test_id=test_id_)
 
 
 class Ping(generics.ListAPIView):
