@@ -160,6 +160,16 @@ class monitoring_smtp(models.Model):
     def __unicode__(self):
         return u'%s %s %s %s %s' % (self.smtp_server, self.port, self.user_name, self.component, self.sec_type)
 
+class passive_monitoring_res(models.Model):
+    test_id = models.CharField(max_length=300, blank=False, unique=True)
+    service_id = models.CharField(max_length=300, blank=False)
+    created = models.DateTimeField(blank=True, null=True)
+    terminated = models.DateTimeField(default=timezone.now)
+    config = JSONField()
+    data = JSONField()
+
+    def __unicode__(self):
+        return u'%s %s %s %s' % (self.test_id, self.service_id, self.created, self.terminated)
 
 class active_monitoring_res(models.Model):
     test_id = models.CharField(max_length=300, blank=False, unique=True)
@@ -254,7 +264,7 @@ class monitoring_services(models.Model):
         managed = True
 
     def __unicode__(self):
-        return u'%s %s %s' % (self.name, self.description, self.sonata_srv_id)
+        return u'%s %s %s %s' % (self.name, self.description, self.sonata_srv_id, self.test_id)
 
 
 class monitoring_functions(models.Model):
