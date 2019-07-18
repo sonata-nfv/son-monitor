@@ -1440,7 +1440,7 @@ class SntPromMetricDetail(generics.ListAPIView):
         data = mt.getMetricFullDetail(metric_name)
         response = {}
         response['metrics'] = data['data']
-        print (response)
+        #print (response)
         return Response(response)
 
 
