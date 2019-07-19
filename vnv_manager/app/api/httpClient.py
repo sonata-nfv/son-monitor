@@ -30,8 +30,8 @@ import json
 import httplib2
 
 class Http(object):
-    def __init__(self):
-        self
+    def __init__(self,logger):
+        self.LOG =logger
         
     def GET(self,url_,headers_):
         try:

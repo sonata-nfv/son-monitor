@@ -46,6 +46,7 @@ from django.db.models import Q
 import datetime
 import psutil
 from django.db import IntegrityError
+from django.utils import timezone
 from api.logger import TangoLogger
 import logging.config
 
@@ -454,7 +455,7 @@ class SntServicesDetail(generics.DestroyAPIView):
             time.sleep(2)
             rsp = cl.DELETE('http://prometheus:9089/prometheus/rules/plc-' + str(srvid), [])
             '''
-            queryset.delete()
+            queryset.update(terminated=datetime.datetime.now(tz=timezone.utc))
             LOG.info("Network Service deleted")
             return Response({'status': "service removed"}, status=status.HTTP_204_NO_CONTENT)
         else:
@@ -1487,8 +1488,8 @@ class SntPasMDataDetail(generics.ListAPIView):
 
     def get_queryset(self):
         queryset = passive_monitoring_res.objects.all()
-        test_id_ = self.kwargs['test_id']
-        return queryset.filter(test_id=test_id_)
+        srv_id_ = self.kwargs['srv_id']
+        return queryset.filter(service_id=srv_id_)
 
 
 class Ping(generics.ListAPIView):

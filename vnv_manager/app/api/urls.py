@@ -74,7 +74,7 @@ urlpatterns2 = [
 	url(r'^active-monitoring-tests/service/(?P<srv_id>[^/]+)/test/(?P<test_id>[^/]+)$', views.SntActMRDetail.as_view()),
 	url(r'^active-monitoring-tests$', views.SntActMRPost.as_view()),
 
-    url(r'^passive-monitoring-tests/test/(?P<test_id>[^/]+)$', views.SntPasMDataDetail.as_view()),
+    url(r'^passive-monitoring-tests/service/(?P<srv_id>[^/]+)$', views.SntPasMDataDetail.as_view()),
     url(r'^passive-monitoring-tests$', views.SntPasMDataList.as_view()),
 ]
 
