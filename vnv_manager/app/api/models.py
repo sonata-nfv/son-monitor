@@ -257,6 +257,7 @@ class monitoring_services(models.Model):
     sonata_srv_id = models.CharField(max_length=60, blank=True)
     description = models.CharField(max_length=1024)
     created = models.DateTimeField(default=timezone.now)
+    terminated = models.DateTimeField(blank=True,null=True)
 
     class Meta:
         db_table = "monitoring_services"
