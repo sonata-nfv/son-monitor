@@ -127,7 +127,7 @@ class SntServicesSerializer(serializers.ModelSerializer):
     test_id = serializers.CharField(source='description')
     class Meta:
         model = monitoring_services
-        fields = ('ns_instance_id', 'test_id','created')
+        fields = ('ns_instance_id', 'test_id','created','terminated')
 
 class SntServicesFullSerializer(serializers.ModelSerializer):
     #user = serializers.PrimaryKeyRelatedField(read_only=False, queryset=monitoring_users.objects.all())
