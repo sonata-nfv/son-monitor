@@ -87,7 +87,7 @@ class monitoring_snmp_entities(models.Model):
 
     class Meta:
         db_table = "monitoring_snmp_entities"
-        ordering = ('created',)
+        ordering = ('-created',)
         managed = True
 
     def __unicode__(self):
@@ -117,7 +117,7 @@ class monitoring_snmp_oids(models.Model):
 
     class Meta:
         db_table = "monitoring_snmp_oids"
-        ordering = ('created',)
+        ordering = ('-created',)
         managed = True
 
     def __unicode__(self):
@@ -155,7 +155,7 @@ class monitoring_smtp(models.Model):
 
     class Meta:
         db_table = "monitoring_smtp"
-        ordering = ('created',)
+        ordering = ('-created',)
         managed = True
 
     def __unicode__(self):
@@ -169,7 +169,7 @@ class monitoring_service_platforms(models.Model):
 
     class Meta:
         db_table = "monitoring_service_platforms"
-        ordering = ('created',)
+        ordering = ('-created',)
         managed = True
 
     def __unicode__(self):
@@ -185,7 +185,7 @@ class monitoring_pops(models.Model):
 
     class Meta:
         db_table = "monitoring_pops"
-        ordering = ('created',)
+        ordering = ('-created',)
         managed = True
 
     def __unicode__(self):
@@ -203,7 +203,7 @@ class monitoring_users(models.Model):
 
     class Meta:
         db_table = "monitoring_users"
-        ordering = ('created',)
+        ordering = ('-created',)
         managed = True
 
     def __unicode__(self):
@@ -220,7 +220,7 @@ class monitoring_services(models.Model):
 
     class Meta:
         db_table = "monitoring_services"
-        ordering = ('created',)
+        ordering = ('-created',)
         managed = True
 
     def __unicode__(self):
@@ -239,7 +239,7 @@ class monitoring_functions(models.Model):
 
     class Meta:
         db_table = "monitoring_functions"
-        ordering = ('created',)
+        ordering = ('-created',)
         managed = True
 
     def __unicode__(self):
@@ -256,7 +256,7 @@ class monitoring_metrics(models.Model):
 
     class Meta:
         db_table = "monitoring_metrics"
-        ordering = ('created',)
+        ordering = ('-created',)
         managed = True
 
     def as_dict(self):
@@ -300,7 +300,7 @@ class monitoring_rules(models.Model):
 
     class Meta:
         db_table = "monitoring_rules"
-        ordering = ('created',)
+        ordering = ('-created',)
         managed = True
 
     def __unicode__(self):
