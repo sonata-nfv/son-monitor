@@ -821,10 +821,10 @@ class SntServicesDetail(generics.DestroyAPIView):
             time.sleep(2)
             rsp = cl.DELETE('http://prometheus:9089/prometheus/rules/plc-' + str(srvid), [])
             LOG.info('Network Service deteted')
-            return Response({'status': "service removed"}, status=status.HTTP_204_NO_CONTENT)
+            return Response({'status': "service removed"}, status=status.HTTP_200_OK)
         else:
             LOG.info('Network Service not found')
-            return Response({'status': "service not found"}, status=status.HTTP_404_NOT_FOUND)
+            return Response({'status': "service not found"}, status=status.HTTP_200_OK)
 
 
 class SntFunctionsList(generics.ListAPIView):

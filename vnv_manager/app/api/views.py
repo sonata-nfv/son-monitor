@@ -457,10 +457,10 @@ class SntServicesDetail(generics.DestroyAPIView):
             '''
             queryset.update(terminated=datetime.datetime.now(tz=timezone.utc))
             LOG.info("Network Service deleted")
-            return Response({'status': "service removed"}, status=status.HTTP_204_NO_CONTENT)
+            return Response({'status': "service removed"}, status=status.HTTP_200_OK)
         else:
             LOG.info("Network Service not found")
-            return Response({'status': "service not found"}, status=status.HTTP_404_NOT_FOUND)
+            return Response({'status': "service not found"}, status=status.HTTP_200_OK)
 
     def getPMetrics(self,sonata_srv_id,creation_time):
         now = datetime.datetime.utcnow()
