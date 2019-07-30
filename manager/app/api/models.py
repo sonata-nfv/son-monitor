@@ -288,7 +288,7 @@ class monitoring_rules(models.Model):
     VER = (('DEV','DEV'),('SLA', 'SLA'), ('PLC','PLC'),)
     service = models.ForeignKey(monitoring_services)
     function = models.CharField(max_length=60, blank=True)
-    vdu = models.CharField(max_length=36, blank=True)
+    vdu = models.CharField(max_length=60, blank=True)
     summary = models.CharField(max_length=1024, blank=True)
     consumer = models.CharField(max_length=5, choices=VER, default='DEV')
     notification_type = models.ForeignKey(monitoring_notif_types)
