@@ -1406,23 +1406,23 @@ class SntPromSrvTargets(generics.ListCreateAPIView):
         return Response({'targets': rsp}, status=status.HTTP_200_OK)
 
     def post(self, request, *args, **kwargs):
-        self.serializer_class = SntPromTargetSerializer
         data = request.data
         #check data
         if not 'targets' in data:
-            LOG.info("Data malformed")
             return Response({"error":"data malformed"}, status=status.HTTP_400_BAD_REQUEST)
         if type(data['targets']) is list:
             for trg in data['targets']:
-                if not 'targets' in trg or not 'sp_name' in trg or not 'type' in trg:
+                if not 'static_configs' in trg or not 'job_name' in trg:
                     LOG.info("Data malformed")
                     return Response({"error": "data malformed"}, status=status.HTTP_400_BAD_REQUEST)
-                if type(trg['targets']) is not list:
+                if type(trg['static_configs']) is list:
+                   for url in trg['static_configs']:
+                       if not 'targets' in url:
+                           LOG.info("Data malformed")
+                           return Response({"error": "data malformed"}, status=status.HTTP_400_BAD_REQUEST)
+                else:
                     LOG.info("Data malformed")
                     return Response({"error": "data malformed"}, status=status.HTTP_400_BAD_REQUEST)
-                if trg['type'] not in ['osm','sonata']:
-                    LOG.info("Data malformed")
-                    return Response({"error": "MANO platform not supported"}, status=status.HTTP_400_BAD_REQUEST)
         else:
             LOG.info("Data malformed")
             return Response({"error": "data malformed"}, status=status.HTTP_400_BAD_REQUEST)
@@ -1431,28 +1431,12 @@ class SntPromSrvTargets(generics.ListCreateAPIView):
         cl = Http(LOG)
         rsp = cl.GET(self.url, [])
         #Update configuration
-        for trg in data['targets']:
-            if 'scrape_configs' in rsp:
-                idx=0
-                for scp_ent in rsp['scrape_configs']:
-                    if scp_ent['job_name'] == trg['sp_name']:
-                        rsp['scrape_configs'].pop(idx)
-                        break
-                    idx+=1
-                t = {}
-                t['job_name']=trg['sp_name']
-                t['static_configs'] = []
-                targets = {}
-                targets['targets'] = trg['targets']
-                if trg['type'] == 'sonata':
-                    targets['targets'].append(str(trg['sp_ip']+':9091'))
-                t['static_configs'].append(targets)
-                rsp['scrape_configs'].append(t)
-
+        if 'scrape_configs' in rsp:
+                rsp['scrape_configs'] = data['targets']
         #Save the new configuration
         rsp = cl.POST(url_=self.url, headers_=[], data_=json.dumps(rsp))
-        LOG.info("Prometheus targets updated "+json.dumps(data))
-        return Response({'status': 'success', 'prom_code': rsp}, status=status.HTTP_200_OK)
+        LOG.info("Prometheus targets updated")
+        return Response({"prometheus_conf":rsp}, status=status.HTTP_200_OK)
 
 
 class SntPromSrvTargetsDetail(generics.DestroyAPIView):

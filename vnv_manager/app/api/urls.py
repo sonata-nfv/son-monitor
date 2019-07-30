@@ -60,28 +60,28 @@ urlpatterns2 = [
 
 	url(r'^services$', views.SntNewService.as_view()),
 	url(r'^services/(?P<srv_id>[^/]+)$', views.SntServicesDetail.as_view()),
-    url(r'^services/(?P<srv_id>[^/]+)/metrics$', views.SntPromNSMetricListVnf.as_view()),
+  url(r'^services/(?P<srv_id>[^/]+)/metrics$', views.SntPromNSMetricListVnf.as_view()),
 	url(r'^vnfs/(?P<vnf_id>[^/]+)/metrics$', views.SntPromMetricListVnf.as_view()),
 	url(r'^vnfs/(?P<vnf_id>[^/]+)/vdu/(?P<vdu_id>[^/]+)/metrics$',views.SntPromMetricListVnfVdu.as_view()),
 
 	url(r'^prometheus/metrics$', views.SntPromMetricList.as_view()),
 	url(r'^prometheus/metrics/name/(?P<metricName>[^/]+)$', views.SntPromMetricDetail.as_view()),
 	url(r'^prometheus/targets$', views.SntPromSrvTargets.as_view()),
-    url(r'^prometheus/targets/(?P<sp_name>[^/]+)$', views.SntPromSrvTargetsDetail.as_view()),
+  url(r'^prometheus/targets/(?P<sp_name>[^/]+)$', views.SntPromSrvTargetsDetail.as_view()),
 	url(r'^prometheus/configuration$', views.SntPromSrvConf.as_view()),
 
 	url(r'^active-monitoring-tests/service/(?P<srv_id>[^/]+)$', views.SntActMRList.as_view()),
 	url(r'^active-monitoring-tests/service/(?P<srv_id>[^/]+)/test/(?P<test_id>[^/]+)$', views.SntActMRDetail.as_view()),
 	url(r'^active-monitoring-tests$', views.SntActMRPost.as_view()),
 
-    url(r'^passive-monitoring-tests/service/(?P<srv_id>[^/]+)$', views.SntPasMDataDetail.as_view()),
-    url(r'^passive-monitoring-tests$', views.SntPasMDataList.as_view()),
+  url(r'^passive-monitoring-tests/service/(?P<srv_id>[^/]+)$', views.SntPasMDataDetail.as_view()),
+  url(r'^passive-monitoring-tests$', views.SntPasMDataList.as_view()),
 ]
 
 urlpatterns3 = [
-    #url(r'^swagger(?P<format>\.json|\.yaml)$', schema_view.without_ui(cache_timeout=0), name='schema-json'),
-    url(r'^docs/$', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
-    url(r'^redoc/$', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
+  #url(r'^swagger(?P<format>\.json|\.yaml)$', schema_view.without_ui(cache_timeout=0), name='schema-json'),
+  url(r'^docs/$', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
+  url(r'^redoc/$', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
 	url(r'^pings$', views.Ping.as_view(), name='health'),
 ]
 
