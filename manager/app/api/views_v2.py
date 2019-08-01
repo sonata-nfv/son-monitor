@@ -181,6 +181,21 @@ class SntPLCRulesPerServiceList(generics.ListAPIView):
         srvid = self.kwargs['srv_id']
         return queryset.filter(service__sonata_srv_id=srvid, consumer='PLC')
 
+    def delete(self, request, *args, **kwargs):
+        queryset = monitoring_rules.objects.all()
+        srvid = self.kwargs['srv_id']
+        fq = queryset.filter(service__sonata_srv_id=srvid, consumer='PLC')
+
+        if fq.count() > 0:
+            fq.delete()
+            cl = Http()
+            rsp = cl.DELETE('http://prometheus:9089/prometheus/rules/' + str('plc-' + srvid), [])
+            LOG.info("PLC rules removed")
+            return Response({'status': "service's rules removed"}, status=status.HTTP_204_NO_CONTENT)
+        else:
+            LOG.info("PLC rules not found")
+            return Response({'status': "rules not found"}, status=status.HTTP_404_NOT_FOUND)
+
 
 class SntPLCRulesList(generics.ListAPIView):
     serializer_class = SntRulesSerializer
@@ -939,10 +954,6 @@ class SntNewServiceConf(generics.CreateAPIView):
             else:
                 dev = u[0]
 
-        s = monitoring_services.objects.all().filter(sonata_srv_id=service['sonata_srv_id'])
-        if s.count() > 0:
-            s.delete()
-
         srv_pop_id = ''
         srv_host_id = ''
         if service['pop_id']:
@@ -955,14 +966,23 @@ class SntNewServiceConf(generics.CreateAPIView):
         
         if service['host_id']:
             srv_host_id = service['host_id']
-        srv = monitoring_services(sonata_srv_id=service['sonata_srv_id'], name=service['name'],
+
+        srv = monitoring_services.objects.all().filter(sonata_srv_id=service['sonata_srv_id'])
+        if srv.count() > 0:
+            old_vnf = monitoring_functions.objects.all().filter(service_id=srv.values('id'))
+            if old_vnf.count() > 0:
+                old_vnf.delete()
+            srv=srv[0]
+        else:
+            srv = monitoring_services(sonata_srv_id=service['sonata_srv_id'], name=service['name'],
                                   description=service['description'], host_id=srv_host_id, pop_id=srv_pop_id)
-        srv.save()
-        if isinstance(usr, monitoring_users):
-            srv.user.add(usr)
-        if isinstance(dev, monitoring_users):
-            srv.user.add(dev)
-        srv.save()
+            srv.save()
+
+            if isinstance(usr, monitoring_users):
+                srv.user.add(usr)
+            if isinstance(dev, monitoring_users):
+                srv.user.add(dev)
+            srv.save()
         
         oids_status = 0
         metrics_status = 0
