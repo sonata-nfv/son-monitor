@@ -101,7 +101,7 @@
       ],
       "timeFrom": null,
       "timeShift": null,
-      "title": "VMs CPU usage",
+      "title": "SP Host CPU usage",
       "type": "gauge"
     },
     {
@@ -167,7 +167,7 @@
       ],
       "timeFrom": null,
       "timeShift": null,
-      "title": "VMs Memory usage",
+      "title": "SP Host Memory usage",
       "type": "gauge"
     },
     {
