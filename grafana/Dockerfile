@@ -1,25 +1,20 @@
-FROM grafana/grafana:6.0.2
+FROM grafana/grafana:6.0.2 AS mon-grafana
 
 USER root
 
 ENV GF_AUTH_ANONYMOUS_ENABLED=true
 ENV GF_LOG_MODE=file
 
-ADD ./datasources/ /etc/grafana/provisioning/datasources/
-ADD ./dashboards/ /etc/grafana/provisioning/dashboards/
+EXPOSE 3000
 
+FROM  mon-grafana AS mon-sp-grafana
+ADD ./datasources/ /etc/grafana/provisioning/datasources/
+ADD ./dashboards/sp/ /etc/grafana/provisioning/dashboards/
 RUN ls -la /etc/grafana/provisioning/datasources/
 RUN ls -la /etc/grafana/provisioning/dashboards/
 
-
-#RUN mkdir -p /opt/conf
-#COPY ./ /opt/conf
-#RUN ls -la /opt/conf
-
-#RUN chmod 0755 /opt/conf/*.sh
-
-EXPOSE 3000
-
-#WORKDIR /opt/conf
-#RUN echo "/opt/conf/configure.sh" >> /run.sh
-#RUN cat /run.sh
+FROM  mon-grafana AS mon-vnv-grafana
+ADD ./datasources/ /etc/grafana/provisioning/datasources/
+ADD ./dashboards/vnv/ /etc/grafana/provisioning/dashboards/
+RUN ls -la /etc/grafana/provisioning/datasources/
+RUN ls -la /etc/grafana/provisioning/dashboards/
