@@ -34,6 +34,9 @@ scrape_configs:
   static_configs:
     - targets:
       - 172.31.13.2:30090
+- job_name: pushgateway
+  static_configs:
+  - targets: ['pushgateway:9091']
 - job_name: pop_athens1
   scrape_interval: 5s
   scrape_timeout: 5s
@@ -50,23 +53,14 @@ scrape_configs:
   static_configs:
   - targets:
     - 10.100.33.2:9093
-- job_name: pop_athens3
+- job_name: pop_aveiro
   scrape_interval: 5s
   scrape_timeout: 5s
-  metrics_path: /metrics
   scheme: http
   static_configs:
   - targets:
-    - 10.143.143.112:9093
-    - 10.143.143.111:9093
-- job_name: pop_aveiro1
-  scrape_interval: 5s
-  scrape_timeout: 5s
-  metrics_path: /metrics
-  scheme: http
-  static_configs:
-  - targets:
-    - 172.31.12.5:9093
+    - 172.31.8.16:8082
+    - 172.31.8.16:8081
 - job_name: pop_barcelona
   scrape_interval: 5s
   scrape_timeout: 5s
