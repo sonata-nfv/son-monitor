@@ -1,5 +1,4 @@
 FROM grafana/grafana:6.0.2 
-
 USER root
 
 ENV GF_AUTH_ANONYMOUS_ENABLED=true
