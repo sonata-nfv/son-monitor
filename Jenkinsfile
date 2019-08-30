@@ -45,8 +45,8 @@ pipeline {
         }
         stage('son-monitor-grafana') {
           steps {
-            sh 'docker --target mon-sp-grafana build -t registry.sonata-nfv.eu:5000/son-monitor-grafana -f grafana/Dockerfile grafana/'
-            sh 'docker --target mon-vnv-grafana build -t registry.sonata-nfv.eu:5000/son-monitor-vnv-grafana -f grafana/Dockerfile grafana/'
+            sh 'docker  build -t registry.sonata-nfv.eu:5000/son-monitor-grafana -f grafana/Dockerfile grafana/'
+            sh 'docker  build -t registry.sonata-nfv.eu:5000/son-monitor-vnv-grafana -f grafana/Dockerfile-vnv grafana/'
           }
         }
       }
