@@ -158,9 +158,9 @@ urlpatterns3 = [
 
 	url(r'^api/v2/wss$', views_v2.SntWSreq.as_view()),
 
-	url(r'^api/v2/active-monitoring-tests/service/(?P<srv_id>[^/]+)$', views_v2.SntActMRList.as_view()),
-	url(r'^api/v2/active-monitoring-tests/service/(?P<srv_id>[^/]+)/test/(?P<test_id>[^/]+)$', views_v2.SntActMRDetail.as_view()),
-	url(r'^api/v2/active-monitoring-tests$', views_v2.SntActMRPost.as_view()),
+	#url(r'^api/v2/active-monitoring-tests/service/(?P<srv_id>[^/]+)$', views_v2.SntActMRList.as_view()),
+	#url(r'^api/v2/active-monitoring-tests/service/(?P<srv_id>[^/]+)/test/(?P<test_id>[^/]+)$', views_v2.SntActMRDetail.as_view()),
+	#url(r'^api/v2/active-monitoring-tests$', views_v2.SntActMRPost.as_view()),
 
 	url(r'^api/v2/snmps$', views_v2.SntSNMPEntCreate.as_view()),
 	url(r'^api/v2/snmps/(?P<pk>[0-9]+)$', views_v2.SntSNMPEntDetail.as_view()),
