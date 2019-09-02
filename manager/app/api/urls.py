@@ -178,7 +178,7 @@ doc = format_suffix_patterns(urlpatterns4)
 
 urlpatterns1 = [
     url(r'^pings$', views_v2.Ping.as_view()),
-	url(r'^api/v1/internal/smtp/creds/(?P<component>[^/]+)$', views.SntCredList.as_view()),
+	url(r'^api/v2/internal/smtp/creds/(?P<component>[^/]+)$', views.SntCredList.as_view()),
 ]
 
 internal_apis = format_suffix_patterns(urlpatterns1)
