@@ -1591,6 +1591,7 @@ class SntActMRPost(generics.CreateAPIView):
 
 
 class Ping(generics.ListAPIView):
+    serializer_class = HealthSerializer
     def get(self, request, *args, **kwargs):
         p = psutil.Process(os.getpid())
         uptime = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(p.create_time())) + ' UTC'

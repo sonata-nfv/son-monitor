@@ -59,7 +59,7 @@ class ApisTestCase(TestCase):
         self.assertEqual(response.status_code, 200)
 
     def test_functions(self):
-        response = self.client.get('/api/v2/pings')
+        response = self.client.get('/pings')
         self.assertEqual(response.status_code, 200)
 
     def test_notification_types(self):
@@ -67,11 +67,11 @@ class ApisTestCase(TestCase):
         self.assertEqual(response.status_code, 200)
 
     def test_policy_rules(self):
-        response = self.client.get('/api/v2/policies/monitoring-rules')
+        response = self.client.get('/api/v2/policies/monitoring-alerts')
         self.assertEqual(response.status_code, 200)
 
     def test_sla_rules(self):
-        response = self.client.get('/api/v2/sla/monitoring-rules')
+        response = self.client.get('/api/v2/sla/monitoring-alerts')
         self.assertEqual(response.status_code, 200)
 
     def test_snmp_entities(self):
@@ -115,7 +115,7 @@ class IntTestCase(TestCase):
 
     def testPrometheusMetrics(self):
         # Retrieve avialable metrics on Prometheus server
-        response = self.client.get('/api/v2/prometheus/metrics/list')
+        response = self.client.get('/api/v2/prometheus/metrics')
         self.assertEqual(response.status_code, 200, 'int.test.5: Get Prometheus metrics FAILURE')
 
     def testCreateNS(self):
