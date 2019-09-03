@@ -40,44 +40,44 @@ import json, requests,os
 
 class UsersTestCase(TestCase):
     def setUp(self):
-        monitoring_users.objects.create(first_name='fname',last_name='lname',email='example@email.com',type='dev',sonata_userid='1234567890')
+        monitoring_users.objects.create(first_name='fname', last_name='lname', email='example@email.com', type='dev',
+                                        sonata_userid='1234567890')
 
     def test_user_email(self):
         usr = monitoring_users.objects.get(sonata_userid='1234567890')
-        self.assertEqual(usr.email,'example@email.com',"UserTestPass")
+        self.assertEqual(usr.email, 'example@email.com', "UserTestPass")
+
 
 class ApisTestCase(TestCase):
-    def test_users(self):
-        response = self.client.get('/api/v1/users')
-        self.assertEqual(response.status_code, 200)
 
     def test_metrics(self):
-        response = self.client.get('/api/v1/metrics')
+        response = self.client.get('/api/v2/prometheus/metrics')
         self.assertEqual(response.status_code, 200)
 
     def test_services(self):
-        response = self.client.get('/api/v1/services')
+        response = self.client.get('/api/v2/services')
         self.assertEqual(response.status_code, 200)
 
     def test_functions(self):
-        response = self.client.get('/api/v1/functions')
+        response = self.client.get('/api/v2/pings')
         self.assertEqual(response.status_code, 200)
 
     def test_notification_types(self):
-        response = self.client.get('/api/v1/notification/types')
+        response = self.client.get('/api/v2/notification-types')
         self.assertEqual(response.status_code, 200)
 
     def test_policy_rules(self):
-        response = self.client.get('/api/v1/policymng/rules')
+        response = self.client.get('/api/v2/policies/monitoring-rules')
         self.assertEqual(response.status_code, 200)
 
     def test_sla_rules(self):
-        response = self.client.get('/api/v1/slamng/rules')
+        response = self.client.get('/api/v2/sla/monitoring-rules')
         self.assertEqual(response.status_code, 200)
 
     def test_snmp_entities(self):
-        response = self.client.get('/api/v1/metrics')
+        response = self.client.get('/api/v2/snmps')
         self.assertEqual(response.status_code, 200)
+
 
 class IntTestCase(TestCase):
 
@@ -98,29 +98,29 @@ class IntTestCase(TestCase):
 
     def testDBconnection(self):
         # Create User
-        response = self.client.post('/api/v1/users',
+        response = self.client.post('/api/v2/users',
                                     {"first_name": "John", "last_name": "Smith", "email": "user@email.com",
                                      "sonata_userid": "123456", "type": "cst"})
         usr_id = response.json()['id']
         self.assertEqual(response.status_code, 201, 'int.test.3: Monitoring Manager FAILURE')
 
         # Retrieve User
-        response = self.client.get('/api/v1/user/' + str(usr_id) + '/')
+        response = self.client.get('/api/v2/users/' + str(usr_id) + '/')
         self.assertEqual(response.status_code, 200, 'int.test.3: Monitoring Manager FAILURE')
 
     def testPrometheusConf(self):
         # Retrieve Prometheus configuration
-        response = self.client.get('/api/v1/prometheus/configuration')
+        response = self.client.get('/api/v2/prometheus/configuration')
         self.assertEqual(response.status_code, 200, 'int.test.4: Get Prometheus configuration FAILURE')
 
     def testPrometheusMetrics(self):
         # Retrieve avialable metrics on Prometheus server
-        response = self.client.get('/api/v1/prometheus/metrics/list')
+        response = self.client.get('/api/v2/prometheus/metrics/list')
         self.assertEqual(response.status_code, 200, 'int.test.5: Get Prometheus metrics FAILURE')
 
     def testCreateNS(self):
         # Create Notifications
-        response = self.client.post('/api/v1/notification/types',{"type": "rabbitmq"})
+        response = self.client.post('/api/v2/notification-types',{"type": "rabbitmq"})
         self.assertEqual(response.status_code, 201, 'int.test.6.1: Create mock NS FAILURE')
 
         # Create NS
@@ -128,15 +128,15 @@ class IntTestCase(TestCase):
         with open(TESTDATA_FILENAME) as f:
             data = json.load(f)
         ns_id = data['service']['sonata_srv_id']
-        response = self.client.post('/api/v1/service/new', json.dumps(data),content_type="application/json")
+        response = self.client.post('/api/v2/services', json.dumps(data),content_type="application/json")
         self.assertEqual(response.status_code, 200, 'int.test.6.2: Create mock NS FAILURE')
 
         # GET NS
-        response = self.client.get('/api/v1/service/'+ns_id+'/')
+        response = self.client.get('/api/v2/services/'+ns_id+'/metrics')
         self.assertEqual(response.status_code, 200, 'int.test.6.3: Create mock NS FAILURE')
 
         # GET SNMP ENTITIES
-        response = self.client.get('/api/v1/snmp/entities')
+        response = self.client.get('/api/v2/snmps')
         self.assertEqual(response.status_code, 200)
         count = response.json()['count']
         self.assertEqual(response.json()['count'],1,'int.test.6.4: SNMP entity NOT set')
