@@ -129,8 +129,8 @@ urlpatterns2 = [
 ]
 
 urlpatterns3 = [
-	#url(r'^api/v2/users$', views_v2.SntUsersList.as_view()),
-	#url(r'^api/v2/users/(?P<pk>[0-9]+)/$', views_v2.SntUsersDetail.as_view()),
+	url(r'^api/v2/users$', views_v2.SntUsersList.as_view()),
+	url(r'^api/v2/users/(?P<pk>[0-9]+)/$', views_v2.SntUsersDetail.as_view()),
 	
 	url(r'^api/v2/sla/monitoring-rules/service/(?P<srv_id>[^/]+)$', views_v2.SntSLARulesPerServiceList.as_view()),
 	url(r'^api/v2/sla/monitoring-rules$', views_v2.SntSLARuleconf.as_view()),
