@@ -129,6 +129,8 @@ urlpatterns2 = [
 ]
 
 urlpatterns3 = [
+	#url(r'^api/v2/users$', views_v2.SntUsersList.as_view()),
+	#url(r'^api/v2/users/(?P<pk>[0-9]+)/$', views_v2.SntUsersDetail.as_view()),
 	
 	url(r'^api/v2/sla/monitoring-rules/service/(?P<srv_id>[^/]+)$', views_v2.SntSLARulesPerServiceList.as_view()),
 	url(r'^api/v2/sla/monitoring-rules$', views_v2.SntSLARuleconf.as_view()),
@@ -158,9 +160,9 @@ urlpatterns3 = [
 
 	url(r'^api/v2/wss$', views_v2.SntWSreq.as_view()),
 
-	url(r'^api/v2/active-monitoring-tests/service/(?P<srv_id>[^/]+)$', views_v2.SntActMRList.as_view()),
-	url(r'^api/v2/active-monitoring-tests/service/(?P<srv_id>[^/]+)/test/(?P<test_id>[^/]+)$', views_v2.SntActMRDetail.as_view()),
-	url(r'^api/v2/active-monitoring-tests$', views_v2.SntActMRPost.as_view()),
+	#url(r'^api/v2/active-monitoring-tests/service/(?P<srv_id>[^/]+)$', views_v2.SntActMRList.as_view()),
+	#url(r'^api/v2/active-monitoring-tests/service/(?P<srv_id>[^/]+)/test/(?P<test_id>[^/]+)$', views_v2.SntActMRDetail.as_view()),
+	#url(r'^api/v2/active-monitoring-tests$', views_v2.SntActMRPost.as_view()),
 
 	url(r'^api/v2/snmps$', views_v2.SntSNMPEntCreate.as_view()),
 	url(r'^api/v2/snmps/(?P<pk>[0-9]+)$', views_v2.SntSNMPEntDetail.as_view()),
@@ -178,7 +180,7 @@ doc = format_suffix_patterns(urlpatterns4)
 
 urlpatterns1 = [
     url(r'^pings$', views_v2.Ping.as_view()),
-	url(r'^api/v1/internal/smtp/creds/(?P<component>[^/]+)$', views.SntCredList.as_view()),
+	url(r'^api/v2/internal/smtp/creds/(?P<component>[^/]+)$', views.SntCredList.as_view()),
 ]
 
 internal_apis = format_suffix_patterns(urlpatterns1)

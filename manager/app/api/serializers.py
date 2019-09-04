@@ -334,3 +334,9 @@ class SntPromTargetsSerialazer(serializers.Serializer):
 
 class SntPromConfSerialazer (serializers.Serializer):
     targets = serializers.JSONField
+
+class HealthSerializer (serializers.Serializer):
+    alive_since = serializers.DateTimeField()
+
+    class Meta:
+        fields = ('alive_since')

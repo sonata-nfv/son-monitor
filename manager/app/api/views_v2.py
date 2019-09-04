@@ -891,11 +891,14 @@ class SntMetricsPerFunctionList1(generics.ListAPIView):
         return Response(response)
 
 
-class SntNewServiceConf(generics.CreateAPIView):
-    serializer_class = NewServiceSerializer
+class SntNewServiceConf(generics.ListCreateAPIView):
+    def get_queryset(self):
+        self.serializer_class = SntServicesSerializer
+        queryset = monitoring_services.objects.all()
+        return queryset
 
     def post(self, request, *args, **kwargs):
-
+        self.serializer_class = NewServiceSerializer
         if not 'service' in request.data:
             LOG.info('Received new Service notification: Undefined Service')
             return Response({'error': 'Undefined Service'}, status=status.HTTP_400_BAD_REQUEST)
@@ -1588,6 +1591,7 @@ class SntActMRPost(generics.CreateAPIView):
 
 
 class Ping(generics.ListAPIView):
+    serializer_class = HealthSerializer
     def get(self, request, *args, **kwargs):
         p = psutil.Process(os.getpid())
         uptime = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(p.create_time())) + ' UTC'
