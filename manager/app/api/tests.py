@@ -95,19 +95,7 @@ class IntTestCase(TestCase):
         # Check Monitoring Manager
         response = requests.get('http://manager:8000/pings')
         self.assertEqual(response.status_code, 200, 'int.test.2: Monitoring Mamager FAILURE')
-'''
-    def testDBconnection(self):
-        # Create User
-        response = self.client.post('/api/v2/users',
-                                    {"first_name": "John", "last_name": "Smith", "email": "user@email.com",
-                                     "sonata_userid": "123456", "type": "cst"})
-        usr_id = response.json()['id']
-        self.assertEqual(response.status_code, 201, 'int.test.3: Monitoring Manager FAILURE')
 
-        # Retrieve User
-        response = self.client.get('/api/v2/users/' + str(usr_id) + '/')
-        self.assertEqual(response.status_code, 200, 'int.test.3: Monitoring Manager FAILURE')
-'''
     def testPrometheusConf(self):
         # Retrieve Prometheus configuration
         response = self.client.get('/api/v2/prometheus/configuration')
