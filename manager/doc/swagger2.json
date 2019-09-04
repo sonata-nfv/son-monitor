@@ -1,3790 +1,1804 @@
 {
-  "swagger": "2.0",
-  "info": {
-    "title": "Monitoring API",
-    "version": "1.5"
-  },
-  "host": "pre-int-sp-ath.5gtango.eu:8000",
-  "basePath": "/api/v1",
-  "schemes": [
-    "http"
-  ],
-  "paths": {
-    "/active/service/{service_id}/test": {
-      "delete": {
-        "parameters": [
-          {
-            "in": "path",
-            "name": "service_id",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "No response was specified",
-            "schema": {
-              "$ref": "#/definitions/SntActMonResSerializer"
-            }
-          }
-        },
-        "operationId": "Snt_Act_Mr_Delete_DELETE"
+   "swagger":"2.0",
+   "info":{
+      "title":"Monitoring Manager API",
+      "description":"Monitoring Manager API",
+      "termsOfService":"",
+      "contact":{
+         "email":"pkarkazis@synelixis.com"
+      },
+      "license":{
+         "name":"Apache 2.0"
+      },
+      "version":"v2.5"
+   },
+   "host":"192.168.1.127:8000",
+   "schemes":[
+      "http"
+   ],
+   "basePath":"/",
+   "consumes":[
+      "application/json"
+   ],
+   "produces":[
+      "application/json"
+   ],
+   "securityDefinitions":{
+      "Basic":{
+         "type":"basic"
       }
-    },
-    "/active/service/{service_id}/test/list": {
-      "get": {
-        "parameters": [
-          {
-            "in": "path",
-            "name": "service_id",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "No response was specified",
-            "schema": {
-              "$ref": "#/definitions/SntActMonResSerializer"
-            }
-          }
-        },
-        "operationId": "Snt_Act_Mr_List_GET"
+   },
+   "security":[
+      {
+         "Basic":[
+
+         ]
       }
-    },
-    "/active/service/{service_id}/test/{test_id}/": {
-      "get": {
-        "parameters": [
-          {
-            "in": "path",
-            "name": "service_id",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "in": "path",
-            "name": "test_id",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "No response was specified",
-            "schema": {
-              "$ref": "#/definitions/SntActMonResDetailSerializer"
-            }
-          }
-        },
-        "operationId": "Snt_Act_Mr_Detail_GET"
-      }
-    },
-    "/active/service/{service_id}/test/{test_id}/data": {
-      "post": {
-        "parameters": [
-          {
-            "in": "path",
-            "name": "service_id",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "in": "path",
-            "name": "test_id",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "in": "formData",
-            "name": "data",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "No response was specified",
-            "schema": {
-              "$ref": "#/definitions/SntActMonResDataSerializer"
-            }
-          }
-        },
-        "operationId": "Snt_Act_Mr_Dt_POST"
-      }
-    },
-    "/alerts/rule/{sonata_srv_id}/": {
-      "delete": {
-        "parameters": [
-          {
-            "in": "path",
-            "name": "sonata_srv_id",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "No response was specified",
-            "schema": {
-              "$ref": "#/definitions/SntRulesSerializer"
-            }
-          }
-        },
-        "operationId": "Snt_Rules_Detail_DELETE"
-      }
-    },
-    "/alerts/rules": {
-      "get": {
-        "responses": {
-          "200": {
-            "description": "No response was specified",
-            "schema": {
-              "$ref": "#/definitions/SntRulesSerializer"
-            }
-          }
-        },
-        "operationId": "Snt_Rules_List_GET"
-      }
-    },
-    "/alerts/rules/service/{srvID}/": {
-      "get": {
-        "parameters": [
-          {
-            "in": "path",
-            "name": "srvID",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "No response was specified",
-            "schema": {
-              "$ref": "#/definitions/SntRulesPerSrvSerializer"
-            }
-          }
-        },
-        "operationId": "Snt_Rules_Per_Service_List_GET"
-      }
-    },
-    "/alerts/rules/service/{srvID}/configuration": {
-      "post": {
-        "parameters": [
-          {
-            "in": "path",
-            "name": "srvID",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "in": "formData",
-            "name": "rules",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "No response was specified",
-            "schema": {
-              "$ref": "#/definitions/SntRulesConfSerializer"
-            }
-          }
-        },
-        "operationId": "Snt_Ruleconf_POST"
-      }
-    },
-    "/functions": {
-      "get": {
-        "responses": {
-          "200": {
-            "description": "No response was specified",
-            "schema": {
-              "$ref": "#/definitions/SntFunctionsSerializer"
-            }
-          }
-        },
-        "operationId": "Snt_Functions_List_GET"
-      }
-    },
-    "/functions/service/{srvID}/": {
-      "get": {
-        "parameters": [
-          {
-            "in": "path",
-            "name": "srvID",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "No response was specified",
-            "schema": {
-              "$ref": "#/definitions/SntFunctionsFullSerializer"
-            }
-          }
-        },
-        "operationId": "Snt_Functions_Per_Service_List_GET"
-      }
-    },
-    "/internal/smtp/creds/{component}": {
-      "get": {
-        "parameters": [
-          {
-            "in": "path",
-            "name": "component",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "No response was specified",
-            "schema": {
-              "$ref": "#/definitions/SntSmtpSerializerCred"
-            }
-          }
-        },
-        "operationId": "Snt_Cred_List_GET"
-      }
-    },
-    "/metrics": {
-      "get": {
-        "responses": {
-          "200": {
-            "description": "No response was specified",
-            "schema": {
-              "$ref": "#/definitions/SntMetricsSerializer"
-            }
-          }
-        },
-        "operationId": "Snt_Metrics_List_GET"
-      }
-    },
-    "/metrics/function/{funcID}/": {
-      "get": {
-        "parameters": [
-          {
-            "in": "path",
-            "name": "funcID",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "No response was specified",
-            "schema": {
-              "$ref": "#/definitions/SntMetricsFullSerializer"
-            }
-          }
-        },
-        "operationId": "Snt_Metrics_Per_Function_List_GET"
-      }
-    },
-    "/notification/smtp": {
-      "post": {
-        "parameters": [
-          {
-            "in": "formData",
-            "name": "smtp_server",
-            "required": false,
-            "type": "string"
-          },
-          {
-            "in": "formData",
-            "name": "port",
-            "required": false,
-            "type": "string"
-          },
-          {
-            "in": "formData",
-            "name": "user_name",
-            "required": false,
-            "type": "string"
-          },
-          {
-            "in": "formData",
-            "name": "password",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "in": "formData",
-            "name": "component",
-            "required": true,
-            "type": "string",
-            "enum": [
-              "Alert_Manager"
+   ],
+   "paths":{
+      "/api/v2/internal/smtp/creds/{component}":{
+         "get":{
+            "operationId":"api_v2_internal_smtp_creds_read",
+            "description":"",
+            "parameters":[
+
+            ],
+            "responses":{
+               "200":{
+                  "description":"",
+                  "schema":{
+                     "$ref":"#/definitions/SntSmtpSerializerCred"
+                  }
+               }
+            },
+            "tags":[
+               "api"
             ]
-          },
-          {
-            "in": "formData",
-            "name": "sec_type",
-            "required": true,
-            "type": "string",
-            "enum": [
-              "SSL",
-              "TLS",
-              "SSL_ALL",
-              "TLS_ALL"
+         },
+         "parameters":[
+            {
+               "name":"component",
+               "in":"path",
+               "required":true,
+               "type":"string"
+            }
+         ]
+      },
+      "/api/v2/notification-types":{
+         "get":{
+            "operationId":"api_v2_notification-types_list",
+            "description":"",
+            "parameters":[
+               {
+                  "name":"limit",
+                  "in":"query",
+                  "description":"Number of results to return per page.",
+                  "required":false,
+                  "type":"integer"
+               },
+               {
+                  "name":"offset",
+                  "in":"query",
+                  "description":"The initial index from which to return the results.",
+                  "required":false,
+                  "type":"integer"
+               }
+            ],
+            "responses":{
+               "200":{
+                  "description":"",
+                  "schema":{
+                     "required":[
+                        "count",
+                        "results"
+                     ],
+                     "type":"object",
+                     "properties":{
+                        "count":{
+                           "type":"integer"
+                        },
+                        "next":{
+                           "type":"string",
+                           "format":"uri"
+                        },
+                        "previous":{
+                           "type":"string",
+                           "format":"uri"
+                        },
+                        "results":{
+                           "type":"array",
+                           "items":{
+                              "$ref":"#/definitions/SntNotifType"
+                           }
+                        }
+                     }
+                  }
+               }
+            },
+            "tags":[
+               "api"
             ]
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "No response was specified",
-            "schema": {
-              "$ref": "#/definitions/SntSmtpSerializerCreate"
-            }
-          }
-        },
-        "operationId": "Snt_Smtp_Create_POST"
-      }
-    },
-    "/notification/smtp/component/{component}/": {
-      "get": {
-        "parameters": [
-          {
-            "in": "path",
-            "name": "component",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "No response was specified",
-            "schema": {
-              "$ref": "#/definitions/SntSmtpSerializerList"
-            }
-          }
-        },
-        "operationId": "Snt_Smtp_List_GET"
-      }
-    },
-    "/notification/smtp/{pk}/": {
-      "delete": {
-        "parameters": [
-          {
-            "in": "path",
-            "name": "pk",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "No response was specified",
-            "schema": {
-              "$ref": "#/definitions/SntSmtpSerializerList"
-            }
-          }
-        },
-        "operationId": "Snt_Smtp_Detail_DELETE"
-      }
-    },
-    "/notification/type/{pk}/": {
-      "delete": {
-        "parameters": [
-          {
-            "in": "path",
-            "name": "pk",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "No response was specified",
-            "schema": {
-              "$ref": "#/definitions/SntNotifTypeSerializer"
-            }
-          }
-        },
-        "operationId": "Snt_Notif_Types_Detail_DELETE"
-      }
-    },
-    "/notification/types": {
-      "get": {
-        "responses": {
-          "200": {
-            "description": "No response was specified",
-            "schema": {
-              "$ref": "#/definitions/SntNotifTypeSerializer"
-            }
-          }
-        },
-        "operationId": "Snt_Notif_Types_List_GET"
-      },
-      "post": {
-        "parameters": [
-          {
-            "in": "formData",
-            "name": "type",
-            "required": false,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "No response was specified",
-            "schema": {
-              "$ref": "#/definitions/SntNotifTypeSerializer"
-            }
-          }
-        },
-        "operationId": "Snt_Notif_Types_List_POST"
-      }
-    },
-    "/policymng/rule/{sonata_srv_id}/": {
-      "delete": {
-        "parameters": [
-          {
-            "in": "path",
-            "name": "sonata_srv_id",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "No response was specified",
-            "schema": {
-              "$ref": "#/definitions/SntRulesSerializer"
-            }
-          }
-        },
-        "operationId": "Snt_Plc_Rules_Detail_DELETE"
-      }
-    },
-    "/policymng/rules": {
-      "get": {
-        "responses": {
-          "200": {
-            "description": "No response was specified",
-            "schema": {
-              "$ref": "#/definitions/SntRulesSerializer"
-            }
-          }
-        },
-        "operationId": "Snt_Plc_Rules_List_GET"
-      }
-    },
-    "/policymng/rules/service/{srvID}/": {
-      "get": {
-        "parameters": [
-          {
-            "in": "path",
-            "name": "srvID",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "No response was specified",
-            "schema": {
-              "$ref": "#/definitions/SntRulesPerSrvSerializer"
-            }
-          }
-        },
-        "operationId": "Snt_Plc_Rules_Per_Service_List_GET"
-      }
-    },
-    "/policymng/rules/service/{srvID}/configuration": {
-      "post": {
-        "parameters": [
-          {
-            "in": "path",
-            "name": "srvID",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "in": "formData",
-            "name": "plc_contract",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "in": "formData",
-            "name": "vnfs",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "No response was specified",
-            "schema": {
-              "$ref": "#/definitions/SntPLCRulesConfSerializer"
-            }
-          }
-        },
-        "operationId": "Snt_Plc_Ruleconf_POST"
-      }
-    },
-    "/pop": {
-      "get": {
-        "responses": {
-          "200": {
-            "description": "No response was specified",
-            "schema": {
-              "$ref": "#/definitions/SntPOPSerializer"
-            }
-          }
-        },
-        "operationId": "Snt_Pop_List_GET"
-      },
-      "post": {
-        "parameters": [
-          {
-            "in": "formData",
-            "name": "sonata_pop_id",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "in": "formData",
-            "name": "sonata_sp_id",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "in": "formData",
-            "name": "name",
-            "required": false,
-            "type": "string"
-          },
-          {
-            "in": "formData",
-            "name": "prom_url",
-            "required": false,
-            "type": "string"
-          },
-          {
-            "format": "date-time",
-            "in": "formData",
-            "name": "created",
-            "required": false,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "No response was specified",
-            "schema": {
-              "$ref": "#/definitions/SntPOPSerializer"
-            }
-          }
-        },
-        "operationId": "Snt_Pop_List_POST"
-      }
-    },
-    "/pop/splatform/{spID}/": {
-      "get": {
-        "parameters": [
-          {
-            "in": "path",
-            "name": "spID",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "No response was specified",
-            "schema": {
-              "$ref": "#/definitions/SntPOPSerializer"
-            }
-          }
-        },
-        "operationId": "Snt_Po_Pper_Sp_List_GET"
-      }
-    },
-    "/pop/{sonata_pop_id}/": {
-      "delete": {
-        "parameters": [
-          {
-            "in": "path",
-            "name": "sonata_pop_id",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "No response was specified",
-            "schema": {
-              "$ref": "#/definitions/SntPOPSerializer"
-            }
-          }
-        },
-        "operationId": "Snt_Pop_Detail_DELETE"
-      }
-    },
-    "/prometheus/configuration": {
-      "get": {
-        "responses": {
-          "200": {
-            "description": "No response was specified",
-            "schema": {
-              "type": "object"
-            }
-          }
-        },
-        "operationId": "Snt_Prom_Srv_Conf_GET"
-      }
-    },
-    "/prometheus/metrics/data": {
-      "post": {
-        "parameters": [
-          {
-            "in": "formData",
-            "name": "name",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "format": "date-time",
-            "in": "formData",
-            "name": "start",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "format": "date-time",
-            "in": "formData",
-            "name": "end",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "in": "formData",
-            "name": "labels",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "in": "formData",
-            "name": "step",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "No response was specified",
-            "schema": {
-              "$ref": "#/definitions/SntPromMetricSerializer"
-            }
-          }
-        },
-        "operationId": "Snt_Prom_Metric_Data_POST"
-      }
-    },
-    "/prometheus/metrics/list": {
-      "get": {
-        "responses": {
-          "200": {
-            "description": "No response was specified",
-            "schema": {
-              "$ref": "#/definitions/promMetricsListSerializer"
-            }
-          }
-        },
-        "operationId": "Snt_Prom_Metric_List_GET"
-      }
-    },
-    "/prometheus/metrics/name/{metricName}/": {
-      "get": {
-        "parameters": [
-          {
-            "in": "path",
-            "name": "metricName",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "No response was specified",
-            "schema": {
-              "$ref": "#/definitions/promMetricsListSerializer"
-            }
-          }
-        },
-        "operationId": "Snt_Prom_Metric_Detail_GET"
-      }
-    },
-    "/prometheus/pop/{popID}/configuration": {
-      "get": {
-        "parameters": [
-          {
-            "in": "path",
-            "name": "popID",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "No response was specified",
-            "schema": {
-              "$ref": "#/definitions/promMetricsListSerializer"
-            }
-          }
-        },
-        "operationId": "Snt_Prom_Srv_Per_Pop_Conf_GET"
-      }
-    },
-    "/prometheus/pop/{popID}/metrics/data": {
-      "post": {
-        "parameters": [
-          {
-            "in": "path",
-            "name": "popID",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "in": "formData",
-            "name": "name",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "format": "date-time",
-            "in": "formData",
-            "name": "start",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "format": "date-time",
-            "in": "formData",
-            "name": "end",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "in": "formData",
-            "name": "labels",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "in": "formData",
-            "name": "step",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "No response was specified",
-            "schema": {
-              "$ref": "#/definitions/SntPromMetricSerializer"
-            }
-          }
-        },
-        "operationId": "Snt_Prom_Metric_Per_Pop_Data_POST"
-      }
-    },
-    "/prometheus/pop/{popID}/metrics/list": {
-      "get": {
-        "parameters": [
-          {
-            "in": "path",
-            "name": "popID",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "No response was specified",
-            "schema": {
-              "$ref": "#/definitions/promMetricsListSerializer"
-            }
-          }
-        },
-        "operationId": "Snt_Prom_Metric_Per_Pop_List_GET"
-      }
-    },
-    "/prometheus/pop/{popID}/metrics/name/{metricName}/": {
-      "get": {
-        "parameters": [
-          {
-            "in": "path",
-            "name": "popID",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "in": "path",
-            "name": "metricName",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "No response was specified",
-            "schema": {
-              "$ref": "#/definitions/promMetricsListSerializer"
-            }
-          }
-        },
-        "operationId": "Snt_Prom_Metric_Per_Pop_Detail_GET"
-      }
-    },
-    "/prometheus/vnf/{vnf_id}/metrics/data": {
-      "post": {
-        "parameters": [
-          {
-            "in": "path",
-            "name": "vnf_id",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "in": "formData",
-            "name": "name",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "format": "date-time",
-            "in": "formData",
-            "name": "start",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "format": "date-time",
-            "in": "formData",
-            "name": "end",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "in": "formData",
-            "name": "labels",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "in": "formData",
-            "name": "step",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "No response was specified",
-            "schema": {
-              "$ref": "#/definitions/SntPromMetricSerializer"
-            }
-          }
-        },
-        "operationId": "Snt_Prom_Metric_Data_POST"
-      }
-    },
-    "/prometheus/vnf/{vnf_id}/metrics/list": {
-      "get": {
-        "parameters": [
-          {
-            "in": "path",
-            "name": "vnf_id",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "No response was specified",
-            "schema": {
-              "$ref": "#/definitions/promMetricsListSerializer"
-            }
-          }
-        },
-        "operationId": "Snt_Prom_Metric_List_Vnf_GET"
-      }
-    },
-    "/prometheus/vnf/{vnf_id}/metrics/name/{metricName}/": {
-      "get": {
-        "parameters": [
-          {
-            "in": "path",
-            "name": "vnf_id",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "in": "path",
-            "name": "metricName",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "No response was specified",
-            "schema": {
-              "$ref": "#/definitions/promMetricsListSerializer"
-            }
-          }
-        },
-        "operationId": "Snt_Prom_Vnf_Metric_Detail_GET"
-      }
-    },
-    "/prometheus/vnf/{vnf_id}/vdu/{vdu_id}/metrics/data": {
-      "post": {
-        "parameters": [
-          {
-            "in": "path",
-            "name": "vnf_id",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "in": "path",
-            "name": "vdu_id",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "in": "formData",
-            "name": "name",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "format": "date-time",
-            "in": "formData",
-            "name": "start",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "format": "date-time",
-            "in": "formData",
-            "name": "end",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "in": "formData",
-            "name": "labels",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "in": "formData",
-            "name": "step",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "No response was specified",
-            "schema": {
-              "$ref": "#/definitions/SntPromMetricSerializer"
-            }
-          }
-        },
-        "operationId": "Snt_Prom_Metric_Data_POST"
-      }
-    },
-    "/prometheus/vnf/{vnf_id}/vdu/{vdu_id}/metrics/list": {
-      "get": {
-        "parameters": [
-          {
-            "in": "path",
-            "name": "vnf_id",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "in": "path",
-            "name": "vdu_id",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "No response was specified",
-            "schema": {
-              "$ref": "#/definitions/promMetricsListSerializer"
-            }
-          }
-        },
-        "operationId": "Snt_Prom_Metric_List_Vnf_Vdu_GET"
-      }
-    },
-    "/service/new": {
-      "post": {
-        "parameters": [
-          {
-            "in": "formData",
-            "name": "service",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "in": "formData",
-            "name": "functions",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "in": "formData",
-            "name": "rules",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "No response was specified",
-            "schema": {
-              "$ref": "#/definitions/NewServiceSerializer"
-            }
-          }
-        },
-        "operationId": "Snt_New_Service_Conf_POST"
-      }
-    },
-    "/service/{srvID}/": {
-      "get": {
-        "parameters": [
-          {
-            "in": "path",
-            "name": "srvID",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "No response was specified",
-            "schema": {
-              "$ref": "#/definitions/SntServicesSerializer"
-            }
-          }
-        },
-        "operationId": "Snt_Service_List_GET"
-      }
-    },
-    "/services": {
-      "get": {
-        "responses": {
-          "200": {
-            "description": "No response was specified",
-            "schema": {
-              "$ref": "#/definitions/SntServicesSerializer"
-            }
-          }
-        },
-        "operationId": "Snt_Services_List_GET"
-      },
-      "post": {
-        "parameters": [
-          {
-            "in": "formData",
-            "name": "sonata_srv_id",
-            "required": false,
-            "type": "string"
-          },
-          {
-            "in": "formData",
-            "name": "name",
-            "required": false,
-            "type": "string"
-          },
-          {
-            "in": "formData",
-            "name": "description",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "format": "date-time",
-            "in": "formData",
-            "name": "created",
-            "required": false,
-            "type": "string"
-          },
-          {
-            "in": "formData",
-            "name": "user",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "in": "formData",
-            "name": "host_id",
-            "required": false,
-            "type": "string"
-          },
-          {
-            "in": "formData",
-            "name": "pop_id",
-            "required": false,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "No response was specified",
-            "schema": {
-              "$ref": "#/definitions/SntServicesSerializer"
-            }
-          }
-        },
-        "operationId": "Snt_Services_List_POST"
-      }
-    },
-    "/services/user/{usrID}/": {
-      "get": {
-        "parameters": [
-          {
-            "in": "path",
-            "name": "usrID",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "No response was specified",
-            "schema": {
-              "$ref": "#/definitions/SntServicesFullSerializer"
-            }
-          }
-        },
-        "operationId": "Snt_Services_Per_User_List_GET"
-      }
-    },
-    "/services/{sonata_srv_id}/": {
-      "delete": {
-        "parameters": [
-          {
-            "in": "path",
-            "name": "sonata_srv_id",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "No response was specified",
-            "schema": {
-              "$ref": "#/definitions/SntServicesDelSerializer"
-            }
-          }
-        },
-        "operationId": "Snt_Services_Detail_DELETE"
-      }
-    },
-    "/slamng/rule/{sonata_srv_id}/": {
-      "delete": {
-        "parameters": [
-          {
-            "in": "path",
-            "name": "sonata_srv_id",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "No response was specified",
-            "schema": {
-              "$ref": "#/definitions/SntRulesSerializer"
-            }
-          }
-        },
-        "operationId": "Snt_Sla_Rules_Detail_DELETE"
-      }
-    },
-    "/slamng/rules": {
-      "get": {
-        "responses": {
-          "200": {
-            "description": "No response was specified",
-            "schema": {
-              "$ref": "#/definitions/SntRulesSerializer"
-            }
-          }
-        },
-        "operationId": "Snt_Sla_Rules_List_GET"
-      }
-    },
-    "/slamng/rules/service/{srvID}/": {
-      "get": {
-        "parameters": [
-          {
-            "in": "path",
-            "name": "srvID",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "No response was specified",
-            "schema": {
-              "$ref": "#/definitions/SntRulesPerSrvSerializer"
-            }
-          }
-        },
-        "operationId": "Snt_Sla_Rules_Per_Service_List_GET"
-      }
-    },
-    "/slamng/rules/service/{srvID}/configuration": {
-      "post": {
-        "parameters": [
-          {
-            "in": "path",
-            "name": "srvID",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "in": "formData",
-            "name": "sla_contract",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "in": "formData",
-            "name": "vnfs",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "No response was specified",
-            "schema": {
-              "$ref": "#/definitions/SntSLARulesConfSerializer"
-            }
-          }
-        },
-        "operationId": "Snt_Sla_Ruleconf_POST"
-      }
-    },
-    "/snmp/entities": {
-      "get": {
-        "responses": {
-          "200": {
-            "description": "No response was specified",
-            "schema": {
-              "$ref": "#/definitions/SntSNMPEntSerializer"
-            }
-          }
-        },
-        "operationId": "Snt_Snmp_Ent_List_GET"
-      }
-    },
-    "/snmp/entity": {
-      "post": {
-        "parameters": [
-          {
-            "in": "formData",
-            "name": "ip",
-            "required": false,
-            "type": "string"
-          },
-          {
-            "in": "formData",
-            "name": "port",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "in": "formData",
-            "name": "username",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "in": "formData",
-            "name": "password",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "in": "formData",
-            "name": "interval",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "in": "formData",
-            "name": "entity_type",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "in": "formData",
-            "name": "oids",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "in": "formData",
-            "name": "entity_id",
-            "required": true,
-            "type": "string",
-            "enum": [
-              "v3"
+         },
+         "post":{
+            "operationId":"api_v2_notification-types_create",
+            "description":"",
+            "parameters":[
+               {
+                  "name":"data",
+                  "in":"body",
+                  "required":true,
+                  "schema":{
+                     "$ref":"#/definitions/SntNotifType"
+                  }
+               }
+            ],
+            "responses":{
+               "201":{
+                  "description":"",
+                  "schema":{
+                     "$ref":"#/definitions/SntNotifType"
+                  }
+               }
+            },
+            "tags":[
+               "api"
             ]
-          },
-          {
-            "in": "formData",
-            "name": "version",
-            "required": true,
-            "type": "string",
-            "enum": [
-              "MD5"
+         },
+         "parameters":[
+
+         ]
+      },
+      "/api/v2/notification-types/{id}":{
+         "delete":{
+            "operationId":"api_v2_notification-types_delete",
+            "description":"",
+            "parameters":[
+
+            ],
+            "responses":{
+               "204":{
+                  "description":""
+               }
+            },
+            "tags":[
+               "api"
             ]
-          },
-          {
-            "in": "formData",
-            "name": "auth_protocol",
-            "required": true,
-            "type": "string",
-            "enum": [
-              "authnoPriv"
+         },
+         "parameters":[
+            {
+               "name":"id",
+               "in":"path",
+               "description":"A unique integer value identifying this monitoring_notif_types.",
+               "required":true,
+               "type":"integer"
+            }
+         ]
+      },
+      "/api/v2/policies/monitoring-alerts":{
+         "get":{
+            "operationId":"api_v2_policies_monitoring-alerts_list",
+            "description":"",
+            "parameters":[
+               {
+                  "name":"limit",
+                  "in":"query",
+                  "description":"Number of results to return per page.",
+                  "required":false,
+                  "type":"integer"
+               },
+               {
+                  "name":"offset",
+                  "in":"query",
+                  "description":"The initial index from which to return the results.",
+                  "required":false,
+                  "type":"integer"
+               }
+            ],
+            "responses":{
+               "200":{
+                  "description":"",
+                  "schema":{
+                     "required":[
+                        "count",
+                        "results"
+                     ],
+                     "type":"object",
+                     "properties":{
+                        "count":{
+                           "type":"integer"
+                        },
+                        "next":{
+                           "type":"string",
+                           "format":"uri"
+                        },
+                        "previous":{
+                           "type":"string",
+                           "format":"uri"
+                        },
+                        "results":{
+                           "type":"array",
+                           "items":{
+                              "$ref":"#/definitions/SntAlertsList"
+                           }
+                        }
+                     }
+                  }
+               }
+            },
+            "tags":[
+               "api"
             ]
-          },
-          {
-            "in": "formData",
-            "name": "security_level",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "in": "formData",
-            "name": "status",
-            "required": false,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "No response was specified",
-            "schema": {
-              "$ref": "#/definitions/SntSNMPEntFullSerializer"
-            }
-          }
-        },
-        "operationId": "Snt_Snmp_Ent_Create_POST"
-      }
-    },
-    "/snmp/entity/{pk}/": {
-      "delete": {
-        "parameters": [
-          {
-            "in": "path",
-            "name": "pk",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "No response was specified",
-            "schema": {
-              "type": "object"
-            }
-          }
-        },
-        "operationId": "Snt_Snmp_Ent_Detail_DELETE"
-      }
-    },
-    "/splatform": {
-      "get": {
-        "responses": {
-          "200": {
-            "description": "No response was specified",
-            "schema": {
-              "$ref": "#/definitions/SntSPSerializer"
-            }
-          }
-        },
-        "operationId": "Snt_Sp_List_GET"
+         },
+         "parameters":[
+
+         ]
       },
-      "post": {
-        "parameters": [
-          {
-            "in": "formData",
-            "name": "sonata_sp_id",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "in": "formData",
-            "name": "name",
-            "required": false,
-            "type": "string"
-          },
-          {
-            "in": "formData",
-            "name": "manager_url",
-            "required": false,
-            "type": "string"
-          },
-          {
-            "format": "date-time",
-            "in": "formData",
-            "name": "created",
-            "required": false,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "No response was specified",
-            "schema": {
-              "$ref": "#/definitions/SntSPSerializer"
-            }
-          }
-        },
-        "operationId": "Snt_Sp_List_POST"
-      }
-    },
-    "/splatform/{pk}/": {
-      "delete": {
-        "parameters": [
-          {
-            "in": "path",
-            "name": "pk",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "No response was specified",
-            "schema": {
-              "$ref": "#/definitions/SntSPSerializer"
-            }
-          }
-        },
-        "operationId": "Snt_Sp_Detail_DELETE"
-      }
-    },
-    "/user/{pk}/": {
-      "get": {
-        "parameters": [
-          {
-            "in": "path",
-            "name": "pk",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "No response was specified",
-            "schema": {
-              "$ref": "#/definitions/SntUserSerializer"
-            }
-          }
-        },
-        "operationId": "Snt_User_List_GET"
-      }
-    },
-    "/users": {
-      "get": {
-        "responses": {
-          "200": {
-            "description": "No response was specified",
-            "schema": {
-              "$ref": "#/definitions/SntUserSerializer"
-            }
-          }
-        },
-        "operationId": "Snt_Users_List_GET"
-      },
-      "post": {
-        "parameters": [
-          {
-            "in": "formData",
-            "name": "first_name",
-            "required": false,
-            "type": "string"
-          },
-          {
-            "in": "formData",
-            "name": "last_name",
-            "required": false,
-            "type": "string"
-          },
-          {
-            "in": "formData",
-            "name": "email",
-            "required": false,
-            "type": "string"
-          },
-          {
-            "in": "formData",
-            "name": "sonata_userid",
-            "required": false,
-            "type": "string"
-          },
-          {
-            "format": "date-time",
-            "in": "formData",
-            "name": "created",
-            "required": false,
-            "type": "string"
-          },
-          {
-            "in": "formData",
-            "name": "type",
-            "required": false,
-            "type": "string",
-            "enum": [
-              "cst",
-              "dev",
-              "admin"
+      "/api/v2/policies/monitoring-rules":{
+         "post":{
+            "operationId":"api_v2_policies_monitoring-rules_create",
+            "description":"",
+            "parameters":[
+               {
+                  "name":"data",
+                  "in":"body",
+                  "required":true,
+                  "schema":{
+                     "$ref":"#/definitions/SntPLCRulesConf"
+                  }
+               }
+            ],
+            "responses":{
+               "201":{
+                  "description":"",
+                  "schema":{
+                     "$ref":"#/definitions/SntPLCRulesConf"
+                  }
+               }
+            },
+            "tags":[
+               "api"
             ]
-          },
-          {
-            "in": "formData",
-            "name": "mobile",
-            "required": false,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "No response was specified",
-            "schema": {
-              "$ref": "#/definitions/SntUserSerializer"
+         },
+         "parameters":[
+
+         ]
+      },
+      "/api/v2/policies/monitoring-rules/service/{srv_id}":{
+         "get":{
+            "operationId":"api_v2_policies_monitoring-rules_service_read",
+            "description":"",
+            "parameters":[
+
+            ],
+            "responses":{
+               "200":{
+                  "description":"",
+                  "schema":{
+                     "$ref":"#/definitions/SntRulesPerSrv"
+                  }
+               }
+            },
+            "tags":[
+               "api"
+            ]
+         },
+         "delete":{
+            "operationId":"api_v2_policies_monitoring-rules_service_delete",
+            "description":"",
+            "parameters":[
+
+            ],
+            "responses":{
+               "204":{
+                  "description":""
+               }
+            },
+            "tags":[
+               "api"
+            ]
+         },
+         "parameters":[
+            {
+               "name":"srv_id",
+               "in":"path",
+               "required":true,
+               "type":"string"
             }
-          }
-        },
-        "operationId": "Snt_Users_List_POST"
-      }
-    },
-    "/users/type/{type}/": {
-      "get": {
-        "parameters": [
-          {
-            "in": "path",
-            "name": "type",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "No response was specified",
-            "schema": {
-              "$ref": "#/definitions/SntUserSerializer"
+         ]
+      },
+      "/api/v2/pops":{
+         "get":{
+            "operationId":"api_v2_pops_list",
+            "description":"",
+            "parameters":[
+               {
+                  "name":"limit",
+                  "in":"query",
+                  "description":"Number of results to return per page.",
+                  "required":false,
+                  "type":"integer"
+               },
+               {
+                  "name":"offset",
+                  "in":"query",
+                  "description":"The initial index from which to return the results.",
+                  "required":false,
+                  "type":"integer"
+               }
+            ],
+            "responses":{
+               "200":{
+                  "description":"",
+                  "schema":{
+                     "required":[
+                        "count",
+                        "results"
+                     ],
+                     "type":"object",
+                     "properties":{
+                        "count":{
+                           "type":"integer"
+                        },
+                        "next":{
+                           "type":"string",
+                           "format":"uri"
+                        },
+                        "previous":{
+                           "type":"string",
+                           "format":"uri"
+                        },
+                        "results":{
+                           "type":"array",
+                           "items":{
+                              "$ref":"#/definitions/SntPOP"
+                           }
+                        }
+                     }
+                  }
+               }
+            },
+            "tags":[
+               "api"
+            ]
+         },
+         "post":{
+            "operationId":"api_v2_pops_create",
+            "description":"",
+            "parameters":[
+               {
+                  "name":"data",
+                  "in":"body",
+                  "required":true,
+                  "schema":{
+                     "$ref":"#/definitions/SntPOP"
+                  }
+               }
+            ],
+            "responses":{
+               "201":{
+                  "description":"",
+                  "schema":{
+                     "$ref":"#/definitions/SntPOP"
+                  }
+               }
+            },
+            "tags":[
+               "api"
+            ]
+         },
+         "parameters":[
+
+         ]
+      },
+      "/api/v2/pops/{pop_id}":{
+         "delete":{
+            "operationId":"api_v2_pops_delete",
+            "description":"",
+            "parameters":[
+
+            ],
+            "responses":{
+               "204":{
+                  "description":""
+               }
+            },
+            "tags":[
+               "api"
+            ]
+         },
+         "parameters":[
+            {
+               "name":"pop_id",
+               "in":"path",
+               "required":true,
+               "type":"string"
             }
-          }
-        },
-        "operationId": "Snt_User_Per_Type_List_GET"
-      }
-    },
-    "/users/{pk}/": {
-      "delete": {
-        "parameters": [
-          {
-            "in": "path",
-            "name": "pk",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "No response was specified",
-            "schema": {
-              "$ref": "#/definitions/SntUserSerializer"
+         ]
+      },
+      "/api/v2/prometheus/configuration":{
+         "get":{
+            "operationId":"api_v2_prometheus_configuration_list",
+            "description":"",
+            "parameters":[
+               {
+                  "name":"limit",
+                  "in":"query",
+                  "description":"Number of results to return per page.",
+                  "required":false,
+                  "type":"integer"
+               },
+               {
+                  "name":"offset",
+                  "in":"query",
+                  "description":"The initial index from which to return the results.",
+                  "required":false,
+                  "type":"integer"
+               }
+            ],
+            "responses":{
+               "200":{
+                  "description":""
+               }
+            },
+            "tags":[
+               "api"
+            ]
+         },
+         "parameters":[
+
+         ]
+      },
+      "/api/v2/prometheus/metrics":{
+         "get":{
+            "operationId":"api_v2_prometheus_metrics_read",
+            "description":"",
+            "parameters":[
+
+            ],
+            "responses":{
+               "200":{
+                  "description":"",
+                  "schema":{
+                     "$ref":"#/definitions/promMetricsList"
+                  }
+               }
+            },
+            "tags":[
+               "api"
+            ]
+         },
+         "parameters":[
+
+         ]
+      },
+      "/api/v2/prometheus/metrics/name/{metricName}":{
+         "get":{
+            "operationId":"api_v2_prometheus_metrics_name_read",
+            "description":"",
+            "parameters":[
+
+            ],
+            "responses":{
+               "200":{
+                  "description":"",
+                  "schema":{
+                     "$ref":"#/definitions/promMetricsList"
+                  }
+               }
+            },
+            "tags":[
+               "api"
+            ]
+         },
+         "parameters":[
+            {
+               "name":"metricName",
+               "in":"path",
+               "required":true,
+               "type":"string"
             }
-          }
-        },
-        "operationId": "Snt_Users_Detail_DELETE"
-      }
-    },
-    "/ws/new": {
-      "post": {
-        "parameters": [
-          {
-            "in": "formData",
-            "name": "metric",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "in": "formData",
-            "name": "filters",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "No response was specified",
-            "schema": {
-              "$ref": "#/definitions/SntWSreqSerializer"
+         ]
+      },
+      "/api/v2/prometheus/targets":{
+         "get":{
+            "operationId":"api_v2_prometheus_targets_list",
+            "description":"",
+            "parameters":[
+               {
+                  "name":"limit",
+                  "in":"query",
+                  "description":"Number of results to return per page.",
+                  "required":false,
+                  "type":"integer"
+               },
+               {
+                  "name":"offset",
+                  "in":"query",
+                  "description":"The initial index from which to return the results.",
+                  "required":false,
+                  "type":"integer"
+               }
+            ],
+            "responses":{
+               "200":{
+                  "description":"",
+                  "schema":{
+                     "required":[
+                        "count",
+                        "results"
+                     ],
+                     "type":"object",
+                     "properties":{
+                        "count":{
+                           "type":"integer"
+                        },
+                        "next":{
+                           "type":"string",
+                           "format":"uri"
+                        },
+                        "previous":{
+                           "type":"string",
+                           "format":"uri"
+                        },
+                        "results":{
+                           "type":"array",
+                           "items":{
+                              "$ref":"#/definitions/SntPromTargetsSerialazer"
+                           }
+                        }
+                     }
+                  }
+               }
+            },
+            "tags":[
+               "api"
+            ]
+         },
+         "post":{
+            "operationId":"api_v2_prometheus_targets_create",
+            "description":"",
+            "parameters":[
+               {
+                  "name":"data",
+                  "in":"body",
+                  "required":true,
+                  "schema":{
+                     "$ref":"#/definitions/SntPromTargetsSerialazer"
+                  }
+               }
+            ],
+            "responses":{
+               "201":{
+                  "description":"",
+                  "schema":{
+                     "$ref":"#/definitions/SntPromTargetsSerialazer"
+                  }
+               }
+            },
+            "tags":[
+               "api"
+            ]
+         },
+         "parameters":[
+
+         ]
+      },
+      "/api/v2/services":{
+         "get":{
+            "operationId":"api_v2_services_list",
+            "description":"",
+            "parameters":[
+               {
+                  "name":"limit",
+                  "in":"query",
+                  "description":"Number of results to return per page.",
+                  "required":false,
+                  "type":"integer"
+               },
+               {
+                  "name":"offset",
+                  "in":"query",
+                  "description":"The initial index from which to return the results.",
+                  "required":false,
+                  "type":"integer"
+               }
+            ],
+            "responses":{
+               "200":{
+                  "description":""
+               }
+            },
+            "tags":[
+               "api"
+            ]
+         },
+         "post":{
+            "operationId":"api_v2_services_create",
+            "description":"",
+            "parameters":[
+
+            ],
+            "responses":{
+               "201":{
+                  "description":""
+               }
+            },
+            "tags":[
+               "api"
+            ]
+         },
+         "parameters":[
+
+         ]
+      },
+      "/api/v2/services/{srv_id}":{
+         "delete":{
+            "operationId":"api_v2_services_delete",
+            "description":"",
+            "parameters":[
+
+            ],
+            "responses":{
+               "204":{
+                  "description":""
+               }
+            },
+            "tags":[
+               "api"
+            ]
+         },
+         "parameters":[
+            {
+               "name":"srv_id",
+               "in":"path",
+               "required":true,
+               "type":"string"
             }
-          }
-        },
-        "operationId": "Snt_W_Sreq_POST"
-      }
-    },
-    "/ws/pop/{popID}/new": {
-      "post": {
-        "parameters": [
-          {
-            "in": "path",
-            "name": "popID",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "in": "formData",
-            "name": "metric",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "in": "formData",
-            "name": "filters",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "No response was specified",
-            "schema": {
-              "$ref": "#/definitions/SntWSreqSerializer"
+         ]
+      },
+      "/api/v2/services/{srv_id}/metrics":{
+         "get":{
+            "operationId":"api_v2_services_metrics_read",
+            "description":"",
+            "parameters":[
+
+            ],
+            "responses":{
+               "200":{
+                  "description":"",
+                  "schema":{
+                     "$ref":"#/definitions/promMetricsList"
+                  }
+               }
+            },
+            "tags":[
+               "api"
+            ]
+         },
+         "parameters":[
+            {
+               "name":"srv_id",
+               "in":"path",
+               "required":true,
+               "type":"string"
             }
-          }
-        },
-        "operationId": "Snt_W_Sreq_Per_Pop_POST"
+         ]
+      },
+      "/api/v2/sla/monitoring-alerts":{
+         "get":{
+            "operationId":"api_v2_sla_monitoring-alerts_list",
+            "description":"",
+            "parameters":[
+               {
+                  "name":"limit",
+                  "in":"query",
+                  "description":"Number of results to return per page.",
+                  "required":false,
+                  "type":"integer"
+               },
+               {
+                  "name":"offset",
+                  "in":"query",
+                  "description":"The initial index from which to return the results.",
+                  "required":false,
+                  "type":"integer"
+               }
+            ],
+            "responses":{
+               "200":{
+                  "description":"",
+                  "schema":{
+                     "required":[
+                        "count",
+                        "results"
+                     ],
+                     "type":"object",
+                     "properties":{
+                        "count":{
+                           "type":"integer"
+                        },
+                        "next":{
+                           "type":"string",
+                           "format":"uri"
+                        },
+                        "previous":{
+                           "type":"string",
+                           "format":"uri"
+                        },
+                        "results":{
+                           "type":"array",
+                           "items":{
+                              "$ref":"#/definitions/SntAlertsList"
+                           }
+                        }
+                     }
+                  }
+               }
+            },
+            "tags":[
+               "api"
+            ]
+         },
+         "parameters":[
+
+         ]
+      },
+      "/api/v2/sla/monitoring-rules":{
+         "post":{
+            "operationId":"api_v2_sla_monitoring-rules_create",
+            "description":"",
+            "parameters":[
+               {
+                  "name":"data",
+                  "in":"body",
+                  "required":true,
+                  "schema":{
+                     "$ref":"#/definitions/SntSLARulesConf"
+                  }
+               }
+            ],
+            "responses":{
+               "201":{
+                  "description":"",
+                  "schema":{
+                     "$ref":"#/definitions/SntSLARulesConf"
+                  }
+               }
+            },
+            "tags":[
+               "api"
+            ]
+         },
+         "parameters":[
+
+         ]
+      },
+      "/api/v2/sla/monitoring-rules/service/{srv_id}":{
+         "get":{
+            "operationId":"api_v2_sla_monitoring-rules_service_read",
+            "description":"",
+            "parameters":[
+
+            ],
+            "responses":{
+               "200":{
+                  "description":"",
+                  "schema":{
+                     "$ref":"#/definitions/SntRulesPerSrv"
+                  }
+               }
+            },
+            "tags":[
+               "api"
+            ]
+         },
+         "delete":{
+            "operationId":"api_v2_sla_monitoring-rules_service_delete",
+            "description":"",
+            "parameters":[
+
+            ],
+            "responses":{
+               "204":{
+                  "description":""
+               }
+            },
+            "tags":[
+               "api"
+            ]
+         },
+         "parameters":[
+            {
+               "name":"srv_id",
+               "in":"path",
+               "required":true,
+               "type":"string"
+            }
+         ]
+      },
+      "/api/v2/snmps":{
+         "get":{
+            "operationId":"api_v2_snmps_list",
+            "description":"",
+            "parameters":[
+               {
+                  "name":"limit",
+                  "in":"query",
+                  "description":"Number of results to return per page.",
+                  "required":false,
+                  "type":"integer"
+               },
+               {
+                  "name":"offset",
+                  "in":"query",
+                  "description":"The initial index from which to return the results.",
+                  "required":false,
+                  "type":"integer"
+               }
+            ],
+            "responses":{
+               "200":{
+                  "description":"",
+                  "schema":{
+                     "required":[
+                        "count",
+                        "results"
+                     ],
+                     "type":"object",
+                     "properties":{
+                        "count":{
+                           "type":"integer"
+                        },
+                        "next":{
+                           "type":"string",
+                           "format":"uri"
+                        },
+                        "previous":{
+                           "type":"string",
+                           "format":"uri"
+                        },
+                        "results":{
+                           "type":"array",
+                           "items":{
+                              "$ref":"#/definitions/SntSNMPEntFull"
+                           }
+                        }
+                     }
+                  }
+               }
+            },
+            "tags":[
+               "api"
+            ]
+         },
+         "post":{
+            "operationId":"api_v2_snmps_create",
+            "description":"",
+            "parameters":[
+               {
+                  "name":"data",
+                  "in":"body",
+                  "required":true,
+                  "schema":{
+                     "$ref":"#/definitions/SntSNMPEntFull"
+                  }
+               }
+            ],
+            "responses":{
+               "201":{
+                  "description":"",
+                  "schema":{
+                     "$ref":"#/definitions/SntSNMPEntFull"
+                  }
+               }
+            },
+            "tags":[
+               "api"
+            ]
+         },
+         "parameters":[
+
+         ]
+      },
+      "/api/v2/snmps/{id}":{
+         "delete":{
+            "operationId":"api_v2_snmps_delete",
+            "description":"",
+            "parameters":[
+
+            ],
+            "responses":{
+               "204":{
+                  "description":""
+               }
+            },
+            "tags":[
+               "api"
+            ]
+         },
+         "parameters":[
+            {
+               "name":"id",
+               "in":"path",
+               "required":true,
+               "type":"string"
+            }
+         ]
+      },
+      "/api/v2/users":{
+         "get":{
+            "operationId":"api_v2_users_list",
+            "description":"",
+            "parameters":[
+               {
+                  "name":"limit",
+                  "in":"query",
+                  "description":"Number of results to return per page.",
+                  "required":false,
+                  "type":"integer"
+               },
+               {
+                  "name":"offset",
+                  "in":"query",
+                  "description":"The initial index from which to return the results.",
+                  "required":false,
+                  "type":"integer"
+               }
+            ],
+            "responses":{
+               "200":{
+                  "description":"",
+                  "schema":{
+                     "required":[
+                        "count",
+                        "results"
+                     ],
+                     "type":"object",
+                     "properties":{
+                        "count":{
+                           "type":"integer"
+                        },
+                        "next":{
+                           "type":"string",
+                           "format":"uri"
+                        },
+                        "previous":{
+                           "type":"string",
+                           "format":"uri"
+                        },
+                        "results":{
+                           "type":"array",
+                           "items":{
+                              "$ref":"#/definitions/SntUser"
+                           }
+                        }
+                     }
+                  }
+               }
+            },
+            "tags":[
+               "api"
+            ]
+         },
+         "post":{
+            "operationId":"api_v2_users_create",
+            "description":"",
+            "parameters":[
+               {
+                  "name":"data",
+                  "in":"body",
+                  "required":true,
+                  "schema":{
+                     "$ref":"#/definitions/SntUser"
+                  }
+               }
+            ],
+            "responses":{
+               "201":{
+                  "description":"",
+                  "schema":{
+                     "$ref":"#/definitions/SntUser"
+                  }
+               }
+            },
+            "tags":[
+               "api"
+            ]
+         },
+         "parameters":[
+
+         ]
+      },
+      "/api/v2/users/{id}/":{
+         "delete":{
+            "operationId":"api_v2_users_delete",
+            "description":"",
+            "parameters":[
+
+            ],
+            "responses":{
+               "204":{
+                  "description":""
+               }
+            },
+            "tags":[
+               "api"
+            ]
+         },
+         "parameters":[
+            {
+               "name":"id",
+               "in":"path",
+               "description":"A unique integer value identifying this monitoring_users.",
+               "required":true,
+               "type":"integer"
+            }
+         ]
+      },
+      "/api/v2/vnfs/{vnf_id}/metrics":{
+         "get":{
+            "operationId":"api_v2_vnfs_metrics_read",
+            "description":"",
+            "parameters":[
+
+            ],
+            "responses":{
+               "200":{
+                  "description":"",
+                  "schema":{
+                     "$ref":"#/definitions/promMetricsList"
+                  }
+               }
+            },
+            "tags":[
+               "api"
+            ]
+         },
+         "parameters":[
+            {
+               "name":"vnf_id",
+               "in":"path",
+               "required":true,
+               "type":"string"
+            }
+         ]
+      },
+      "/api/v2/vnfs/{vnf_id}/vdu/{vdu_id}/metrics":{
+         "get":{
+            "operationId":"api_v2_vnfs_vdu_metrics_read",
+            "description":"",
+            "parameters":[
+
+            ],
+            "responses":{
+               "200":{
+                  "description":"",
+                  "schema":{
+                     "$ref":"#/definitions/promMetricsList"
+                  }
+               }
+            },
+            "tags":[
+               "api"
+            ]
+         },
+         "parameters":[
+            {
+               "name":"vdu_id",
+               "in":"path",
+               "required":true,
+               "type":"string"
+            },
+            {
+               "name":"vnf_id",
+               "in":"path",
+               "required":true,
+               "type":"string"
+            }
+         ]
+      },
+      "/api/v2/wss":{
+         "post":{
+            "operationId":"api_v2_wss_create",
+            "description":"",
+            "parameters":[
+               {
+                  "name":"data",
+                  "in":"body",
+                  "required":true,
+                  "schema":{
+                     "$ref":"#/definitions/SntWSreq"
+                  }
+               }
+            ],
+            "responses":{
+               "201":{
+                  "description":"",
+                  "schema":{
+                     "$ref":"#/definitions/SntWSreq"
+                  }
+               }
+            },
+            "tags":[
+               "api"
+            ]
+         },
+         "parameters":[
+
+         ]
+      },
+      "/pings":{
+         "get":{
+            "operationId":"pings_list",
+            "description":"",
+            "parameters":[
+               {
+                  "name":"limit",
+                  "in":"query",
+                  "description":"Number of results to return per page.",
+                  "required":false,
+                  "type":"integer"
+               },
+               {
+                  "name":"offset",
+                  "in":"query",
+                  "description":"The initial index from which to return the results.",
+                  "required":false,
+                  "type":"integer"
+               }
+            ],
+            "responses":{
+               "200":{
+                  "description":"",
+                  "schema":{
+                     "required":[
+                        "count",
+                        "results"
+                     ],
+                     "type":"object",
+                     "properties":{
+                        "count":{
+                           "type":"integer"
+                        },
+                        "next":{
+                           "type":"string",
+                           "format":"uri"
+                        },
+                        "previous":{
+                           "type":"string",
+                           "format":"uri"
+                        },
+                        "results":{
+                           "type":"array",
+                           "items":{
+                              "$ref":"#/definitions/Health"
+                           }
+                        }
+                     }
+                  }
+               }
+            },
+            "tags":[
+               "pings"
+            ]
+         },
+         "parameters":[
+
+         ]
       }
-    }
-  },
-  "definitions": {
-    "NewServiceSerializer": {
-      "properties": {
-        "functions": {
-          "items": {
-            "$ref": "#/definitions/SntNewFunctionsSerializer"
-          },
-          "type": "array"
-        },
-        "rules": {
-          "items": {
-            "$ref": "#/definitions/SntNewRulesSerializer"
-          },
-          "type": "array"
-        },
-        "service": {
-          "$ref": "#/definitions/SntServicesSerializer"
-        }
+   },
+   "definitions":{
+      "SntSmtpSerializerCred":{
+         "required":[
+            "password"
+         ],
+         "type":"object",
+         "properties":{
+            "id":{
+               "title":"ID",
+               "type":"integer",
+               "readOnly":true
+            },
+            "password":{
+               "title":"Password",
+               "type":"string",
+               "maxLength":60,
+               "minLength":1
+            }
+         }
       },
-      "required": [
-        "service",
-        "functions",
-        "rules"
-      ]
-    },
-    "SntActMonResDataSerializer": {
-      "properties": {
-        "data": {
-          "type": "string"
-        },
-        "id": {
-          "format": "int64",
-          "type": "integer"
-        }
+      "SntNotifType":{
+         "type":"object",
+         "properties":{
+            "id":{
+               "title":"ID",
+               "type":"integer",
+               "readOnly":true
+            },
+            "type":{
+               "title":"Type",
+               "type":"string",
+               "maxLength":30
+            }
+         }
       },
-      "required": [
-        "id",
-        "data"
-      ]
-    },
-    "SntActMonResDetailSerializer": {
-      "properties": {
-        "data": {
-          "type": "string"
-        },
-        "service_id": {
-          "type": "string"
-        },
-        "timestamp": {
-          "format": "date-time",
-          "type": "string"
-        }
+      "SntAlerts":{
+         "required":[
+            "alertname",
+            "topic",
+            "serviceID",
+            "functionID",
+            "resource_id",
+            "alertstate"
+         ],
+         "type":"object",
+         "properties":{
+            "alertname":{
+               "title":"Alertname",
+               "type":"string",
+               "minLength":1
+            },
+            "topic":{
+               "title":"Topic",
+               "type":"string",
+               "minLength":1
+            },
+            "serviceID":{
+               "title":"Serviceid",
+               "type":"string",
+               "minLength":1
+            },
+            "functionID":{
+               "title":"Functionid",
+               "type":"string",
+               "minLength":1
+            },
+            "resource_id":{
+               "title":"Resource id",
+               "type":"string",
+               "minLength":1
+            },
+            "alertstate":{
+               "title":"Alertstate",
+               "type":"string",
+               "minLength":1
+            }
+         }
       },
-      "required": [
-        "service_id",
-        "timestamp",
-        "data"
-      ]
-    },
-    "SntActMonResSerializer": {
-      "properties": {
-        "config": {
-          "type": "string"
-        },
-        "service_id": {
-          "type": "string"
-        },
-        "test_id": {
-          "type": "string"
-        },
-        "timestamp": {
-          "format": "date-time",
-          "type": "string"
-        }
+      "SntAlertsList":{
+         "required":[
+            "status",
+            "alerts"
+         ],
+         "type":"object",
+         "properties":{
+            "status":{
+               "title":"Status",
+               "type":"string",
+               "minLength":1
+            },
+            "alerts":{
+               "type":"array",
+               "items":{
+                  "$ref":"#/definitions/SntAlerts"
+               }
+            }
+         }
       },
-      "required": [
-        "test_id",
-        "service_id",
-        "timestamp",
-        "config"
-      ]
-    },
-    "SntFunctionsFullSerializer": {
-      "properties": {
-        "created": {
-          "format": "date-time",
-          "type": "string"
-        },
-        "description": {
-          "type": "string"
-        },
-        "host_id": {
-          "type": "string"
-        },
-        "id": {
-          "format": "int64",
-          "type": "integer"
-        },
-        "name": {
-          "type": "string"
-        },
-        "pop_id": {
-          "type": "string"
-        },
-        "service": {
-          "$ref": "#/definitions/SntServicesSerializer"
-        },
-        "sonata_func_id": {
-          "type": "string"
-        }
+      "SntRulesF":{
+         "required":[
+            "duration",
+            "description",
+            "condition",
+            "notification_type",
+            "service"
+         ],
+         "type":"object",
+         "properties":{
+            "id":{
+               "title":"ID",
+               "type":"integer",
+               "readOnly":true
+            },
+            "name":{
+               "title":"Name",
+               "type":"string",
+               "maxLength":60
+            },
+            "duration":{
+               "title":"Duration",
+               "type":"string",
+               "maxLength":30,
+               "minLength":1
+            },
+            "summary":{
+               "title":"Summary",
+               "type":"string",
+               "maxLength":1024
+            },
+            "description":{
+               "title":"Description",
+               "type":"string",
+               "maxLength":2048,
+               "minLength":1
+            },
+            "condition":{
+               "title":"Condition",
+               "type":"string",
+               "maxLength":2048,
+               "minLength":1
+            },
+            "notification_type":{
+               "$ref":"#/definitions/SntNotifType"
+            },
+            "service":{
+               "title":"Service",
+               "type":"integer"
+            },
+            "created":{
+               "title":"Created",
+               "type":"string",
+               "format":"date-time"
+            }
+         }
       },
-      "required": [
-        "id",
-        "sonata_func_id",
-        "name",
-        "description",
-        "created",
-        "service",
-        "host_id",
-        "pop_id"
-      ]
-    },
-    "SntFunctionsSerializer": {
-      "properties": {
-        "created": {
-          "format": "date-time",
-          "type": "string"
-        },
-        "description": {
-          "type": "string"
-        },
-        "host_id": {
-          "type": "string"
-        },
-        "id": {
-          "format": "int64",
-          "type": "integer"
-        },
-        "name": {
-          "type": "string"
-        },
-        "pop_id": {
-          "type": "string"
-        },
-        "service": {
-          "type": "string"
-        },
-        "sonata_func_id": {
-          "type": "string"
-        }
+      "SntRulesVdu":{
+         "required":[
+            "vdu_id",
+            "rules"
+         ],
+         "type":"object",
+         "properties":{
+            "vdu_id":{
+               "title":"Vdu id",
+               "type":"string",
+               "minLength":1
+            },
+            "rules":{
+               "type":"array",
+               "items":{
+                  "$ref":"#/definitions/SntRulesF"
+               }
+            }
+         }
       },
-      "required": [
-        "id",
-        "sonata_func_id",
-        "name",
-        "description",
-        "created",
-        "service",
-        "host_id",
-        "pop_id"
-      ]
-    },
-    "SntMetricsFullSerializer": {
-      "properties": {
-        "cmd": {
-          "type": "string"
-        },
-        "created": {
-          "format": "date-time",
-          "type": "string"
-        },
-        "description": {
-          "type": "string"
-        },
-        "function": {
-          "$ref": "#/definitions/SntFunctionsSerializer"
-        },
-        "id": {
-          "format": "int64",
-          "type": "integer"
-        },
-        "interval": {
-          "type": "string"
-        },
-        "name": {
-          "type": "string"
-        },
-        "threshold": {
-          "type": "string"
-        }
+      "SntRulesVnf":{
+         "required":[
+            "vnf_id",
+            "vdus"
+         ],
+         "type":"object",
+         "properties":{
+            "vnf_id":{
+               "title":"Vnf id",
+               "type":"string",
+               "minLength":1
+            },
+            "vdus":{
+               "type":"array",
+               "items":{
+                  "$ref":"#/definitions/SntRulesVdu"
+               }
+            }
+         }
       },
-      "required": [
-        "id",
-        "name",
-        "description",
-        "threshold",
-        "interval",
-        "cmd",
-        "function",
-        "created"
-      ]
-    },
-    "SntMetricsSerializer": {
-      "properties": {
-        "cmd": {
-          "type": "string"
-        },
-        "created": {
-          "format": "date-time",
-          "type": "string"
-        },
-        "description": {
-          "type": "string"
-        },
-        "function": {
-          "type": "string"
-        },
-        "id": {
-          "format": "int64",
-          "type": "integer"
-        },
-        "interval": {
-          "type": "string"
-        },
-        "name": {
-          "type": "string"
-        },
-        "threshold": {
-          "type": "string"
-        }
+      "SntPLCRulesConf":{
+         "required":[
+            "sonata_service_id",
+            "plc_contract",
+            "vnfs"
+         ],
+         "type":"object",
+         "properties":{
+            "sonata_service_id":{
+               "title":"Sonata service id",
+               "type":"string",
+               "minLength":1
+            },
+            "plc_contract":{
+               "title":"Plc contract",
+               "type":"string",
+               "minLength":1
+            },
+            "vnfs":{
+               "type":"array",
+               "items":{
+                  "$ref":"#/definitions/SntRulesVnf"
+               }
+            }
+         }
       },
-      "required": [
-        "id",
-        "name",
-        "description",
-        "threshold",
-        "interval",
-        "cmd",
-        "function",
-        "created"
-      ]
-    },
-    "SntNewFunctionsSerializer": {
-      "properties": {
-        "created": {
-          "format": "date-time",
-          "type": "string"
-        },
-        "description": {
-          "type": "string"
-        },
-        "host_id": {
-          "type": "string"
-        },
-        "metrics": {
-          "items": {
-            "$ref": "#/definitions/SntNewMetricsSerializer"
-          },
-          "type": "array"
-        },
-        "name": {
-          "type": "string"
-        },
-        "pop_id": {
-          "type": "string"
-        },
-        "sonata_func_id": {
-          "type": "string"
-        }
+      "SntRulesPerSrv":{
+         "required":[
+            "duration",
+            "description",
+            "condition",
+            "notification_type"
+         ],
+         "type":"object",
+         "properties":{
+            "id":{
+               "title":"ID",
+               "type":"integer",
+               "readOnly":true
+            },
+            "function":{
+               "title":"Function",
+               "type":"string",
+               "maxLength":60
+            },
+            "vdu":{
+               "title":"Vdu",
+               "type":"string",
+               "maxLength":60
+            },
+            "name":{
+               "title":"Name",
+               "type":"string",
+               "maxLength":60
+            },
+            "duration":{
+               "title":"Duration",
+               "type":"string",
+               "maxLength":30,
+               "minLength":1
+            },
+            "summary":{
+               "title":"Summary",
+               "type":"string",
+               "maxLength":1024
+            },
+            "description":{
+               "title":"Description",
+               "type":"string",
+               "maxLength":2048,
+               "minLength":1
+            },
+            "condition":{
+               "title":"Condition",
+               "type":"string",
+               "maxLength":2048,
+               "minLength":1
+            },
+            "notification_type":{
+               "$ref":"#/definitions/SntNotifType"
+            },
+            "created":{
+               "title":"Created",
+               "type":"string",
+               "format":"date-time"
+            }
+         }
       },
-      "required": [
-        "sonata_func_id",
-        "name",
-        "description",
-        "created",
-        "host_id",
-        "pop_id",
-        "metrics"
-      ]
-    },
-    "SntNewMetricsSerializer": {
-      "properties": {
-        "cmd": {
-          "type": "string"
-        },
-        "created": {
-          "format": "date-time",
-          "type": "string"
-        },
-        "description": {
-          "type": "string"
-        },
-        "function": {
-          "type": "string"
-        },
-        "interval": {
-          "type": "string"
-        },
-        "name": {
-          "type": "string"
-        },
-        "threshold": {
-          "type": "string"
-        }
+      "SntPOP":{
+         "required":[
+            "sonata_pop_id",
+            "sonata_sp_id"
+         ],
+         "type":"object",
+         "properties":{
+            "id":{
+               "title":"ID",
+               "type":"integer",
+               "readOnly":true
+            },
+            "sonata_pop_id":{
+               "title":"Sonata pop id",
+               "type":"string",
+               "maxLength":60,
+               "minLength":1
+            },
+            "sonata_sp_id":{
+               "title":"Sonata sp id",
+               "type":"string",
+               "maxLength":60,
+               "minLength":1
+            },
+            "name":{
+               "title":"Name",
+               "type":"string",
+               "maxLength":30
+            },
+            "prom_url":{
+               "title":"Prom url",
+               "type":"string",
+               "maxLength":128
+            },
+            "created":{
+               "title":"Created",
+               "type":"string",
+               "format":"date-time"
+            }
+         }
       },
-      "required": [
-        "name",
-        "description",
-        "threshold",
-        "interval",
-        "cmd",
-        "function",
-        "created"
-      ]
-    },
-    "SntNewRulesSerializer": {
-      "properties": {
-        "condition": {
-          "type": "string"
-        },
-        "created": {
-          "format": "date-time",
-          "type": "string"
-        },
-        "description": {
-          "type": "string"
-        },
-        "duration": {
-          "type": "string"
-        },
-        "name": {
-          "type": "string"
-        },
-        "notification_type": {
-          "type": "string"
-        },
-        "summary": {
-          "type": "string"
-        }
+      "promMetricLabel":{
+         "type":"object",
+         "properties":{
+
+         }
       },
-      "required": [
-        "name",
-        "duration",
-        "summary",
-        "description",
-        "condition",
-        "notification_type",
-        "created"
-      ]
-    },
-    "SntNotifTypeSerializer": {
-      "properties": {
-        "id": {
-          "format": "int64",
-          "type": "integer"
-        },
-        "type": {
-          "type": "string"
-        }
+      "promMetricsList":{
+         "required":[
+            "metrics"
+         ],
+         "type":"object",
+         "properties":{
+            "metrics":{
+               "type":"array",
+               "items":{
+                  "$ref":"#/definitions/promMetricLabel"
+               }
+            }
+         }
       },
-      "required": [
-        "id",
-        "type"
-      ]
-    },
-    "SntPLCRulesConfSerializer": {
-      "properties": {
-        "plc_contract": {
-          "type": "string"
-        },
-        "vnfs": {
-          "items": {
-            "$ref": "#/definitions/SntRulesVnfSerializer"
-          },
-          "type": "array"
-        }
+      "SntPromTargetsSerialazer":{
+         "type":"object",
+         "properties":{
+
+         }
       },
-      "required": [
-        "plc_contract",
-        "vnfs"
-      ]
-    },
-    "SntPOPSerializer": {
-      "properties": {
-        "created": {
-          "format": "date-time",
-          "type": "string"
-        },
-        "id": {
-          "format": "int64",
-          "type": "integer"
-        },
-        "name": {
-          "type": "string"
-        },
-        "prom_url": {
-          "type": "string"
-        },
-        "sonata_pop_id": {
-          "type": "string"
-        },
-        "sonata_sp_id": {
-          "type": "string"
-        }
+      "SntSLARulesConf":{
+         "required":[
+            "sonata_service_id",
+            "sla_contract",
+            "rules"
+         ],
+         "type":"object",
+         "properties":{
+            "sonata_service_id":{
+               "title":"Sonata service id",
+               "type":"string",
+               "minLength":1
+            },
+            "sla_contract":{
+               "title":"Sla contract",
+               "type":"string",
+               "minLength":1
+            },
+            "rules":{
+               "type":"array",
+               "items":{
+                  "$ref":"#/definitions/SntRulesVnf"
+               }
+            }
+         }
       },
-      "required": [
-        "id",
-        "sonata_pop_id",
-        "sonata_sp_id",
-        "name",
-        "prom_url",
-        "created"
-      ]
-    },
-    "SntPromMetricSerializer": {
-      "properties": {
-        "end": {
-          "format": "date-time",
-          "type": "string"
-        },
-        "labels": {
-          "items": {
-            "$ref": "#/definitions/promLabelsSerializer"
-          },
-          "type": "array"
-        },
-        "name": {
-          "type": "string"
-        },
-        "start": {
-          "format": "date-time",
-          "type": "string"
-        },
-        "step": {
-          "type": "string"
-        }
+      "SntSNMPOid":{
+         "required":[
+            "oid",
+            "metric_name",
+            "metric_type",
+            "unit",
+            "mib_name"
+         ],
+         "type":"object",
+         "properties":{
+            "oid":{
+               "title":"Oid",
+               "type":"string",
+               "maxLength":512,
+               "minLength":1
+            },
+            "metric_name":{
+               "title":"Metric name",
+               "type":"string",
+               "maxLength":60,
+               "minLength":1
+            },
+            "metric_type":{
+               "title":"Metric type",
+               "type":"string",
+               "enum":[
+                  "gauge"
+               ]
+            },
+            "unit":{
+               "title":"Unit",
+               "type":"string",
+               "maxLength":30,
+               "minLength":1
+            },
+            "mib_name":{
+               "title":"Mib name",
+               "type":"string",
+               "maxLength":512,
+               "minLength":1
+            }
+         }
       },
-      "required": [
-        "name",
-        "start",
-        "end",
-        "labels",
-        "step"
-      ]
-    },
-    "SntRulesConfSerializer": {
-      "properties": {
-        "rules": {
-          "items": {
-            "$ref": "#/definitions/SntRulesPerSrvSerializer"
-          },
-          "type": "array"
-        }
+      "SntSNMPEntFull":{
+         "required":[
+            "port",
+            "username",
+            "password",
+            "interval",
+            "entity_type",
+            "oids",
+            "entity_id",
+            "version",
+            "auth_protocol",
+            "security_level"
+         ],
+         "type":"object",
+         "properties":{
+            "id":{
+               "title":"ID",
+               "type":"integer",
+               "readOnly":true
+            },
+            "ip":{
+               "title":"Ip",
+               "type":"string",
+               "minLength":1
+            },
+            "port":{
+               "title":"Port",
+               "type":"string",
+               "maxLength":6,
+               "minLength":1
+            },
+            "username":{
+               "title":"Username",
+               "type":"string",
+               "maxLength":60,
+               "minLength":1
+            },
+            "password":{
+               "title":"Password",
+               "type":"string",
+               "maxLength":60,
+               "minLength":1
+            },
+            "interval":{
+               "title":"Interval",
+               "type":"string",
+               "maxLength":5,
+               "minLength":1
+            },
+            "entity_type":{
+               "title":"Entity type",
+               "type":"string",
+               "maxLength":60,
+               "minLength":1
+            },
+            "oids":{
+               "type":"array",
+               "items":{
+                  "$ref":"#/definitions/SntSNMPOid"
+               }
+            },
+            "entity_id":{
+               "title":"Entity id",
+               "type":"string",
+               "maxLength":36,
+               "minLength":1
+            },
+            "version":{
+               "title":"Version",
+               "type":"string",
+               "enum":[
+                  "v3",
+                  "v2",
+                  "v1"
+               ]
+            },
+            "auth_protocol":{
+               "title":"Auth protocol",
+               "type":"string",
+               "enum":[
+                  "MD5",
+                  "None"
+               ]
+            },
+            "security_level":{
+               "title":"Security level",
+               "type":"string",
+               "enum":[
+                  "authnoPriv",
+                  "None"
+               ]
+            },
+            "status":{
+               "title":"Status",
+               "type":"string",
+               "maxLength":10,
+               "minLength":1
+            }
+         }
       },
-      "required": [
-        "rules"
-      ]
-    },
-    "SntRulesFSerializer": {
-      "properties": {
-        "condition": {
-          "type": "string"
-        },
-        "created": {
-          "format": "date-time",
-          "type": "string"
-        },
-        "description": {
-          "type": "string"
-        },
-        "duration": {
-          "type": "string"
-        },
-        "id": {
-          "format": "int64",
-          "type": "integer"
-        },
-        "name": {
-          "type": "string"
-        },
-        "notification_type": {
-          "$ref": "#/definitions/SntNotifTypeSerializer"
-        },
-        "service": {
-          "type": "string"
-        },
-        "summary": {
-          "type": "string"
-        }
+      "SntUser":{
+         "type":"object",
+         "properties":{
+            "id":{
+               "title":"ID",
+               "type":"integer",
+               "readOnly":true
+            },
+            "first_name":{
+               "title":"First name",
+               "type":"string",
+               "maxLength":30
+            },
+            "last_name":{
+               "title":"Last name",
+               "type":"string",
+               "maxLength":30
+            },
+            "email":{
+               "title":"Email",
+               "type":"string",
+               "format":"email",
+               "maxLength":254,
+               "x-nullable":true
+            },
+            "sonata_userid":{
+               "title":"Sonata userid",
+               "type":"string",
+               "maxLength":60,
+               "x-nullable":true
+            },
+            "created":{
+               "title":"Created",
+               "type":"string",
+               "format":"date-time",
+               "x-nullable":true
+            },
+            "type":{
+               "title":"Type",
+               "type":"string",
+               "enum":[
+                  "cst",
+                  "dev",
+                  "admin"
+               ],
+               "x-nullable":true
+            },
+            "mobile":{
+               "title":"Mobile",
+               "type":"string",
+               "format":"decimal",
+               "x-nullable":true
+            }
+         }
       },
-      "required": [
-        "id",
-        "name",
-        "duration",
-        "summary",
-        "description",
-        "condition",
-        "notification_type",
-        "service",
-        "created"
-      ]
-    },
-    "SntRulesPerSrvSerializer": {
-      "properties": {
-        "condition": {
-          "type": "string"
-        },
-        "created": {
-          "format": "date-time",
-          "type": "string"
-        },
-        "description": {
-          "type": "string"
-        },
-        "duration": {
-          "type": "string"
-        },
-        "function": {
-          "type": "string"
-        },
-        "id": {
-          "format": "int64",
-          "type": "integer"
-        },
-        "name": {
-          "type": "string"
-        },
-        "notification_type": {
-          "$ref": "#/definitions/SntNotifTypeSerializer"
-        },
-        "summary": {
-          "type": "string"
-        },
-        "vdu": {
-          "type": "string"
-        }
+      "wsLabel":{
+         "type":"object",
+         "properties":{
+
+         }
       },
-      "required": [
-        "id",
-        "function",
-        "vdu",
-        "name",
-        "duration",
-        "summary",
-        "description",
-        "condition",
-        "notification_type",
-        "created"
-      ]
-    },
-    "SntRulesSerializer": {
-      "properties": {
-        "condition": {
-          "type": "string"
-        },
-        "created": {
-          "format": "date-time",
-          "type": "string"
-        },
-        "description": {
-          "type": "string"
-        },
-        "duration": {
-          "type": "string"
-        },
-        "id": {
-          "format": "int64",
-          "type": "integer"
-        },
-        "name": {
-          "type": "string"
-        },
-        "notification_type": {
-          "$ref": "#/definitions/SntNotifTypeSerializer"
-        },
-        "service": {
-          "$ref": "#/definitions/SntServicesLightSerializer"
-        },
-        "summary": {
-          "type": "string"
-        }
+      "SntWSreq":{
+         "required":[
+            "metric",
+            "filters"
+         ],
+         "type":"object",
+         "properties":{
+            "metric":{
+               "title":"Metric",
+               "type":"string",
+               "minLength":1
+            },
+            "filters":{
+               "type":"array",
+               "items":{
+                  "$ref":"#/definitions/wsLabel"
+               }
+            }
+         }
       },
-      "required": [
-        "id",
-        "name",
-        "duration",
-        "summary",
-        "description",
-        "condition",
-        "notification_type",
-        "service",
-        "created"
-      ]
-    },
-    "SntRulesVduSerializer": {
-      "properties": {
-        "rules": {
-          "items": {
-            "$ref": "#/definitions/SntRulesFSerializer"
-          },
-          "type": "array"
-        },
-        "vdu_id": {
-          "type": "string"
-        }
-      },
-      "required": [
-        "vdu_id",
-        "rules"
-      ]
-    },
-    "SntRulesVnfSerializer": {
-      "properties": {
-        "vdus": {
-          "items": {
-            "$ref": "#/definitions/SntRulesVduSerializer"
-          },
-          "type": "array"
-        },
-        "vnf_id": {
-          "type": "string"
-        }
-      },
-      "required": [
-        "vnf_id",
-        "vdus"
-      ]
-    },
-    "SntSLARulesConfSerializer": {
-      "properties": {
-        "sla_contract": {
-          "type": "string"
-        },
-        "vnfs": {
-          "items": {
-            "$ref": "#/definitions/SntRulesVnfSerializer"
-          },
-          "type": "array"
-        }
-      },
-      "required": [
-        "sla_contract",
-        "vnfs"
-      ]
-    },
-    "SntSNMPEntFullSerializer": {
-      "properties": {
-        "auth_protocol": {
-          "enum": [
-            "MD5"
-          ]
-        },
-        "entity_id": {
-          "type": "string"
-        },
-        "entity_type": {
-          "type": "string"
-        },
-        "id": {
-          "format": "int64",
-          "type": "integer"
-        },
-        "interval": {
-          "type": "string"
-        },
-        "ip": {
-          "type": "string"
-        },
-        "oids": {
-          "items": {
-            "$ref": "#/definitions/SntSNMPOidSerializer"
-          },
-          "type": "array"
-        },
-        "password": {
-          "type": "string"
-        },
-        "port": {
-          "type": "string"
-        },
-        "security_level": {
-          "enum": [
-            "authnoPriv"
-          ]
-        },
-        "status": {
-          "type": "string"
-        },
-        "username": {
-          "type": "string"
-        },
-        "version": {
-          "enum": [
-            "v3"
-          ]
-        }
-      },
-      "required": [
-        "id",
-        "ip",
-        "port",
-        "username",
-        "password",
-        "interval",
-        "entity_type",
-        "oids",
-        "entity_id",
-        "version",
-        "auth_protocol",
-        "security_level",
-        "status"
-      ]
-    },
-    "SntSNMPEntSerializer": {
-      "properties": {
-        "auth_protocol": {
-          "enum": [
-            "MD5"
-          ]
-        },
-        "entity_id": {
-          "type": "string"
-        },
-        "entity_type": {
-          "type": "string"
-        },
-        "id": {
-          "format": "int64",
-          "type": "integer"
-        },
-        "interval": {
-          "type": "string"
-        },
-        "ip": {
-          "type": "string"
-        },
-        "oids": {
-          "items": {
-            "$ref": "#/definitions/SntSNMPOidSerializer"
-          },
-          "type": "array"
-        },
-        "port": {
-          "type": "string"
-        },
-        "security_level": {
-          "enum": [
-            "authnoPriv"
-          ]
-        },
-        "status": {
-          "type": "string"
-        },
-        "username": {
-          "type": "string"
-        },
-        "version": {
-          "enum": [
-            "v3"
-          ]
-        }
-      },
-      "required": [
-        "id",
-        "ip",
-        "port",
-        "username",
-        "interval",
-        "entity_type",
-        "oids",
-        "entity_id",
-        "version",
-        "auth_protocol",
-        "security_level",
-        "status"
-      ]
-    },
-    "SntSNMPOidSerializer": {
-      "properties": {
-        "metric_name": {
-          "type": "string"
-        },
-        "metric_type": {
-          "enum": [
-            "gauge"
-          ]
-        },
-        "mib_name": {
-          "type": "string"
-        },
-        "oid": {
-          "type": "string"
-        },
-        "unit": {
-          "type": "string"
-        }
-      },
-      "required": [
-        "oid",
-        "metric_name",
-        "metric_type",
-        "unit",
-        "mib_name"
-      ]
-    },
-    "SntSPSerializer": {
-      "properties": {
-        "created": {
-          "format": "date-time",
-          "type": "string"
-        },
-        "id": {
-          "format": "int64",
-          "type": "integer"
-        },
-        "manager_url": {
-          "type": "string"
-        },
-        "name": {
-          "type": "string"
-        },
-        "sonata_sp_id": {
-          "type": "string"
-        }
-      },
-      "required": [
-        "id",
-        "sonata_sp_id",
-        "name",
-        "manager_url",
-        "created"
-      ]
-    },
-    "SntServicesDelSerializer": {
-      "properties": {
-        "created": {
-          "format": "date-time",
-          "type": "string"
-        },
-        "description": {
-          "type": "string"
-        },
-        "host_id": {
-          "type": "string"
-        },
-        "id": {
-          "format": "int64",
-          "type": "integer"
-        },
-        "name": {
-          "type": "string"
-        },
-        "pop_id": {
-          "type": "string"
-        },
-        "sonata_srv_id": {
-          "type": "string"
-        },
-        "user": {
-          "items": {
-            "type": "string"
-          },
-          "type": "array"
-        }
-      },
-      "required": [
-        "id",
-        "sonata_srv_id",
-        "name",
-        "description",
-        "created",
-        "user",
-        "host_id",
-        "pop_id"
-      ]
-    },
-    "SntServicesFullSerializer": {
-      "properties": {
-        "created": {
-          "format": "date-time",
-          "type": "string"
-        },
-        "description": {
-          "type": "string"
-        },
-        "host_id": {
-          "type": "string"
-        },
-        "id": {
-          "format": "int64",
-          "type": "integer"
-        },
-        "name": {
-          "type": "string"
-        },
-        "pop_id": {
-          "type": "string"
-        },
-        "sonata_srv_id": {
-          "type": "string"
-        },
-        "user": {
-          "$ref": "#/definitions/SntUserSerializer"
-        }
-      },
-      "required": [
-        "id",
-        "sonata_srv_id",
-        "name",
-        "description",
-        "created",
-        "user",
-        "host_id",
-        "pop_id"
-      ]
-    },
-    "SntServicesLightSerializer": {
-      "properties": {
-        "name": {
-          "type": "string"
-        },
-        "sonata_srv_id": {
-          "type": "string"
-        }
-      },
-      "required": [
-        "sonata_srv_id",
-        "name"
-      ]
-    },
-    "SntServicesSerializer": {
-      "properties": {
-        "created": {
-          "format": "date-time",
-          "type": "string"
-        },
-        "description": {
-          "type": "string"
-        },
-        "host_id": {
-          "type": "string"
-        },
-        "id": {
-          "format": "int64",
-          "type": "integer"
-        },
-        "name": {
-          "type": "string"
-        },
-        "pop_id": {
-          "type": "string"
-        },
-        "sonata_srv_id": {
-          "type": "string"
-        },
-        "user": {
-          "items": {
-            "type": "string"
-          },
-          "type": "array"
-        }
-      },
-      "required": [
-        "id",
-        "sonata_srv_id",
-        "name",
-        "description",
-        "created",
-        "user",
-        "host_id",
-        "pop_id"
-      ]
-    },
-    "SntSmtpSerializerCreate": {
-      "properties": {
-        "component": {
-          "enum": [
-            "Alert_Manager"
-          ]
-        },
-        "id": {
-          "format": "int64",
-          "type": "integer"
-        },
-        "password": {
-          "type": "string"
-        },
-        "port": {
-          "type": "string"
-        },
-        "sec_type": {
-          "enum": [
-            "SSL",
-            "TLS",
-            "SSL_ALL",
-            "TLS_ALL"
-          ]
-        },
-        "smtp_server": {
-          "type": "string"
-        },
-        "user_name": {
-          "type": "string"
-        }
-      },
-      "required": [
-        "id",
-        "smtp_server",
-        "port",
-        "user_name",
-        "password",
-        "component",
-        "sec_type"
-      ]
-    },
-    "SntSmtpSerializerCred": {
-      "properties": {
-        "id": {
-          "format": "int64",
-          "type": "integer"
-        },
-        "password": {
-          "type": "string"
-        }
-      },
-      "required": [
-        "id",
-        "password"
-      ]
-    },
-    "SntSmtpSerializerList": {
-      "properties": {
-        "component": {
-          "enum": [
-            "Alert_Manager"
-          ]
-        },
-        "created": {
-          "format": "date-time",
-          "type": "string"
-        },
-        "id": {
-          "format": "int64",
-          "type": "integer"
-        },
-        "port": {
-          "type": "string"
-        },
-        "sec_type": {
-          "enum": [
-            "SSL",
-            "TLS",
-            "SSL_ALL",
-            "TLS_ALL"
-          ]
-        },
-        "smtp_server": {
-          "type": "string"
-        },
-        "user_name": {
-          "type": "string"
-        }
-      },
-      "required": [
-        "id",
-        "smtp_server",
-        "port",
-        "user_name",
-        "component",
-        "sec_type",
-        "created"
-      ]
-    },
-    "SntUserSerializer": {
-      "properties": {
-        "created": {
-          "format": "date-time",
-          "type": "string"
-        },
-        "email": {
-          "type": "string"
-        },
-        "first_name": {
-          "type": "string"
-        },
-        "id": {
-          "format": "int64",
-          "type": "integer"
-        },
-        "last_name": {
-          "type": "string"
-        },
-        "mobile": {
-          "type": "string"
-        },
-        "sonata_userid": {
-          "type": "string"
-        },
-        "type": {
-          "enum": [
-            "cst",
-            "dev",
-            "admin"
-          ]
-        }
-      },
-      "required": [
-        "id",
-        "first_name",
-        "last_name",
-        "email",
-        "sonata_userid",
-        "created",
-        "type",
-        "mobile"
-      ]
-    },
-    "SntWSreqSerializer": {
-      "properties": {
-        "filters": {
-          "items": {
-            "$ref": "#/definitions/wsLabelSerializer"
-          },
-          "type": "array"
-        },
-        "metric": {
-          "type": "string"
-        }
-      },
-      "required": [
-        "metric",
-        "filters"
-      ]
-    },
-    "WriteNewServiceSerializer": {
-      "properties": {
-        "functions": {
-          "items": {
-            "$ref": "#/definitions/SntNewFunctionsSerializer"
-          },
-          "type": "array"
-        },
-        "rules": {
-          "items": {
-            "$ref": "#/definitions/SntNewRulesSerializer"
-          },
-          "type": "array"
-        },
-        "service": {
-          "$ref": "#/definitions/SntServicesSerializer"
-        }
-      },
-      "required": [
-        "service",
-        "functions",
-        "rules"
-      ]
-    },
-    "WriteSntActMonResDataSerializer": {
-      "properties": {
-        "data": {
-          "type": "string"
-        }
-      },
-      "required": [
-        "data"
-      ]
-    },
-    "WriteSntActMonResDetailSerializer": {
-      "properties": {
-        "data": {
-          "type": "string"
-        },
-        "service_id": {
-          "type": "string"
-        },
-        "timestamp": {
-          "format": "date-time",
-          "type": "string"
-        }
-      },
-      "required": [
-        "service_id",
-        "data"
-      ]
-    },
-    "WriteSntActMonResSerializer": {
-      "properties": {
-        "config": {
-          "type": "string"
-        },
-        "service_id": {
-          "type": "string"
-        },
-        "test_id": {
-          "type": "string"
-        },
-        "timestamp": {
-          "format": "date-time",
-          "type": "string"
-        }
-      },
-      "required": [
-        "test_id",
-        "service_id",
-        "config"
-      ]
-    },
-    "WriteSntFunctionsFullSerializer": {
-      "properties": {
-        "created": {
-          "format": "date-time",
-          "type": "string"
-        },
-        "description": {
-          "type": "string"
-        },
-        "host_id": {
-          "type": "string"
-        },
-        "name": {
-          "type": "string"
-        },
-        "pop_id": {
-          "type": "string"
-        },
-        "service": {
-          "$ref": "#/definitions/SntServicesSerializer"
-        },
-        "sonata_func_id": {
-          "type": "string"
-        }
-      },
-      "required": [
-        "description",
-        "service"
-      ]
-    },
-    "WriteSntFunctionsSerializer": {
-      "properties": {
-        "created": {
-          "format": "date-time",
-          "type": "string"
-        },
-        "description": {
-          "type": "string"
-        },
-        "host_id": {
-          "type": "string"
-        },
-        "name": {
-          "type": "string"
-        },
-        "pop_id": {
-          "type": "string"
-        },
-        "service": {
-          "type": "string"
-        },
-        "sonata_func_id": {
-          "type": "string"
-        }
-      },
-      "required": [
-        "description",
-        "service"
-      ]
-    },
-    "WriteSntMetricsFullSerializer": {
-      "properties": {
-        "cmd": {
-          "type": "string"
-        },
-        "created": {
-          "format": "date-time",
-          "type": "string"
-        },
-        "description": {
-          "type": "string"
-        },
-        "function": {
-          "$ref": "#/definitions/SntFunctionsSerializer"
-        },
-        "interval": {
-          "type": "string"
-        },
-        "name": {
-          "type": "string"
-        },
-        "threshold": {
-          "type": "string"
-        }
-      },
-      "required": [
-        "function"
-      ]
-    },
-    "WriteSntMetricsSerializer": {
-      "properties": {
-        "cmd": {
-          "type": "string"
-        },
-        "created": {
-          "format": "date-time",
-          "type": "string"
-        },
-        "description": {
-          "type": "string"
-        },
-        "function": {
-          "type": "string"
-        },
-        "interval": {
-          "type": "string"
-        },
-        "name": {
-          "type": "string"
-        },
-        "threshold": {
-          "type": "string"
-        }
-      },
-      "required": [
-        "function"
-      ]
-    },
-    "WriteSntNewFunctionsSerializer": {
-      "properties": {
-        "created": {
-          "format": "date-time",
-          "type": "string"
-        },
-        "description": {
-          "type": "string"
-        },
-        "host_id": {
-          "type": "string"
-        },
-        "metrics": {
-          "items": {
-            "$ref": "#/definitions/SntNewMetricsSerializer"
-          },
-          "type": "array"
-        },
-        "name": {
-          "type": "string"
-        },
-        "pop_id": {
-          "type": "string"
-        },
-        "sonata_func_id": {
-          "type": "string"
-        }
-      },
-      "required": [
-        "description",
-        "metrics"
-      ]
-    },
-    "WriteSntNewMetricsSerializer": {
-      "properties": {
-        "cmd": {
-          "type": "string"
-        },
-        "created": {
-          "format": "date-time",
-          "type": "string"
-        },
-        "description": {
-          "type": "string"
-        },
-        "function": {
-          "type": "string"
-        },
-        "interval": {
-          "type": "string"
-        },
-        "name": {
-          "type": "string"
-        },
-        "threshold": {
-          "type": "string"
-        }
-      },
-      "required": [
-        "function"
-      ]
-    },
-    "WriteSntNewRulesSerializer": {
-      "properties": {
-        "condition": {
-          "type": "string"
-        },
-        "created": {
-          "format": "date-time",
-          "type": "string"
-        },
-        "description": {
-          "type": "string"
-        },
-        "duration": {
-          "type": "string"
-        },
-        "name": {
-          "type": "string"
-        },
-        "notification_type": {
-          "type": "string"
-        },
-        "summary": {
-          "type": "string"
-        }
-      },
-      "required": [
-        "duration",
-        "description",
-        "condition",
-        "notification_type"
-      ]
-    },
-    "WriteSntNotifTypeSerializer": {
-      "properties": {
-        "type": {
-          "type": "string"
-        }
+      "Health":{
+         "required":[
+            "alive_since"
+         ],
+         "type":"object",
+         "properties":{
+            "alive_since":{
+               "title":"Alive since",
+               "type":"string",
+               "format":"date-time"
+            }
+         }
       }
-    },
-    "WriteSntPLCRulesConfSerializer": {
-      "properties": {
-        "plc_contract": {
-          "type": "string"
-        },
-        "vnfs": {
-          "items": {
-            "$ref": "#/definitions/SntRulesVnfSerializer"
-          },
-          "type": "array"
-        }
-      },
-      "required": [
-        "plc_contract",
-        "vnfs"
-      ]
-    },
-    "WriteSntPOPSerializer": {
-      "properties": {
-        "created": {
-          "format": "date-time",
-          "type": "string"
-        },
-        "name": {
-          "type": "string"
-        },
-        "prom_url": {
-          "type": "string"
-        },
-        "sonata_pop_id": {
-          "type": "string"
-        },
-        "sonata_sp_id": {
-          "type": "string"
-        }
-      },
-      "required": [
-        "sonata_pop_id",
-        "sonata_sp_id"
-      ]
-    },
-    "WriteSntPromMetricSerializer": {
-      "properties": {
-        "end": {
-          "format": "date-time",
-          "type": "string"
-        },
-        "labels": {
-          "items": {
-            "$ref": "#/definitions/promLabelsSerializer"
-          },
-          "type": "array"
-        },
-        "name": {
-          "type": "string"
-        },
-        "start": {
-          "format": "date-time",
-          "type": "string"
-        },
-        "step": {
-          "type": "string"
-        }
-      },
-      "required": [
-        "name",
-        "start",
-        "end",
-        "labels",
-        "step"
-      ]
-    },
-    "WriteSntRulesConfSerializer": {
-      "properties": {
-        "rules": {
-          "items": {
-            "$ref": "#/definitions/SntRulesPerSrvSerializer"
-          },
-          "type": "array"
-        }
-      },
-      "required": [
-        "rules"
-      ]
-    },
-    "WriteSntRulesFSerializer": {
-      "properties": {
-        "condition": {
-          "type": "string"
-        },
-        "created": {
-          "format": "date-time",
-          "type": "string"
-        },
-        "description": {
-          "type": "string"
-        },
-        "duration": {
-          "type": "string"
-        },
-        "name": {
-          "type": "string"
-        },
-        "notification_type": {
-          "$ref": "#/definitions/SntNotifTypeSerializer"
-        },
-        "service": {
-          "type": "string"
-        },
-        "summary": {
-          "type": "string"
-        }
-      },
-      "required": [
-        "duration",
-        "description",
-        "condition",
-        "notification_type",
-        "service"
-      ]
-    },
-    "WriteSntRulesPerSrvSerializer": {
-      "properties": {
-        "condition": {
-          "type": "string"
-        },
-        "created": {
-          "format": "date-time",
-          "type": "string"
-        },
-        "description": {
-          "type": "string"
-        },
-        "duration": {
-          "type": "string"
-        },
-        "function": {
-          "type": "string"
-        },
-        "name": {
-          "type": "string"
-        },
-        "notification_type": {
-          "$ref": "#/definitions/SntNotifTypeSerializer"
-        },
-        "summary": {
-          "type": "string"
-        },
-        "vdu": {
-          "type": "string"
-        }
-      },
-      "required": [
-        "duration",
-        "description",
-        "condition",
-        "notification_type"
-      ]
-    },
-    "WriteSntRulesSerializer": {
-      "properties": {
-        "condition": {
-          "type": "string"
-        },
-        "created": {
-          "format": "date-time",
-          "type": "string"
-        },
-        "description": {
-          "type": "string"
-        },
-        "duration": {
-          "type": "string"
-        },
-        "name": {
-          "type": "string"
-        },
-        "notification_type": {
-          "$ref": "#/definitions/SntNotifTypeSerializer"
-        },
-        "service": {
-          "$ref": "#/definitions/SntServicesLightSerializer"
-        },
-        "summary": {
-          "type": "string"
-        }
-      },
-      "required": [
-        "duration",
-        "description",
-        "condition",
-        "notification_type",
-        "service"
-      ]
-    },
-    "WriteSntRulesVduSerializer": {
-      "properties": {
-        "rules": {
-          "items": {
-            "$ref": "#/definitions/SntRulesFSerializer"
-          },
-          "type": "array"
-        },
-        "vdu_id": {
-          "type": "string"
-        }
-      },
-      "required": [
-        "vdu_id",
-        "rules"
-      ]
-    },
-    "WriteSntRulesVnfSerializer": {
-      "properties": {
-        "vdus": {
-          "items": {
-            "$ref": "#/definitions/SntRulesVduSerializer"
-          },
-          "type": "array"
-        },
-        "vnf_id": {
-          "type": "string"
-        }
-      },
-      "required": [
-        "vnf_id",
-        "vdus"
-      ]
-    },
-    "WriteSntSLARulesConfSerializer": {
-      "properties": {
-        "sla_contract": {
-          "type": "string"
-        },
-        "vnfs": {
-          "items": {
-            "$ref": "#/definitions/SntRulesVnfSerializer"
-          },
-          "type": "array"
-        }
-      },
-      "required": [
-        "sla_contract",
-        "vnfs"
-      ]
-    },
-    "WriteSntSNMPEntFullSerializer": {
-      "properties": {
-        "auth_protocol": {
-          "enum": [
-            "MD5"
-          ]
-        },
-        "entity_id": {
-          "type": "string"
-        },
-        "entity_type": {
-          "type": "string"
-        },
-        "interval": {
-          "type": "string"
-        },
-        "ip": {
-          "type": "string"
-        },
-        "oids": {
-          "items": {
-            "$ref": "#/definitions/SntSNMPOidSerializer"
-          },
-          "type": "array"
-        },
-        "password": {
-          "type": "string"
-        },
-        "port": {
-          "type": "string"
-        },
-        "security_level": {
-          "enum": [
-            "authnoPriv"
-          ]
-        },
-        "status": {
-          "type": "string"
-        },
-        "username": {
-          "type": "string"
-        },
-        "version": {
-          "enum": [
-            "v3"
-          ]
-        }
-      },
-      "required": [
-        "port",
-        "username",
-        "password",
-        "interval",
-        "entity_type",
-        "oids",
-        "entity_id",
-        "version",
-        "auth_protocol",
-        "security_level"
-      ]
-    },
-    "WriteSntSNMPEntSerializer": {
-      "properties": {
-        "auth_protocol": {
-          "enum": [
-            "MD5"
-          ]
-        },
-        "entity_id": {
-          "type": "string"
-        },
-        "entity_type": {
-          "type": "string"
-        },
-        "interval": {
-          "type": "string"
-        },
-        "ip": {
-          "type": "string"
-        },
-        "oids": {
-          "items": {
-            "$ref": "#/definitions/SntSNMPOidSerializer"
-          },
-          "type": "array"
-        },
-        "port": {
-          "type": "string"
-        },
-        "security_level": {
-          "enum": [
-            "authnoPriv"
-          ]
-        },
-        "status": {
-          "type": "string"
-        },
-        "username": {
-          "type": "string"
-        },
-        "version": {
-          "enum": [
-            "v3"
-          ]
-        }
-      },
-      "required": [
-        "port",
-        "username",
-        "interval",
-        "entity_type",
-        "oids",
-        "entity_id",
-        "version",
-        "auth_protocol",
-        "security_level"
-      ]
-    },
-    "WriteSntSNMPOidSerializer": {
-      "properties": {
-        "metric_name": {
-          "type": "string"
-        },
-        "metric_type": {
-          "enum": [
-            "gauge"
-          ]
-        },
-        "mib_name": {
-          "type": "string"
-        },
-        "oid": {
-          "type": "string"
-        },
-        "unit": {
-          "type": "string"
-        }
-      },
-      "required": [
-        "oid",
-        "metric_name",
-        "metric_type",
-        "unit",
-        "mib_name"
-      ]
-    },
-    "WriteSntSPSerializer": {
-      "properties": {
-        "created": {
-          "format": "date-time",
-          "type": "string"
-        },
-        "manager_url": {
-          "type": "string"
-        },
-        "name": {
-          "type": "string"
-        },
-        "sonata_sp_id": {
-          "type": "string"
-        }
-      },
-      "required": [
-        "sonata_sp_id"
-      ]
-    },
-    "WriteSntServicesDelSerializer": {
-      "properties": {
-        "created": {
-          "format": "date-time",
-          "type": "string"
-        },
-        "description": {
-          "type": "string"
-        },
-        "host_id": {
-          "type": "string"
-        },
-        "name": {
-          "type": "string"
-        },
-        "pop_id": {
-          "type": "string"
-        },
-        "sonata_srv_id": {
-          "type": "string"
-        },
-        "user": {
-          "items": {
-            "type": "string"
-          },
-          "type": "array"
-        }
-      },
-      "required": [
-        "description",
-        "user"
-      ]
-    },
-    "WriteSntServicesFullSerializer": {
-      "properties": {
-        "created": {
-          "format": "date-time",
-          "type": "string"
-        },
-        "description": {
-          "type": "string"
-        },
-        "host_id": {
-          "type": "string"
-        },
-        "name": {
-          "type": "string"
-        },
-        "pop_id": {
-          "type": "string"
-        },
-        "sonata_srv_id": {
-          "type": "string"
-        },
-        "user": {
-          "items": {
-            "type": "string"
-          },
-          "type": "array"
-        }
-      },
-      "required": [
-        "description",
-        "user"
-      ]
-    },
-    "WriteSntServicesLightSerializer": {
-      "properties": {
-        "name": {
-          "type": "string"
-        },
-        "sonata_srv_id": {
-          "type": "string"
-        }
-      }
-    },
-    "WriteSntServicesSerializer": {
-      "properties": {
-        "created": {
-          "format": "date-time",
-          "type": "string"
-        },
-        "description": {
-          "type": "string"
-        },
-        "host_id": {
-          "type": "string"
-        },
-        "name": {
-          "type": "string"
-        },
-        "pop_id": {
-          "type": "string"
-        },
-        "sonata_srv_id": {
-          "type": "string"
-        },
-        "user": {
-          "items": {
-            "type": "string"
-          },
-          "type": "array"
-        }
-      },
-      "required": [
-        "description",
-        "user"
-      ]
-    },
-    "WriteSntSmtpSerializerCreate": {
-      "properties": {
-        "component": {
-          "enum": [
-            "Alert_Manager"
-          ]
-        },
-        "password": {
-          "type": "string"
-        },
-        "port": {
-          "type": "string"
-        },
-        "sec_type": {
-          "enum": [
-            "SSL",
-            "TLS",
-            "SSL_ALL",
-            "TLS_ALL"
-          ]
-        },
-        "smtp_server": {
-          "type": "string"
-        },
-        "user_name": {
-          "type": "string"
-        }
-      },
-      "required": [
-        "password",
-        "component",
-        "sec_type"
-      ]
-    },
-    "WriteSntSmtpSerializerCred": {
-      "properties": {
-        "password": {
-          "type": "string"
-        }
-      },
-      "required": [
-        "password"
-      ]
-    },
-    "WriteSntSmtpSerializerList": {
-      "properties": {
-        "component": {
-          "enum": [
-            "Alert_Manager"
-          ]
-        },
-        "created": {
-          "format": "date-time",
-          "type": "string"
-        },
-        "port": {
-          "type": "string"
-        },
-        "sec_type": {
-          "enum": [
-            "SSL",
-            "TLS",
-            "SSL_ALL",
-            "TLS_ALL"
-          ]
-        },
-        "smtp_server": {
-          "type": "string"
-        },
-        "user_name": {
-          "type": "string"
-        }
-      },
-      "required": [
-        "component",
-        "sec_type"
-      ]
-    },
-    "WriteSntUserSerializer": {
-      "properties": {
-        "created": {
-          "format": "date-time",
-          "type": "string"
-        },
-        "email": {
-          "type": "string"
-        },
-        "first_name": {
-          "type": "string"
-        },
-        "last_name": {
-          "type": "string"
-        },
-        "mobile": {
-          "type": "string"
-        },
-        "sonata_userid": {
-          "type": "string"
-        },
-        "type": {
-          "enum": [
-            "cst",
-            "dev",
-            "admin"
-          ]
-        }
-      }
-    },
-    "WriteSntWSreqSerializer": {
-      "properties": {
-        "filters": {
-          "items": {
-            "$ref": "#/definitions/wsLabelSerializer"
-          },
-          "type": "array"
-        },
-        "metric": {
-          "type": "string"
-        }
-      },
-      "required": [
-        "metric",
-        "filters"
-      ]
-    },
-    "WritepromLabelsSerializer": {},
-    "WritepromMetricLabelSerializer": {},
-    "WritepromMetricsListSerializer": {
-      "properties": {
-        "metrics": {
-          "items": {
-            "$ref": "#/definitions/promMetricLabelSerializer"
-          },
-          "type": "array"
-        }
-      },
-      "required": [
-        "metrics"
-      ]
-    },
-    "WritewsLabelSerializer": {},
-    "promLabelsSerializer": {},
-    "promMetricLabelSerializer": {},
-    "promMetricsListSerializer": {
-      "properties": {
-        "metrics": {
-          "items": {
-            "$ref": "#/definitions/promMetricLabelSerializer"
-          },
-          "type": "array"
-        }
-      },
-      "required": [
-        "metrics"
-      ]
-    },
-    "wsLabelSerializer": {}
-  }
+   }
 }
