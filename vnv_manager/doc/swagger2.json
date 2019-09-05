@@ -12,7 +12,7 @@
       },
       "version":"v2.0"
    },
-   "host":"192.168.1.127:8001",
+   "host":"vnv-monitor-manager:8001",
    "schemes":[
       "http"
    ],
