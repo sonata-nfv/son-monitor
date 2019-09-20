@@ -14,5 +14,6 @@ groups:
     labels:
       tp: DEV 
     annotations:
+      value: "{{ $value }}"
       summary: TEST RULE
 

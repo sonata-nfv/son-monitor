@@ -57,6 +57,7 @@ class fileBuilder(object):
             for lb in lbs:
                 t=lb.split("=")
                 l[str(t[0]).strip(" ")] = t[1].strip('/"')
+            l['value'] = '\"{{ $value }}\"'
             rule = {'alert':r['name'],
                      'expr':self.conditionRule(r['condition']).strip('/"'),
                      'for':r['duration'],
