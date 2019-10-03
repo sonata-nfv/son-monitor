@@ -78,6 +78,8 @@ def api():
             msg = alert['labels']
             msg['status'] =  alert['status']
             msg['startsAt'] = alert['startsAt']
+            if 'annotations' in alert:
+                msg['annotations'] = alert['annotations']
             print(msg)
             type = 'undefined tp'
             topic = 'son.monitoring'
