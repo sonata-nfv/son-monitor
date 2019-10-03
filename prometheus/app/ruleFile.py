@@ -57,12 +57,12 @@ class fileBuilder(object):
             for lb in lbs:
                 t=lb.split("=")
                 l[str(t[0]).strip(" ")] = t[1].strip('/"')
-            l['value'] = '{{ $value }}'
+            #l['value'] = '{{ $value }}'
             rule = {'alert':r['name'],
                      'expr':self.conditionRule(r['condition']).strip('/"'),
                      'for':r['duration'],
                      'labels': l,
-                     'annotations': {'summary': str(r['description'])}
+                     'annotations': {'summary': str(r['description']), 'value': '{{ $value }}'}
                      }
             obj['groups'][0]['rules'].append(rule)
         return yaml.safe_dump(obj)
