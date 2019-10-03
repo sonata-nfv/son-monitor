@@ -42,11 +42,13 @@ class UsersTestCase(TestCase):
     def setUp(self):
         monitoring_users.objects.create(first_name='fname', last_name='lname', email='example@email.com', type='dev',
                                         sonata_userid='1234567890')
-
+        usr = monitoring_users.objects.get(sonata_userid='1234567890')
+        self.assertEqual(usr.email, 'example@email.com', "UserTestPass")
+'''
     def test_user_email(self):
         usr = monitoring_users.objects.get(sonata_userid='1234567890')
         self.assertEqual(usr.email, 'example@email.com', "UserTestPass")
-
+'''
 
 class ApisTestCase(TestCase):
 
