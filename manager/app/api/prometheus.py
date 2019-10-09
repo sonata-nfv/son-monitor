@@ -165,10 +165,11 @@ class ProData(object):
         dt = []
         if 'status' in d:
             if d['status'] == 'success':
-                if 'value' in d['data']['result'][0]:
-                    dt = d['data']['result'][0]['value']
-                elif 'values' in d['data']['result'][0]:
-                    dt = d['data']['result'][0]['values']
+                if len(d['data']['result']) > 0:
+                    if 'value' in d['data']['result'][0]:
+                        dt = d['data']['result'][0]['value']
+                    elif 'values' in d['data']['result'][0]:
+                        dt = d['data']['result'][0]['values']
         return dt
 
     def getMetricFullDetail(self, metric_name):
