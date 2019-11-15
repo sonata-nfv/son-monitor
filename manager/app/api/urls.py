@@ -158,7 +158,7 @@ urlpatterns3 = [
 	url(r'^api/v2/prometheus/metrics/name/(?P<metricName>[^/]+)$', views_v2.SntPromMetricDetail.as_view()),
 	url(r'^api/v2/prometheus/configuration$', views_v2.SntPromSrvConf.as_view()),
 
-	url(r'^api/v2/wss$', views_v2.SntWSreq.as_view()),
+	#url(r'^api/v2/wss$', views_v2.SntWSreq.as_view()),
 
 	#url(r'^api/v2/active-monitoring-tests/service/(?P<srv_id>[^/]+)$', views_v2.SntActMRList.as_view()),
 	#url(r'^api/v2/active-monitoring-tests/service/(?P<srv_id>[^/]+)/test/(?P<test_id>[^/]+)$', views_v2.SntActMRDetail.as_view()),
