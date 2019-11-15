@@ -105,14 +105,17 @@ class ProData(object):
         self.srv_port = srv_port_
 
     def getMetrics(self):
-        now = int(time.time())
+        now = datetime.datetime.utcnow().timestamp()
         path = "".join(("/api/v1/label/__name__/values?_=", str(now)))
         d = self.HttpGet(self.srv_addr,self.srv_port,path)
         return d
 
     def getMetricsResId(self,key,id,tm_window):
         sec_wnd = 86400
-        now = int(time.time())
+        now = datetime.datetime.utcnow().timestamp()
+        if key == 'container_name':
+            pod,key = self.get_k8s_labels(id, now-sec_wnd, now)
+
         path = "".join(("/api/v1/series?match[]={"+key+"=\""+id+"\"}&start=", str(now-sec_wnd), "&end=",str(now)))
         if tm_window:
             tm_window = '['+tm_window+']'
@@ -121,13 +124,13 @@ class ProData(object):
         d = self.HttpGet(self.srv_addr,self.srv_port,path)
         resp = []
         tf_mtr = None
-        if len(d['data']) > 0 and key == 'container_name':
+        if len(d['data']) > 0 and key.startswith("container"):
             for mtr in d['data']:
-                if 'pod_name' in mtr:
-                    pod_name = mtr['pod_name']
+                if pod in mtr:
+                    pod_name = mtr[pod]
                     now = int(datetime.datetime.utcnow().timestamp())
                     path = "".join(
-                    ("/api/v1/series?match[]={__name__=~\"^container_network.*\",container_name=\"POD\",pod_name=\"" + pod_name + "\"}&start=", str(now - sec_wnd), "&end=", str(now)))
+                    ("/api/v1/series?match[]={__name__=~\"^container_network.*\","+key+"=\"POD\","+pod+"=\"" + pod_name + "\"}&start=", str(now - sec_wnd), "&end=", str(now)))
                     tf_mtr = self.HttpGet(self.srv_addr, self.srv_port, path)
                     break
         metrics = []
@@ -144,20 +147,29 @@ class ProData(object):
             metrics.append(mt['__name__'])   
             resp.append(mt)
             
-        if tf_mtr and key == 'container_name':
+        if tf_mtr and key.startswith("container"):
             for mt in tf_mtr['data']:
                 mt.pop('instance', None)
                 mt.pop('id', None)
                 mt.pop('group', None)
                 mt.pop('job', None)
                 if tm_window != '':
-                    dt = self.getMetricData('pod_name',pod_name, mt['__name__'],tm_window)
+                    dt = self.getMetricData(pod,pod_name, mt['__name__'],tm_window)
                     mt['data'] = dt
                 metrics.append(mt['__name__'])
                 resp.append(mt)
         #print (json.dumps(metrics))
         d['data'] = resp
         return d
+
+    def get_k8s_labels(self,id, start, end):
+
+        path = "".join(("/api/v1/series?match[]=container_last_seen{container=\""+id+"\"}&start=", str(start), "&end=",str(end)))
+        d = self.HttpGet(self.srv_addr, self.srv_port, path)
+        if len(d['data']) > 0:
+            return 'pod','container'
+        else:
+            return 'pod_name', 'container_name'
 
     def getMetricData(self, key, vdu ,metric_name, time_window):
         path = "".join(("/api/v1/query?query=", str(metric_name), "{" + key + "=\"" + vdu + "\"}" + time_window))
