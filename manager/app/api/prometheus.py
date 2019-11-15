@@ -105,7 +105,7 @@ class ProData(object):
         self.srv_port = srv_port_
 
     def getMetrics(self):
-        now = int(time.time())
+        now = datetime.datetime.utcnow().timestamp()
         path = "".join(("/api/v1/label/__name__/values?_=", str(now)))
         d = self.HttpGet(self.srv_addr,self.srv_port,path)
         return d
