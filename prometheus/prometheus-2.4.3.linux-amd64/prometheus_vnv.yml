@@ -1,71 +1,11 @@
 global:
   scrape_interval: 5s
   scrape_timeout: 5s
+global: {evaluation_interval: 5s, scrape_interval: 5s}
 scrape_configs:
-- job_name: K8s_cluster_athens
-  scrape_interval: 10s
-  scrape_timeout: 10s
-  honor_labels: true
-  metrics_path: /federate
-  params:
-    match[]:
-    - '{job="kubernetes-apiservers"}'
-    - '{job="kubernetes-cadvisor"}'
-    - '{job="kubernetes-nodes"}'
-    - '{job="kubernetes-pods"}'
-    - '{job="kubernetes-service-endpoints"}'
-    - '{job="pushgateway"}'
-  static_configs:
-    - targets:
-      - 10.200.16.2:30090
-- job_name: K8s_cluster_aveiro
-  scrape_interval: 10s
-  scrape_timeout: 10s
-  honor_labels: true
-  metrics_path: /federate
-  params:
-    match[]:
-    - '{job="kubernetes-apiservers"}'
-    - '{job="kubernetes-cadvisor"}'
-    - '{job="kubernetes-nodes"}'
-    - '{job="kubernetes-pods"}'
-    - '{job="kubernetes-service-endpoints"}'
-    - '{job="pushgateway"}'
-  static_configs:
-    - targets:
-      - 172.31.13.2:30090
 - job_name: pushgateway
   static_configs:
   - targets: ['pushgateway:9091']
-- job_name: pop_athens1
-  scrape_interval: 5s
-  scrape_timeout: 5s
-  metrics_path: /metrics
-  scheme: http
+- job_name: prometheus
   static_configs:
-  - targets:
-    - 10.100.32.200:9093
-- job_name: pop_athens2
-  scrape_interval: 5s
-  scrape_timeout: 5s
-  metrics_path: /metrics
-  scheme: http
-  static_configs:
-  - targets:
-    - 10.100.33.2:9093
-- job_name: pop_aveiro
-  scrape_interval: 5s
-  scrape_timeout: 5s
-  scheme: http
-  static_configs:
-  - targets:
-    - 172.31.8.16:8082
-    - 172.31.8.16:8081
-- job_name: pop_barcelona
-  scrape_interval: 5s
-  scrape_timeout: 5s
-  metrics_path: /metrics
-  scheme: http
-  static_configs:
-  - targets:
-    - 10.120.0.18:9093
+  - targets: ['localhost:9090']
