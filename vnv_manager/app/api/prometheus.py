@@ -109,6 +109,10 @@ class ProData(object):
     def getMetricsResId(self,key,id,tm_window):
         sec_wnd = 86400
         now = int(datetime.datetime.utcnow().timestamp())
+
+        if key == 'container_name':
+            pod,key = self.get_k8s_labels(id, now-sec_wnd, now)
+
         path = "".join(("/api/v1/series?match[]={"+key+"=\""+id+"\"}&start=", str(now-sec_wnd), "&end=",str(now)))
         if tm_window:
             tm_window = '['+tm_window+']'
@@ -117,13 +121,13 @@ class ProData(object):
         resp = []
         tf_mtr = None
         d = self.HttpGet(self.srv_addr,self.srv_port,path)
-        if len(d['data']) > 0 and key == 'container_name':
+        if len(d['data']) > 0 and key.startswith("container"):
             for mtr in d['data']:
-                if 'pod_name' in mtr:
-                    pod_name = mtr['pod_name']
+                if pod in mtr:
+                    pod_name = mtr[pod]
                     now = int(datetime.datetime.utcnow().timestamp())
                     path = "".join(
-                        ("/api/v1/series?match[]={__name__=~\"^container_network.*\",container_name=\"POD\",pod_name=\"" + pod_name + "\"}&start=", str(now - sec_wnd), "&end=", str(now)))
+                        ("/api/v1/series?match[]={__name__=~\"^container_network.*\","+key+"=\"POD\","+pod+"=\"" + pod_name + "\"}&start=", str(now - sec_wnd), "&end=", str(now)))
                     tf_mtr = self.HttpGet(self.srv_addr, self.srv_port, path)
                     break
         for mt in d['data']:
@@ -137,28 +141,36 @@ class ProData(object):
                 dt = self.getMetricData(key,id, mt['__name__'],tm_window)
                 mt['data'] = dt
             resp.append(mt)
-        if tf_mtr and key == 'container_name':
+        if tf_mtr and key.startswith("container"):
             for mt in tf_mtr['data']:
                 mt.pop('instance', None)
                 mt.pop('id', None)
                 mt.pop('group', None)
                 mt.pop('job', None)
                 if tm_window != '':
-                    dt = self.getMetricData('pod_name',pod_name, mt['__name__'],tm_window)
+                    dt = self.getMetricData(pod,pod_name, mt['__name__'],tm_window)
                     mt['data'] = dt
                 resp.append(mt)
-        #print (len(resp))
         d['data'] = resp
         return d
+
+    def get_k8s_labels(self,id, start, end):
+
+        path = "".join(("/api/v1/series?match[]=container_last_seen{container=\""+id+"\"}&start=", str(start), "&end=",str(end)))
+        d = self.HttpGet(self.srv_addr, self.srv_port, path)
+        if len(d['data']) > 0:
+            return 'pod','container'
+        else:
+            return 'pod_name', 'container_name'
 
     def getMetricData(self,key,vdu,metric_name,time_window):
         path = "".join(("/api/v1/query?query=", str(metric_name), "{"+key+"=\"" + vdu + "\"}"+time_window))
         d = self.HttpGet(self.srv_addr, self.srv_port, path)
         dt = []
         if 'status' in d:
-            if 'data' in d:
-                if 'result' in d['data'] and len(d['data']['result']) > 0:
-                    if d['status'] == 'success':
+            if d['status'] == 'success':
+                if 'data' in d:
+                    if 'result' in d['data'] and len(d['data']['result']) > 0:
                         if 'value' in d['data']['result'][0]:
                             dt = d['data']['result'][0]['value']
                         elif 'values' in d['data']['result'][0]:
