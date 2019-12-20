@@ -12,7 +12,7 @@
       },
       "version":"v2.5"
    },
-   "host":"int-sp-ath.5gtango.eu:8000",
+   "host":"sp-monitor-manager.5gtango.eu:8000",
    "schemes":[
       "http"
    ],
