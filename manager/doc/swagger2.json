@@ -12,7 +12,7 @@
       },
       "version":"v2.5"
    },
-   "host":"son-monitor-manager:8000",
+   "host":"int-sp-ath.5gtango.eu:8000",
    "schemes":[
       "http"
    ],
@@ -1097,36 +1097,6 @@
             }
          ]
       },
-      "/api/v2/wss":{
-         "post":{
-            "operationId":"api_v2_wss_create",
-            "description":"",
-            "parameters":[
-               {
-                  "name":"data",
-                  "in":"body",
-                  "required":true,
-                  "schema":{
-                     "$ref":"#/definitions/SntWSreq"
-                  }
-               }
-            ],
-            "responses":{
-               "201":{
-                  "description":"",
-                  "schema":{
-                     "$ref":"#/definitions/SntWSreq"
-                  }
-               }
-            },
-            "tags":[
-               "api"
-            ]
-         },
-         "parameters":[
-
-         ]
-      },
       "/pings":{
          "get":{
             "operationId":"pings_list",
@@ -1758,32 +1728,6 @@
                "type":"string",
                "format":"decimal",
                "x-nullable":true
-            }
-         }
-      },
-      "wsLabel":{
-         "type":"object",
-         "properties":{
-
-         }
-      },
-      "SntWSreq":{
-         "required":[
-            "metric",
-            "filters"
-         ],
-         "type":"object",
-         "properties":{
-            "metric":{
-               "title":"Metric",
-               "type":"string",
-               "minLength":1
-            },
-            "filters":{
-               "type":"array",
-               "items":{
-                  "$ref":"#/definitions/wsLabel"
-               }
             }
          }
       },

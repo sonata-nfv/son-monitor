@@ -12,7 +12,7 @@
       },
       "version":"v2.0"
    },
-   "host":"vnv-monitor-manager:8001",
+   "host":"int-vnv.5gtango.eu:8000",
    "schemes":[
       "http"
    ],
