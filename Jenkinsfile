@@ -240,42 +240,32 @@ pipeline {
         }
       }
     }
-    stage('Promoting release v5.0') {
+    stage('Promoting release v5.1') {
         when {
-            branch 'v5.0'
+            branch 'v5.1'
         }
         stages {
             stage('Generating release') {
                 steps {
-                    sh 'docker tag registry.sonata-nfv.eu:5000/son-monitor-manager:latest registry.sonata-nfv.eu:5000/son-monitor-manager:v5.0'
-                    sh 'docker tag registry.sonata-nfv.eu:5000/son-vnv-monitor-manager:latest registry.sonata-nfv.eu:5000/son-vnv-monitor-manager:v5.0'
-                    sh 'docker tag registry.sonata-nfv.eu:5000/son-monitor-prometheus:latest registry.sonata-nfv.eu:5000/son-monitor-prometheus:v5.0'
-                    sh 'docker tag registry.sonata-nfv.eu:5000/son-monitor-pushgateway:latest registry.sonata-nfv.eu:5000/son-monitor-pushgateway:v5.0'
-                    sh 'docker tag registry.sonata-nfv.eu:5000/son-monitor-influxdb:latest registry.sonata-nfv.eu:5000/son-monitor-influxdb:v5.0'
-                    sh 'docker tag registry.sonata-nfv.eu:5000/son-monitor-alertmanager:latest registry.sonata-nfv.eu:5000/son-monitor-alertmanager:v5.0'
-                    sh 'docker tag registry.sonata-nfv.eu:5000/son-monitor-snmpmng:latest registry.sonata-nfv.eu:5000/son-monitor-snmpmng:v5.0'
-                    sh 'docker tag registry.sonata-nfv.eu:5000/son-monitor-grafana:latest registry.sonata-nfv.eu:5000/son-monitor-grafana:v5.0'
-                    sh 'docker tag registry.sonata-nfv.eu:5000/son-monitor-vnv-grafana:latest registry.sonata-nfv.eu:5000/son-monitor-vnv-grafana:v5.0'
+                    sh 'docker tag registry.sonata-nfv.eu:5000/son-monitor-manager:latest registry.sonata-nfv.eu:5000/son-monitor-manager:v5.1'
+                    sh 'docker tag registry.sonata-nfv.eu:5000/son-vnv-monitor-manager:latest registry.sonata-nfv.eu:5000/son-vnv-monitor-manager:v5.1'
+                    sh 'docker tag registry.sonata-nfv.eu:5000/son-monitor-prometheus:latest registry.sonata-nfv.eu:5000/son-monitor-prometheus:v5.1'
+                    sh 'docker tag registry.sonata-nfv.eu:5000/son-monitor-pushgateway:latest registry.sonata-nfv.eu:5000/son-monitor-pushgateway:v5.1'
+                    sh 'docker tag registry.sonata-nfv.eu:5000/son-monitor-influxdb:latest registry.sonata-nfv.eu:5000/son-monitor-influxdb:v5.1'
+                    sh 'docker tag registry.sonata-nfv.eu:5000/son-monitor-alertmanager:latest registry.sonata-nfv.eu:5000/son-monitor-alertmanager:v5.1'
+                    sh 'docker tag registry.sonata-nfv.eu:5000/son-monitor-snmpmng:latest registry.sonata-nfv.eu:5000/son-monitor-snmpmng:v5.1'
+                    sh 'docker tag registry.sonata-nfv.eu:5000/son-monitor-grafana:latest registry.sonata-nfv.eu:5000/son-monitor-grafana:v5.1'
+                    sh 'docker tag registry.sonata-nfv.eu:5000/son-monitor-vnv-grafana:latest registry.sonata-nfv.eu:5000/son-monitor-vnv-grafana:v5.1'
                     
-                    sh 'docker push registry.sonata-nfv.eu:5000/son-monitor-manager:v5.0'
-                    sh 'docker push registry.sonata-nfv.eu:5000/son-vnv-monitor-manager:v5.0'
-                    sh 'docker push registry.sonata-nfv.eu:5000/son-monitor-prometheus:v5.0 '
-                    sh 'docker push registry.sonata-nfv.eu:5000/son-monitor-pushgateway:v5.0 '
-                    sh 'docker push registry.sonata-nfv.eu:5000/son-monitor-influxdb:v5.0 '
-                    sh 'docker push registry.sonata-nfv.eu:5000/son-monitor-alertmanager:v5.0 '
-                    sh 'docker push registry.sonata-nfv.eu:5000/son-monitor-snmpmng:v5.0'
-                    sh 'docker push registry.sonata-nfv.eu:5000/son-monitor-grafana:v5.0 '
-                    sh 'docker push registry.sonata-nfv.eu:5000/son-monitor-vnv-grafana:v5.0 '
-                }
-            }
-            stage('Deploying in v5.0 servers') {
-                steps {
-                    sh 'rm -rf tng-devops || true'
-                    sh 'git clone https://github.com/sonata-nfv/tng-devops.git'
-                    dir(path: 'tng-devops') {
-                    sh 'ansible-playbook roles/sp.yml -i environments -e "target=sta-sp-v5-0 component=monitoring"'
-                    sh 'ansible-playbook roles/vnv.yml -i environments -e "target=sta-vnv-v5-0 component=monitoring"'
-                    }
+                    sh 'docker push registry.sonata-nfv.eu:5000/son-monitor-manager:v5.1'
+                    sh 'docker push registry.sonata-nfv.eu:5000/son-vnv-monitor-manager:v5.1'
+                    sh 'docker push registry.sonata-nfv.eu:5000/son-monitor-prometheus:v5.1'
+                    sh 'docker push registry.sonata-nfv.eu:5000/son-monitor-pushgateway:v5.1'
+                    sh 'docker push registry.sonata-nfv.eu:5000/son-monitor-influxdb:v5.1'
+                    sh 'docker push registry.sonata-nfv.eu:5000/son-monitor-alertmanager:v5.1'
+                    sh 'docker push registry.sonata-nfv.eu:5000/son-monitor-snmpmng:v5.1'
+                    sh 'docker push registry.sonata-nfv.eu:5000/son-monitor-grafana:v5.1'
+                    sh 'docker push registry.sonata-nfv.eu:5000/son-monitor-vnv-grafana:v5.1'
                 }
             }
         }
