@@ -58,12 +58,12 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "sum (rate (container_cpu_usage_seconds_total{image!=\"\",name=~\"^k8s_.*\",container_name=~\"$cnt_name\"}[1m]))by (pod_name, container_name)",
+          "expr": "sum (rate (container_cpu_usage_seconds_total{image!=\"\",name=~\"^k8s_.*\",container=~\"$cnt_name\"}[1m]))by (pod, container)",
           "format": "time_series",
           "instant": false,
           "interval": "10s",
           "intervalFactor": 1,
-          "legendFormat": "Pod:  {{ pod_name }} | {{ container_name }}",
+          "legendFormat": "Pod:  {{ pod }} | {{ container }}",
           "refId": "A"
         }
       ],
@@ -145,7 +145,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "sum (container_memory_working_set_bytes{image!=\"\",name=~\"^k8s_.*\",container_name=~\"$cnt_name\",}) by (container_name, pod_name)",
+          "expr": "sum (container_memory_working_set_bytes{image!=\"\",name=~\"^k8s_.*\",container=~\"$cnt_name\",}) by (container, pod)",
           "format": "time_series",
           "intervalFactor": 1,
           "refId": "A"
@@ -229,10 +229,10 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "sum (rate (container_cpu_usage_seconds_total{image!=\"\",name=~\"^k8s_.*\",pod_name=~\"$pod_name\"}[1m]))by (pod_name, container_name)",
+          "expr": "sum (rate (container_cpu_usage_seconds_total{image!=\"\",name=~\"^k8s_.*\",pod=~\"$pod_name\"}[1m]))by (pod, container)",
           "format": "time_series",
           "intervalFactor": 1,
-          "legendFormat": "{{ pod_name }} | {{ container_name }}",
+          "legendFormat": "{{ pod }} | {{ container }}",
           "refId": "A"
         }
       ],
@@ -314,11 +314,11 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "sum (container_memory_working_set_bytes{image!=\"\",name=~\"^k8s_.*\",pod_name=~\"$pod_name\"}) by (pod_name, container_name)",
+          "expr": "sum (container_memory_working_set_bytes{image!=\"\",name=~\"^k8s_.*\",pod=~\"$pod_name\"}) by (pod, container)",
           "format": "time_series",
           "interval": "",
           "intervalFactor": 1,
-          "legendFormat": "{{ pod_name }} | {{ container_name }}",
+          "legendFormat": "{{ pod }} | {{ container }}",
           "refId": "B"
         }
       ],
@@ -400,32 +400,32 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "sum (rate (container_network_receive_bytes_total{image!=\"\",name=~\"^k8s_.*\",pod_name=~\"^$pod_name\"}[1m])) by (container_name, pod_name)",
+          "expr": "sum (rate (container_network_receive_bytes_total{image!=\"\",name=~\"^k8s_.*\",pod=~\"^$pod_name\"}[1m])) by (container, pod)",
           "format": "time_series",
           "interval": "10s",
           "intervalFactor": 1,
-          "legendFormat": "RX pod: {{ pod_name }} ",
+          "legendFormat": "RX pod: {{ pod }} ",
           "refId": "A"
         },
         {
-          "expr": "sum (rate (container_network_transmit_bytes_total{image!=\"\",name=~\"^k8s_.*\",pod_name=~\"^$pod_name\"}[1m])) by (container_name, pod_name)",
+          "expr": "sum (rate (container_network_transmit_bytes_total{image!=\"\",name=~\"^k8s_.*\",pod=~\"^$pod_name\"}[1m])) by (container, pod)",
           "format": "time_series",
           "intervalFactor": 1,
-          "legendFormat": "TX pod: {{ pod_name }}",
+          "legendFormat": "TX pod: {{ pod }}",
           "refId": "B"
         },
         {
-          "expr": "sum (rate (container_network_transmit_errors_total{image!=\"\",name=~\"^k8s_.*\",pod_name=~\"^$pod_name\"}[1m])) by (container_name, pod_name)",
+          "expr": "sum (rate (container_network_transmit_errors_total{image!=\"\",name=~\"^k8s_.*\",pod=~\"^$pod_name\"}[1m])) by (container, pod)",
           "format": "time_series",
           "intervalFactor": 1,
-          "legendFormat": "TX ERRORs pod: {{ pod_name }}",
+          "legendFormat": "TX ERRORs pod: {{ pod }}",
           "refId": "C"
         },
         {
-          "expr": "sum (rate (container_network_receive_errors_total{image!=\"\",name=~\"^k8s_.*\",pod_name=~\"^$pod_name\"}[1m])) by (container_name, pod_name)",
+          "expr": "sum (rate (container_network_receive_errors_total{image!=\"\",name=~\"^k8s_.*\",pod=~\"^$pod_name\"}[1m])) by (container, pod)",
           "format": "time_series",
           "intervalFactor": 1,
-          "legendFormat": "RX ERRORs pod: {{ pod_name }}",
+          "legendFormat": "RX ERRORs pod: {{ pod }}",
           "refId": "D"
         }
       ],
@@ -507,10 +507,10 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "avg(container_fs_usage_bytes{image!=\"\",name=~\"^k8s_.*\",container_name=~\"$cnt_name\"}) by (container_name)",
+          "expr": "avg(container_fs_usage_bytes{image!=\"\",name=~\"^k8s_.*\",container=~\"$cnt_name\"}) by (container)",
           "format": "time_series",
           "intervalFactor": 1,
-          "legendFormat": "{{ container_name }}",
+          "legendFormat": "{{ container }}",
           "refId": "A"
         }
       ],
@@ -571,14 +571,14 @@
           "value": "$__all"
         },
         "datasource": "Prometheus",
-        "definition": "label_values({name=~\"^k8s.*\",pod_name=~\"^eu-5gtango.*\"},container_name)",
+        "definition": "label_values({name=~\"^k8s.*\",pod=~\"^eu-5gtango.*\"},container)",
         "hide": 0,
         "includeAll": true,
         "label": null,
         "multi": false,
         "name": "cnt_name",
         "options": [],
-        "query": "label_values({name=~\"^k8s.*\",pod_name=~\"^eu-5gtango.*\"},container_name)",
+        "query": "label_values({name=~\"^k8s.*\",pod=~\"^eu-5gtango.*\"},container)",
         "refresh": 1,
         "regex": "",
         "skipUrlSync": false,
@@ -597,14 +597,14 @@
           "value": ""
         },
         "datasource": "Prometheus",
-        "definition": "label_values({name=~\"^k8s.*\",pod_name=~\"^eu-5gtango.*\",container_name=\"$cnt_name\"},pod_name)",
+        "definition": "label_values({name=~\"^k8s.*\",pod=~\"^eu-5gtango.*\",container=\"$cnt_name\"},pod)",
         "hide": 0,
         "includeAll": false,
         "label": null,
         "multi": false,
         "name": "pod_name",
         "options": [],
-        "query": "label_values({name=~\"^k8s.*\",pod_name=~\"^eu-5gtango.*\",container_name=\"$cnt_name\"},pod_name)",
+        "query": "label_values({name=~\"^k8s.*\",pod=~\"^eu-5gtango.*\",container=\"$cnt_name\"},pod)",
         "refresh": 1,
         "regex": "",
         "skipUrlSync": false,
