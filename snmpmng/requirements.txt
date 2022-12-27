@@ -8,5 +8,5 @@ pycryptodomex==3.6.1
 pysmi==0.3.0
 pysnmp==4.4.4
 pysnmp-mibs==0.1.6
-setuptools==28.8.0
+setuptools==65.5.1
 coloredlogs==10.0
